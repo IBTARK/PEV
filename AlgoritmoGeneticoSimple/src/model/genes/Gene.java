@@ -1,7 +1,6 @@
 package model.genes;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import model.fenotypes.FenotypeFunction;
@@ -9,8 +8,9 @@ import model.fenotypes.FenotypeFunction;
 /**
  * Class to represent a generic Gene
  */
-public abstract class Gene {
-	protected List<Object> alleles; //List of alleles (components that form the gene)
+public abstract class Gene implements Cloneable{
+	
+	protected ArrayList<Object> alleles; //List of alleles (components that form the gene)
 	protected int geneLength; //Number of alleles in the gene
 	
 	public Gene(int geneLength) {
@@ -35,8 +35,6 @@ public abstract class Gene {
 		return alleles.get(pos);
 	}
 	
-	public abstract void initializeGeneRandom(Random random);
-	
 	/**
 	 * Gets the fenotype of the gene
 	 * @param function is a class that implements the interface FenotypeFunction. 
@@ -46,4 +44,10 @@ public abstract class Gene {
 	public Double getFenotype(FenotypeFunction<Gene> function) {
 		return function.apply(this);
 	}
+	
+	public abstract void initializeGeneRandom(Random random);
+	
+	protected abstract ArrayList<Object> copyAlleles();
+	
+	public abstract Gene clone();
 }

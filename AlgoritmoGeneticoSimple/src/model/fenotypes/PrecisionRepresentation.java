@@ -26,7 +26,7 @@ public class PrecisionRepresentation implements FenotypeFunction<BinaryGene>{
 	private int bin2dec(BinaryGene g) {
 		int fenotype = 0;
 		for(int i = 0; i < g.getGeneLength(); i++){
-			fenotype += 2 ^ (int) g.getAllele(i);
+			fenotype += 2 ^ i * (g.getAllele(i) ? 1 : 0);
 		}
 		
 		return fenotype;
