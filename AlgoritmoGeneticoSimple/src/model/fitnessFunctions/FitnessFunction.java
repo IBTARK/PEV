@@ -1,10 +1,10 @@
 package model.fitnessFunctions;
 
-import java.util.ArrayList;
+import model.chromosomes.Chromosome;
 
 /**
  * Interface that every fitnessFunction has to implement
  */
 public interface FitnessFunction {
-	public Double apply(ArrayList<Double> genesFenotypes);
+	public Double apply(Chromosome c);
 }

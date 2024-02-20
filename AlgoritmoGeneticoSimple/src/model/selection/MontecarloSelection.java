@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 
+/**
+ * This class implements the Montecarlo selection
+ */
 public class MontecarloSelection implements Selection{
 	
 	private Random random;
@@ -15,8 +19,11 @@ public class MontecarloSelection implements Selection{
 	}
 
 	@Override
-	public List<Chromosome> select(List<Chromosome> population) {
-		List<Chromosome> newPopulation = new ArrayList<Chromosome>();
+	/**
+	 * Given a population returns another population that has been selected following the Montecarlo selection
+	 */
+	public ArrayList<Chromosome> select(List<Chromosome> population) {
+		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
 		for(int i = 0; i < population.size(); i++) {
 			double rnd = random.nextDouble();
@@ -26,10 +33,14 @@ public class MontecarloSelection implements Selection{
 				elem++;
 			}
 			
-			newPopulation.add(population.get(elem));
+			//TODO add an if for each class that extends Chromosome
+			if(population.get(elem).getClass() == BinaryChromosome.class) {
+				//A clone of the original chromosome is added to the new population
+				newPopulation.add(new BinaryChromosome((BinaryChromosome) population.get(elem)));
+			}
 		}
 		
-		return null;
+		return newPopulation;
 	}
 
 }
