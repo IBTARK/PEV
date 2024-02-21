@@ -72,11 +72,8 @@ public class TournamentSelection implements Selection{
 			else //If the tournament is not probabilistic or the probability indicates so the best chromosome is chosen
 				elem = k - 1;
 			
-			//TODO add an if for each class that extends Chromosome
-			if(population.get(elem).getClass() == BinaryChromosome.class) {
-				//A clone of the original chromosome is added to the new population
-				newPopulation.add(new BinaryChromosome((BinaryChromosome) tournament.get(elem)));
-			}
+			//A clone of the original chromosome is added to the new population
+			newPopulation.add(tournament.get(elem).clone());
 			
 			tournament.clear();
 		}

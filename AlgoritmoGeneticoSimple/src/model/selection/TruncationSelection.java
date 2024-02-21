@@ -33,11 +33,8 @@ public class TruncationSelection implements Selection{
 		while(newPopulation.size() < population.size()) {
 			for(int j = 0; j < population.size() && newPopulation.size() < population.size(); j++) {
 				for(int i = 0; i < numCopies && newPopulation.size() < population.size(); i++) {
-					//TODO add an if for each class that extends Chromosome
-					if(population.get(j).getClass() == BinaryChromosome.class) {
-						//A clone of the original chromosome is added to the new population
-						newPopulation.add(new BinaryChromosome((BinaryChromosome) population.get(j)));
-					}
+					//A clone of the original chromosome is added to the new population
+					newPopulation.add(population.get(j).clone());
 				}
 			}
 		}

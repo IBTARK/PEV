@@ -8,7 +8,7 @@ import model.fenotypes.FenotypeFunction;
 /**
  * Class to represent a generic Gene
  */
-public abstract class Gene{
+public abstract class Gene implements Cloneable{
 	
 	protected ArrayList<Object> alleles; //List of alleles (components that form the gene)
 	protected int geneLength; //Number of alleles in the gene
@@ -72,4 +72,6 @@ public abstract class Gene{
 	public abstract void initializeGeneRandom(Random random);
 	
 	protected abstract boolean valid();
+	
+	public abstract Gene clone();
 }

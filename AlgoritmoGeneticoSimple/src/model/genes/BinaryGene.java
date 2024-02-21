@@ -12,17 +12,6 @@ public class BinaryGene extends Gene{
 		super(geneLength);
 	}
 	
-	public BinaryGene(BinaryGene g) {
-		super(g.getGeneLength());
-		
-		alleles = new ArrayList<Object>();
-		
-		for(int i = 0; i < g.getGeneLength(); i++) {
-			alleles.add(Boolean.valueOf((boolean) g.getAllele(i)));
-		}
-		
-	}
-	
 	/**
 	 * Random initialization of the binary gene
 	 */
@@ -48,5 +37,20 @@ public class BinaryGene extends Gene{
 	@Override
 	protected boolean valid() {
 		return true;
+	}
+
+	@Override
+	public BinaryGene clone() {
+		BinaryGene clone = new BinaryGene(Integer.valueOf(geneLength));
+		
+		ArrayList<Object> cloneAlleles = new ArrayList<Object>();
+		
+		for(int i = 0; i < geneLength; i++) {
+			cloneAlleles.add(Boolean.valueOf((boolean) alleles.get(i)));
+		}
+		
+		clone.setAlleles(cloneAlleles);
+		
+		return clone;
 	}
 }

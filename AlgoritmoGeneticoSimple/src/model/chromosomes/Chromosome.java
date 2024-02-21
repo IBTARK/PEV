@@ -11,7 +11,7 @@ import model.genes.Gene;
 /**
  * Class to represent a generic chromosome
  */
-public abstract class Chromosome implements Comparable<Chromosome>{
+public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	protected List<Gene> genes; //List of genes that form the chormosome
 	protected List<FenotypeFunction> genesFenotypesFunctions; //List of functions to compute the fenotypes of each gene of the chromosome
 	
@@ -26,10 +26,6 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 	protected double score; //relative score (fitness_i/fitness_Total)
 	protected double scoreAccumulated; //accumulated relative score
 	
-	public Chromosome() {
-		
-	}
-	
 	public Chromosome(int numGenes,  List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		this.numGenes = numGenes;
 		this.genesFenotypesFunctions = genesFenotypesFunctions;
@@ -41,6 +37,7 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 		genesFenotypes = new ArrayList<Double>();
 		
 		//Compute the size of the chormosome
+		chromosomeLength = 0;
 		for(int geneLength : genesLengths){
 			chromosomeLength += geneLength;
 		}
@@ -117,6 +114,7 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 		
 		return oldAlleles;
 	}
+	
 //*********************************************************************************
 // Comparable
 	
@@ -125,6 +123,10 @@ public abstract class Chromosome implements Comparable<Chromosome>{
 		else if(fitness > c.getFitness()) return 1;
 		else return 0;
 	}
+
+//*********************************************************************************
+// Cloneable
+	public abstract Chromosome clone();
 	
 //*********************************************************************************
 // Getters
