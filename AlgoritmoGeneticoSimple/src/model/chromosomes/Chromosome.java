@@ -12,9 +12,7 @@ import model.genes.Gene;
  * Class to represent a generic chromosome
  */
 public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
-	protected List<Gene> genes; //List of genes that form the chormosome
-	protected List<FenotypeFunction> genesFenotypesFunctions; //List of functions to compute the fenotypes of each gene of the chromosome
-	
+	protected List<Gene> genes; //List of genes that form the chormosome	
 	protected ArrayList<Double> genesFenotypes; //List of doubles that represent the fenotypes of the genes of the chromosome (list of the fenotypes of the genes that form the chromosome)
 	protected Random random;
 	
@@ -29,7 +27,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	
 	public Chromosome(int numGenes,  List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		this.numGenes = numGenes;
-		this.genesFenotypesFunctions = genesFenotypesFunctions;
+		//this.genesFenotypesFunctions = genesFenotypesFunctions;
 		this.genesLengths = genesLengths;
 		
 		random = new Random();
@@ -50,7 +48,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	public void initializeChromosomeRandom() {
 		for(int i = 0; i < numGenes; i++) {
 			genes.get(i).initializeGeneRandom(random);
-			genesFenotypes.add(genes.get(i).computeFenotype(genesFenotypesFunctions.get(i)));
+			genesFenotypes.add(genes.get(i).computeFenotype());
 		}
 	}
 	
@@ -60,7 +58,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	 */
 	private void computeGenesFenotypes(){
 		for(int i = 0; i < numGenes; i++) {
-			genesFenotypes.set(i, genes.get(i).computeFenotype(genesFenotypesFunctions.get(i)));
+			genesFenotypes.set(i, genes.get(i).computeFenotype());
 		}
 	}
 	
@@ -213,14 +211,6 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	*/
 	public List<Integer> getGenesLengths(){
 		return genesLengths;
-	}
-	
-	/**
-	*
-	* @return a list with the fenotype function of each gene of the chromosome
-	*/
-	public List<FenotypeFunction> getGenesFenotypesFunctions(){
-		return genesFenotypesFunctions;
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.fenotypes.FenotypeFunction;
+import model.genes.BinaryGene;
 import model.genes.Gene;
 import model.genes.RealGene;
 
@@ -16,9 +17,9 @@ public class RealChromosome extends Chromosome{
 		super(numGenes, genesLengths, genesFenotypesFunctions);
 		
 		chromosomeLength = 0;
-		for(int geneLength : genesLengths) {
-			genes.add(new RealGene(geneLength));
-			chromosomeLength += geneLength;
+		for(int i = 0; i < numGenes; i++) {
+			genes.add(new RealGene(genesLengths.get(i), genesFenotypesFunctions.get(i)));
+			chromosomeLength += genesLengths.get(i);
 		}
 	}
 
@@ -33,7 +34,7 @@ public class RealChromosome extends Chromosome{
 		ArrayList<Double> cloneGenesFenotypes = new ArrayList<Double>();
 		for(int i = 0; i < numGenes; i++) {
 			cloneGenesLengths.add(Integer.valueOf(genesLengths.get(i)));
-			cloneGenesFenotypesFunctions.add(genesFenotypesFunctions.get(i).clone());
+			cloneGenesFenotypesFunctions.add(genes.get(i).getFenotypeFunction().clone());
 			cloneGenes.add(genes.get(i).clone());
 			cloneGenesFenotypes.add(Double.valueOf(genesFenotypes.get(i)));
 		}

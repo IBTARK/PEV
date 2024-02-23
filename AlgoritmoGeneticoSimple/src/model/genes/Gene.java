@@ -12,10 +12,12 @@ public abstract class Gene implements Cloneable{
 	
 	protected ArrayList<Object> alleles; //List of alleles (components that form the gene)
 	protected int geneLength; //Number of alleles in the gene
+	protected FenotypeFunction fenotypeFunction; //Function to compute the fenotype of the gene
 	
-	public Gene(int geneLength) {
+	public Gene(int geneLength, FenotypeFunction fenotypeFunction) {
 		this.geneLength = geneLength;
 		alleles = new ArrayList<>();
+		this.fenotypeFunction = fenotypeFunction;
 	}
 	
 	/**
@@ -43,13 +45,19 @@ public abstract class Gene implements Cloneable{
 	}
 	
 	/**
+	 * @return the fenotype function
+	 */
+	public FenotypeFunction getFenotypeFunction(){
+		return fenotypeFunction;
+	}
+	
+	/**
 	 * Computes the fenotype of the gene
-	 * @param function is a class that implements the interface FenotypeFunction. 
-	 * 		  Indicates the way to compute the fenotype.
+	 * 
 	 * @return the fenotype as a double.
 	 */
-	public Double computeFenotype(FenotypeFunction<Gene> function) {
-		return function.apply(this);
+	public Double computeFenotype() {
+		return fenotypeFunction.apply(this);
 	}
 	
 	/**

@@ -17,9 +17,10 @@ public class BinaryChromosome extends Chromosome{
 		super(numGenes, genesLengths, genesFenotypesFunctions);
 		
 		chromosomeLength = 0;
-		for(int geneLength : genesLengths) {
-			genes.add(new BinaryGene(geneLength));
-			chromosomeLength += geneLength;
+		
+		for(int i = 0; i < numGenes; i++) {
+			genes.add(new BinaryGene(genesLengths.get(i), genesFenotypesFunctions.get(i)));
+			chromosomeLength += genesLengths.get(i);
 		}
 	}
 
@@ -34,7 +35,7 @@ public class BinaryChromosome extends Chromosome{
 		ArrayList<Double> cloneGenesFenotypes = new ArrayList<Double>();
 		for(int i = 0; i < numGenes; i++) {
 			cloneGenesLengths.add(Integer.valueOf(genesLengths.get(i)));
-			cloneGenesFenotypesFunctions.add(genesFenotypesFunctions.get(i).clone());
+			cloneGenesFenotypesFunctions.add(genes.get(i).getFenotypeFunction().clone());
 			cloneGenes.add(genes.get(i).clone());
 			cloneGenesFenotypes.add(Double.valueOf(genesFenotypes.get(i)));
 		}

@@ -3,13 +3,15 @@ package model.genes;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.fenotypes.FenotypeFunction;
+
 /**
  * Class to represent binary genes
  */
 public class BinaryGene extends Gene{
 
-	public BinaryGene(int geneLength) {
-		super(geneLength);
+	public BinaryGene(int geneLength, FenotypeFunction fenotypeFunction) {
+		super(geneLength, fenotypeFunction);
 	}
 	
 	/**
@@ -41,7 +43,7 @@ public class BinaryGene extends Gene{
 
 	@Override
 	public BinaryGene clone() {
-		BinaryGene clone = new BinaryGene(Integer.valueOf(geneLength));
+		BinaryGene clone = new BinaryGene(Integer.valueOf(geneLength), fenotypeFunction.clone());
 		
 		ArrayList<Object> cloneAlleles = new ArrayList<Object>();
 		

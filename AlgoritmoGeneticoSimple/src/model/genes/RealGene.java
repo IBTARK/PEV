@@ -3,10 +3,12 @@ package model.genes;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.fenotypes.FenotypeFunction;
+
 public class RealGene extends Gene{
 
-	public RealGene(int geneLength) {
-		super(geneLength);
+	public RealGene(int geneLength, FenotypeFunction fenotypeFunction) {
+		super(geneLength, fenotypeFunction);
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class RealGene extends Gene{
 
 	@Override
 	public RealGene clone() {
-		RealGene clone = new RealGene(Integer.valueOf(geneLength));
+		RealGene clone = new RealGene(Integer.valueOf(geneLength), fenotypeFunction.clone());
 		
 		ArrayList<Object> cloneAlleles = new ArrayList<Object>();
 		
