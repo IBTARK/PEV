@@ -1,8 +1,8 @@
-package model.fitnessFunctions;
+package model.evaluationFunctions;
 
 import model.chromosomes.Chromosome;
 
-public class Funcion1 implements FitnessFunction{
+public class Funcion1 implements EvaluationFunction{
 
 	@Override
 	public Double apply(Chromosome c) {

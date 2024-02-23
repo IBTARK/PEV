@@ -8,11 +8,12 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Montecarlo selection
  */
-public class RemainSelection implements Selection{
+public class RemainSelection extends Selection{
 	
 	private int k;
 	
-	public RemainSelection(int k) {
+	public RemainSelection(Double elitism, int k) {
+		super(elitism);
 		this.k = k;
 	}
 
@@ -20,7 +21,7 @@ public class RemainSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Remains selection
 	 */
-	public ArrayList<Chromosome> select(List<Chromosome> population) {
+	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
 		
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
@@ -35,7 +36,7 @@ public class RemainSelection implements Selection{
 		if(newPopulation.size() < population.size()) {
 			ArrayList<Chromosome> newPopulation2 = new ArrayList<Chromosome>();
 			
-			newPopulation2 = (new MontecarloSelection()).select(population);
+			newPopulation2 = (new MontecarloSelection(elitism)).select(population);
 			
 			newPopulation.addAll(newPopulation2.subList(0, population.size() - newPopulation.size()));
 		}

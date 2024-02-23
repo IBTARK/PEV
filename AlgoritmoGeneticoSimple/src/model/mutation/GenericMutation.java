@@ -4,6 +4,7 @@ import java.util.Random;
 
 import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
+import model.chromosomes.RealChromosome;
 
 public class GenericMutation extends Mutation{
 	

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.evaluationFunctions.EvaluationFunction;
 import model.fenotypes.FenotypeFunction;
-import model.fitnessFunctions.FitnessFunction;
 import model.genes.Gene;
 
 /**
@@ -22,6 +22,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	protected int chromosomeLength;
 	protected List<Integer> genesLengths;
 	
+	protected double evaluation; //evaluation of the chromosome
 	protected double fitness; //fitness of the chromosome
 	protected double score; //relative score (fitness_i/fitness_Total)
 	protected double scoreAccumulated; //accumulated relative score
@@ -64,14 +65,17 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	}
 	
 	/**
-	 * Compute the fitness of the chormosome
+	 * Compute the evaluation function of the chormosome (the fitness is also set to the same value as the evaluation)
 	 * 
-	 * @param fitnessFunction function to compute the fitness of the chormosome
+	 * @param evaluationFunction function to compute the evaluation of the chormosome
 	 */
-	public void computeFitness(FitnessFunction fitnessFunction) {
+	public Double computeEvaluation(EvaluationFunction evaluationFunction) {
 		//Compute the fenotypes of the genes
 		computeGenesFenotypes();
-		fitness = fitnessFunction.apply(this);
+		evaluation = evaluationFunction.apply(this);
+		fitness = Double.valueOf(evaluation);
+		
+		return evaluation;
 	}
 	
 	/**
@@ -130,6 +134,14 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	
 //*********************************************************************************
 // Getters
+	
+	/**
+	 * 
+	 * @return value of the evaluation of the chromosome
+	 */
+	public Double getEvaluation() {
+		return evaluation;
+	}
 	
 	/**
 	 * 
@@ -264,6 +276,10 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	
 	public void setGenesFenotypes(ArrayList<Double> genesFenotypes) {
 		this.genesFenotypes = genesFenotypes;
+	}
+	
+	public void setEvaluation(Double evaluation) {
+		this.evaluation = evaluation;
 	}
 	
 	public void setFitness(Double fitness) {

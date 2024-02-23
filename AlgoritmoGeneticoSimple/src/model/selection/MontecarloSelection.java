@@ -10,11 +10,12 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Montecarlo selection
  */
-public class MontecarloSelection implements Selection{
+public class MontecarloSelection extends Selection{
 	
 	private Random random;
 	
-	public MontecarloSelection() {
+	public MontecarloSelection(Double elitism) {
+		super(elitism);
 		random = new Random();
 	}
 
@@ -22,17 +23,19 @@ public class MontecarloSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Montecarlo selection
 	 */
-	public ArrayList<Chromosome> select(List<Chromosome> population) {
+	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
 		for(int i = 0; i < population.size(); i++) {
 			double rnd = random.nextDouble();
 			int elem = 0;
 			
-			while(rnd > population.get(elem).getScoreAccumulated() && elem < population.size()) {
+			while(elem < population.size() && rnd > population.get(elem).getScoreAccumulated()) {
 				elem++;
 			}
 			
+			if(elem == population.size())
+				elem --;
 			//A clone of the original chromosome is added to the new population
 			newPopulation.add(population.get(elem).clone());
 		}

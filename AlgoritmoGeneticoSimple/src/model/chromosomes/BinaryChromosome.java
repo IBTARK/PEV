@@ -45,7 +45,8 @@ public class BinaryChromosome extends Chromosome{
 		clone.setGenesFenotypes(cloneGenesFenotypes);
 		clone.setGenes(cloneGenes);
 		
-		//Set of the fitness, score and scoreAccumulated
+		//Set the evaluation, fitness, score and scoreAccumulated
+		clone.setEvaluation(Double.valueOf(evaluation));
 		clone.setFitness(Double.valueOf(fitness));
 		clone.setScore(Double.valueOf(score));
 		clone.setScoreAccumulated(Double.valueOf(scoreAccumulated));

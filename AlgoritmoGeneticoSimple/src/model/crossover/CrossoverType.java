@@ -1,5 +1,5 @@
 package model.crossover;
 
 public enum CrossoverType {
-	SINGLEPOINT
+	SINGLEPOINT, UNIFORM
 }

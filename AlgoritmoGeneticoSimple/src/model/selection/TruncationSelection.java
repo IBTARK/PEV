@@ -10,11 +10,12 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Truncation selection
  */
-public class TruncationSelection implements Selection{
+public class TruncationSelection extends Selection{
 	
 	private Double trunc;
 	
-	public TruncationSelection(Double trunc) {
+	public TruncationSelection(Double elitism, Double trunc) {
+		super(elitism);
 		this.trunc = trunc;
 	}
 
@@ -22,7 +23,7 @@ public class TruncationSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Truncation selection
 	 */
-	public ArrayList<Chromosome> select(List<Chromosome> population) {
+	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
 		//Order the population in descending order

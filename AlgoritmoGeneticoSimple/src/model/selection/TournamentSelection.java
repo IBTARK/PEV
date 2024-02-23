@@ -11,7 +11,7 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Tournament selection
  */
-public class TournamentSelection implements Selection{
+public class TournamentSelection extends Selection{
 	
 	private Random random;
 	private int k; //Number of chromosomes in the tournament
@@ -19,14 +19,16 @@ public class TournamentSelection implements Selection{
 	private Double prob; //Necessary for the probabilistic tournament
 	
 	
-	public TournamentSelection(int k) {
+	public TournamentSelection(Double elitism, int k) {
+		super(elitism);
 		random = new Random();
 		this.probabilistic = false;
 		this.k = k;
 		prob = 0.5; //Default value
 	}
 	
-	public TournamentSelection(Boolean probabilistic, int k) {
+	public TournamentSelection(Double elitism, Boolean probabilistic, int k) {
+		super(elitism);
 		random = new Random();
 		this.probabilistic = probabilistic;
 		this.k = k;
@@ -51,7 +53,7 @@ public class TournamentSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Tournament selection
 	 */
-	public ArrayList<Chromosome> select(List<Chromosome> population) {
+	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		ArrayList<Chromosome> tournament = new ArrayList<Chromosome>();
 		

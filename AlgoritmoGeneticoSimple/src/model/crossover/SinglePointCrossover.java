@@ -7,7 +7,6 @@ import model.chromosomes.Chromosome;
 
 /**
  * Class to implement the single point crossover
- *
  */
 public class SinglePointCrossover implements Crossover{
 	

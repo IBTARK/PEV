@@ -8,17 +8,13 @@ import java.util.Random;
 import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
+import model.chromosomes.RealChromosome;
 import model.crossover.Crossover;
-import model.crossover.CrossoverType;
-import model.crossover.SinglePointCrossover;
+import model.evaluationFunctions.EvaluationFunction;
 import model.fenotypes.FenotypeFunction;
 import model.fitnessFunctions.FitnessFunction;
-import model.mutation.GenericMutation;
 import model.mutation.Mutation;
-import model.mutation.MutationType;
-import model.selection.MontecarloSelection;
 import model.selection.Selection;
-import model.selection.SelectionType;
 
 public class GeneticAlgorithm {
 	
@@ -28,18 +24,15 @@ public class GeneticAlgorithm {
 	private int numGenes;
 	private List<Integer> genesLengths;
 	private List<FenotypeFunction> genesFenotypesFunctions;
+	
 	private int populationSize;
 	private int generations;
 	
-	private SelectionType selectionType;
 	private Selection selection;
 	
-	private CrossoverType crossoverType;
 	private double crossoverPctg;
 	private Crossover crossover;
 	
-	private MutationType mutationType;
-	private double mutationPctg;
 	private Mutation mutation;
 	
 	private FitnessFunction fitnessFunction;
@@ -47,56 +40,28 @@ public class GeneticAlgorithm {
 	ArrayList<Chromosome> population;
 	
 	public GeneticAlgorithm(ChromosomeType chromosomeType, int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions,
-							int populationSize, int generations, SelectionType selectionType, CrossoverType crossoverType, double crossoverPctg,
-							MutationType mutationType, double mutationPctg, FitnessFunction fitnessFunction) {
+							int populationSize, int generations, Selection selection, Crossover crossover, double crossoverPctg,
+							Mutation mutation, EvaluationFunction evaluationFunction, Boolean minimization) {
 		random = new Random();
 		
 		this.chromosomeType = chromosomeType;
 		this.numGenes = numGenes;
 		this.genesLengths = genesLengths;
 		this.genesFenotypesFunctions = genesFenotypesFunctions;
+		
 		this.populationSize = populationSize;
 		this.generations = generations;
-		this.selectionType = selectionType;
-		this.crossoverType = crossoverType;
-		this.crossoverPctg = crossoverPctg;
-		this.mutationType = mutationType;
-		this.mutationPctg = mutationPctg;
 		
-		this.fitnessFunction = fitnessFunction;
+		this.selection = selection;
+		
+		this.crossover = crossover;
+		this.crossoverPctg = crossoverPctg;
+		
+		this.mutation = mutation;
+		
+		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
 		
 		population = new ArrayList<Chromosome>();
-		
-		initializeSelection();
-		initializeCrossover();
-		initializeMutation();
-	}
-	
-	private void initializeSelection() {
-		//TODO add a line for every type of selection
-		switch(selectionType) {
-			case MONTECARLO:
-				selection = new MontecarloSelection();
-				break;
-		}
-	}
-	
-	private void initializeCrossover() {
-		//TODO add a line for every type of crossover
-		switch(crossoverType) {
-			case SINGLEPOINT:
-				crossover = new SinglePointCrossover();
-				break;
-		}
-	}
-	
-	private void initializeMutation() {
-		//TODO add a line for every type of mutation
-		switch(mutationType) {
-			case GENERIC:
-				mutation = new GenericMutation(mutationPctg);
-				break;
-		}
 	}
 	
 	public ArrayList<Chromosome> execute(){
@@ -140,7 +105,18 @@ public class GeneticAlgorithm {
 					population.add(bc);
 					
 					break;
-				}	
+				}
+				case REALCHROMOSOME:
+				{
+					//Generate a binary chromosome
+					RealChromosome rc = new RealChromosome(numGenes, genesLengths, genesFenotypesFunctions);
+					//Initialize the binary chromosome 
+					rc.initializeChromosomeRandom();
+					//Add the chromosome to the population
+					population.add(rc);
+					
+					break;
+				}
 			}
 		}
 	}
@@ -149,19 +125,7 @@ public class GeneticAlgorithm {
 	 * Compute the fitness, score and accumulatedScore of every chromosome of the population
 	 */
 	private void evaluate() {
-		double totalFitness = 0, lastScoreAccumulated = 0;
-		
-		for(int i = 0; i < populationSize; i++) {
-			//Compute the fitness
-			population.get(i).computeFitness(fitnessFunction);
-			//Add the fitness of the chromosome to the total fitness
-			totalFitness += population.get(i).getFitness();
-		}
-		
-		for(int i = 0; i < populationSize; i++) {
-			population.get(i).computeScoreAndAccumulated(totalFitness, lastScoreAccumulated);
-			lastScoreAccumulated = population.get(i).getScoreAccumulated();
-		}
+		fitnessFunction.applyEvaluationFunction(population);
 	}
 	
 	/**
