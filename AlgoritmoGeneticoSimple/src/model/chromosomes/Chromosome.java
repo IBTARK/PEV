@@ -36,10 +36,20 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 		genesFenotypes = new ArrayList<Double>();
 		
 		//Compute the size of the chormosome
-		chromosomeLength = 0;
-		for(int geneLength : genesLengths){
-			chromosomeLength += geneLength;
+		chromosomeLength = genesLengths.get(0);
+		
+		if(genesFenotypesFunctions.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
+			for(int i = 1; i < numGenes; i++){
+				chromosomeLength += genesLengths.get(i);
+				genesFenotypesFunctions.add(genesFenotypesFunctions.get(0).clone());
+			}
 		}
+		else { // Not all the genes have the same fenotype function
+			for(int i = 1; i < numGenes; i++){
+				chromosomeLength += genesLengths.get(i);
+			}
+		}
+		
 	}
 	
 	/**

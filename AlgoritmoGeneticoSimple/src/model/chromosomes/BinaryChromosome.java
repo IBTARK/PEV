@@ -16,11 +16,8 @@ public class BinaryChromosome extends Chromosome{
 	public BinaryChromosome(int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		super(numGenes, genesLengths, genesFenotypesFunctions);
 		
-		chromosomeLength = 0;
-		
 		for(int i = 0; i < numGenes; i++) {
 			genes.add(new BinaryGene(genesLengths.get(i), genesFenotypesFunctions.get(i)));
-			chromosomeLength += genesLengths.get(i);
 		}
 	}
 

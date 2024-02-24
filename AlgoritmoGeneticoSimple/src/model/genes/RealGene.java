@@ -11,6 +11,8 @@ public class RealGene extends Gene{
 		super(geneLength, fenotypeFunction);
 	}
 	
+	//TODO hacer que al inicializar y al setear se calcule el fenotipo.
+	//TODO al inicializar aleatoriamente incluir los límites si los hay (maxValue y minValue)
 	/**
 	 * Random initialization of the real gene
 	 */

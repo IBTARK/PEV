@@ -5,21 +5,18 @@ import model.genes.Gene;
 
 /**
  * Class to determine the fenotype of a gene using the next function:
- * 	x(v) = xmin + bin2dec(v) * ((xmax - xmin)/ (2^geneLength -1))
+ * 	x(v) = minValue + bin2dec(v) * ((maxValue - minValue)/ (2^geneLength -1))
  */
 public class PrecisionRepresentation extends FenotypeFunction<BinaryGene>{
-	private Double xmin;
-	private Double xmax;
 	private int geneLength;
 	
-	public PrecisionRepresentation(Double xmin, Double xmax, int geneLength) {
-		this.xmin = xmin;
-		this.xmax = xmax;
+	public PrecisionRepresentation(Double minValue, Double maxValue, int geneLength) {
+		super(minValue, maxValue);
 		this.geneLength = geneLength;
 	}
 	
 	public Double apply(BinaryGene g){
-		return xmin + bin2dec(g) * ((xmax - xmin)/ (Math.pow(2, geneLength) - 1));
+		return minValue + bin2dec(g) * ((maxValue - minValue)/ (Math.pow(2, geneLength) - 1));
 	}
 	
 	/**
@@ -39,6 +36,6 @@ public class PrecisionRepresentation extends FenotypeFunction<BinaryGene>{
 
 	@Override
 	public PrecisionRepresentation clone() {
-		return new PrecisionRepresentation(Double.valueOf(xmin), Double.valueOf(xmax), geneLength);
+		return new PrecisionRepresentation(Double.valueOf(minValue), Double.valueOf(maxValue), Integer.valueOf(geneLength));
 	}
 }

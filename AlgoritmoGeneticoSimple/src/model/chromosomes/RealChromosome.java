@@ -16,10 +16,8 @@ public class RealChromosome extends Chromosome{
 	public RealChromosome(int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		super(numGenes, genesLengths, genesFenotypesFunctions);
 		
-		chromosomeLength = 0;
 		for(int i = 0; i < numGenes; i++) {
 			genes.add(new RealGene(genesLengths.get(i), genesFenotypesFunctions.get(i)));
-			chromosomeLength += genesLengths.get(i);
 		}
 	}
 
