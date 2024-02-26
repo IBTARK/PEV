@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import model.GeneticAlgorithm;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
@@ -12,6 +15,7 @@ import model.mutation.GenericMutation;
 import model.mutation.Mutation;
 import model.selection.Selection;
 import model.selection.TruncationSelection;
+import view.MainWindow;
 
 public class Main {
 	public static void main(String[] args) {
@@ -28,6 +32,22 @@ public class Main {
 		
 		GeneticAlgorithm alg = new GeneticAlgorithm(ChromosomeType.REALCHROMOSOME, 5, genesLengths, genesFenotypesFunctions, 20, 50, 
 													selection, crossover, 0.6, mutation, new Michalewicz(5), true);
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			public void run() {
+
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					new MainWindow();
+				} 
+				catch (Exception e) 
+				{
+					System.out.println(e);
+				}
+				
+			}
+		});
 		
 		for(Chromosome c : alg.execute()) {
 			System.out.println("x1: " + c.getGeneFenotype(0) + " x2: " + c.getGeneFenotype(1) + " fitness: " + c.getEvaluation());
