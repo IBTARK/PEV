@@ -25,7 +25,7 @@ public class TopPanel extends JPanel{
 		add(titleLabel);
 		
 		//The background and a border is set
-		setBackground(new Color(4, 22, 186));
+		setBackground(Color.GRAY);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, Color.BLACK));
 		
 		setMinimumSize(new Dimension(width, height));
