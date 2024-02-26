@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -52,5 +54,6 @@ public class Main {
 		for(Chromosome c : alg.execute()) {
 			System.out.println("x1: " + c.getGeneFenotype(0) + " x2: " + c.getGeneFenotype(1) + " fitness: " + c.getEvaluation());
 		}
+
 	}
 }
