@@ -13,6 +13,7 @@ public abstract class Gene implements Cloneable{
 	protected ArrayList<Object> alleles; //List of alleles (components that form the gene)
 	protected int geneLength; //Number of alleles in the gene
 	protected FenotypeFunction fenotypeFunction; //Function to compute the fenotype of the gene
+	protected Double fenotype;
 	
 	public Gene(int geneLength, FenotypeFunction fenotypeFunction) {
 		this.geneLength = geneLength;
@@ -52,15 +53,23 @@ public abstract class Gene implements Cloneable{
 	}
 	
 	/**
+	 * @return the fenotype of the gene
+	 */
+	public Double getFenotype() {
+		return fenotype;
+	}
+	
+	/**
 	 * Computes the fenotype of the gene
 	 * 
 	 * @return the fenotype as a double.
 	 */
 	public Double computeFenotype() {
-		return fenotypeFunction.apply(this);
+		return fenotype = fenotypeFunction.apply(this);
 	}
 	
 	/**
+	 * set one allele of the gene and compute its fenotype
 	 * 
 	 * @param index
 	 * @param allele
@@ -73,11 +82,27 @@ public abstract class Gene implements Cloneable{
 		
 		//If the change is not valid is reverted
 		if(!valid()) alleles.set(index, old);
-		
+		else fenotypeFunction.apply(this); //The new fenotype is computed
+			
 		return old;
 	}
 	
-	public abstract void initializeGeneRandom(Random random);
+	/**
+	 * set the alleles of the gene and compute its fenotype
+	 * @param alleles
+	 */
+	public void setAlleles(ArrayList<Object> alleles) {
+		this.alleles = alleles;
+		fenotype = fenotypeFunction.apply(this); //The new fenotype is computed
+	}
+	
+	/**
+	 * random initialization of the gene
+	 * 
+	 * @param random
+	 * @return the fenotype of the gene
+	 */
+	public abstract Double initializeGeneRandom(Random random);
 	
 	protected abstract boolean valid();
 	

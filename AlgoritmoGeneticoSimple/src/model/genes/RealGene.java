@@ -11,15 +11,18 @@ public class RealGene extends Gene{
 		super(geneLength, fenotypeFunction);
 	}
 	
-	//TODO hacer que al inicializar y al setear se calcule el fenotipo.
-	//TODO al inicializar aleatoriamente incluir los límites si los hay (maxValue y minValue)
 	/**
 	 * Random initialization of the real gene
+	 * 
+	 * @return the fenotype of the gene
 	 */
-	public void initializeGeneRandom(Random random) {
+	public Double initializeGeneRandom(Random random) {
 		for(int i = 0; i < geneLength; i++) {
-			alleles.add(random.nextDouble());
+			alleles.add(random.nextDouble(fenotypeFunction.getMinValue(), fenotypeFunction.getMaxValue()));
 		}
+		
+		//The new fenotype is computed
+		return fenotype = fenotypeFunction.apply(this);
 	}
 	
 	/**
@@ -29,10 +32,6 @@ public class RealGene extends Gene{
 	 */
 	public Double getAllele(int pos) {
 		return (double) alleles.get(pos);
-	}
-	
-	public void setAlleles(ArrayList<Object> alleles) {
-		this.alleles = alleles;
 	}
 
 	@Override

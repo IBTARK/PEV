@@ -6,7 +6,7 @@ import java.util.List;
 import model.chromosomes.Chromosome;
 
 /**
- * This class implements the Montecarlo selection
+ * This class implements the Remain selection
  */
 public class RemainSelection extends Selection{
 	
@@ -19,7 +19,7 @@ public class RemainSelection extends Selection{
 
 	@Override
 	/**
-	 * Given a population returns another population that has been selected following the Remains selection
+	 * Given a population returns another population that has been selected following the Remain selection
 	 */
 	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
 		

@@ -40,7 +40,6 @@ public class BinaryChromosome extends Chromosome{
 		BinaryChromosome clone = new BinaryChromosome(cloneNumGenes, cloneGenesLengths, cloneGenesFenotypesFunctions);
 		
 		//Set the genes and their fenotypes
-		clone.setGenesFenotypes(cloneGenesFenotypes);
 		clone.setGenes(cloneGenes);
 		
 		//Set the evaluation, fitness, score and scoreAccumulated

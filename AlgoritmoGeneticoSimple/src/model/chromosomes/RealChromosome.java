@@ -13,6 +13,7 @@ import model.genes.RealGene;
  */
 public class RealChromosome extends Chromosome{
 
+	//TODO forzar a que los genes solo tengan un alelo??'
 	public RealChromosome(int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		super(numGenes, genesLengths, genesFenotypesFunctions);
 		
@@ -40,7 +41,6 @@ public class RealChromosome extends Chromosome{
 		RealChromosome clone = new RealChromosome(cloneNumGenes, cloneGenesLengths, cloneGenesFenotypesFunctions);
 		
 		//Set the genes and their fenotypes
-		clone.setGenesFenotypes(cloneGenesFenotypes);
 		clone.setGenes(cloneGenes);
 		
 		//Set of the fitness, score and scoreAccumulated

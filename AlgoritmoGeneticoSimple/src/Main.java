@@ -3,42 +3,30 @@ import java.util.ArrayList;
 import model.GeneticAlgorithm;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
+import model.crossover.BLXAlphaCrossover;
 import model.crossover.Crossover;
-import model.crossover.SinglePointCrossover;
 import model.evaluationFunctions.Michalewicz;
 import model.fenotypes.FenotypeFunction;
-import model.fenotypes.PrecisionRepresentation;
+import model.fenotypes.RealRepresentation;
 import model.mutation.GenericMutation;
 import model.mutation.Mutation;
-import model.selection.MontecarloSelection;
 import model.selection.Selection;
+import model.selection.TruncationSelection;
 
 public class Main {
 	public static void main(String[] args) {
 		ArrayList<Integer> genesLengths = new ArrayList<>();
-		genesLengths.add(9);
-		genesLengths.add(9);
-		genesLengths.add(9);
-		genesLengths.add(9);
-		genesLengths.add(9);
+		genesLengths.add(1);
 		
-		PrecisionRepresentation rep = new PrecisionRepresentation(0.0, Math.PI, 9);
-		PrecisionRepresentation rep1 = new PrecisionRepresentation(0.0, Math.PI, 9);
-		PrecisionRepresentation rep2 = new PrecisionRepresentation(0.0, Math.PI, 9);
-		PrecisionRepresentation rep3 = new PrecisionRepresentation(0.0, Math.PI, 9);
-		PrecisionRepresentation rep4 = new PrecisionRepresentation(0.0, Math.PI, 9);
+		RealRepresentation rep = new RealRepresentation(0.0, Math.PI);
 		ArrayList<FenotypeFunction> genesFenotypesFunctions = new ArrayList<>();
 		genesFenotypesFunctions.add(rep);
-		genesFenotypesFunctions.add(rep1);
-		genesFenotypesFunctions.add(rep2);
-		genesFenotypesFunctions.add(rep3);
-		genesFenotypesFunctions.add(rep4);
 		
-		Selection selection = new MontecarloSelection(0.0);
-		Crossover crossover = new SinglePointCrossover();
+		Selection selection = new TruncationSelection(0.1, 0.5);
+		Crossover crossover = new BLXAlphaCrossover(0.5);
 		Mutation mutation = new GenericMutation(0.05);
 		
-		GeneticAlgorithm alg = new GeneticAlgorithm(ChromosomeType.BINARYCHROMOSOME, 5, genesLengths, genesFenotypesFunctions, 20, 20, 
+		GeneticAlgorithm alg = new GeneticAlgorithm(ChromosomeType.REALCHROMOSOME, 5, genesLengths, genesFenotypesFunctions, 20, 50, 
 													selection, crossover, 0.6, mutation, new Michalewicz(5), true);
 		
 		for(Chromosome c : alg.execute()) {

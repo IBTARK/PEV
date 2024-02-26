@@ -41,7 +41,7 @@ public abstract class Selection {
 		for(int i = 0; i < elite; i++) {
 			newPopulation.remove(newPopulation.size() - 1);
 		}
-		newPopulation.addAll(population.subList(0, elite - 1));
+		newPopulation.addAll(population.subList(0, elite));
 		
 		//The newPopulation is shuffled
 		Collections.shuffle(newPopulation);

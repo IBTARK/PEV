@@ -16,11 +16,15 @@ public class BinaryGene extends Gene{
 	
 	/**
 	 * Random initialization of the binary gene
+	 * 
+	 * @return the fenotype of the gene
 	 */
-	public void initializeGeneRandom(Random random) {
+	public Double initializeGeneRandom(Random random) {
 		for(int i = 0; i < geneLength; i++) {
 			alleles.add(random.nextBoolean());
 		}
+		
+		return fenotype = fenotypeFunction.apply(this);
 	}
 	
 	/**
@@ -32,10 +36,6 @@ public class BinaryGene extends Gene{
 		return (boolean) alleles.get(pos);
 	}
 	
-	public void setAlleles(ArrayList<Object> alleles) {
-		this.alleles = alleles;
-	}
-
 	@Override
 	protected boolean valid() {
 		return true;

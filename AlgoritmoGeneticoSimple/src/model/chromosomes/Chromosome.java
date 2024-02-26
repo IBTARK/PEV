@@ -38,9 +38,10 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 		//Compute the size of the chormosome
 		chromosomeLength = genesLengths.get(0);
 		
-		if(genesFenotypesFunctions.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
+		if(genesFenotypesFunctions.size() == 1 && genesLengths.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
 			for(int i = 1; i < numGenes; i++){
-				chromosomeLength += genesLengths.get(i);
+				chromosomeLength += genesLengths.get(0);
+				genesLengths.add(Integer.valueOf(genesLengths.get(0)));
 				genesFenotypesFunctions.add(genesFenotypesFunctions.get(0).clone());
 			}
 		}
@@ -57,8 +58,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	 */
 	public void initializeChromosomeRandom() {
 		for(int i = 0; i < numGenes; i++) {
-			genes.get(i).initializeGeneRandom(random);
-			genesFenotypes.add(genes.get(i).computeFenotype());
+			genesFenotypes.add(genes.get(i).initializeGeneRandom(random));
 		}
 	}
 	
@@ -113,14 +113,16 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 			int posChromosome = 0, posList = 0;
 			oldAlleles = new ArrayList<Object>();
 			
-			for(Gene gene : genes) {
-				for(int i = 0; i < gene.getGeneLength(); i++) {
+			for(int j = 0; j < numGenes; j++) {
+				for(int i = 0; i < genes.get(j).getGeneLength(); i++) {
 					if(posChromosome >= start && posChromosome <= end) {
-						oldAlleles.add(gene.setAllele(i, alleles.get(posList)));
+						oldAlleles.add(genes.get(j).setAllele(i, alleles.get(posList)));
 						posList += 1;
 					}
 					posChromosome += 1;
 				}
+				//The new fenotype of the gene is updated
+				genesFenotypes.set(j, genes.get(j).getFenotype());
 			}
 		}
 		
@@ -270,12 +272,19 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 //*********************************************************************************
 // Setters
 	
+	/**
+	 * Sets the genes of the chromosomes updating the genesFenotypes list and the number of genes.
+	 * 
+	 * @param genes list of genes
+	 */
 	public void setGenes(ArrayList<Gene> genes) {
+		numGenes = genes.size();
 		this.genes = genes;
-	}
-	
-	public void setGenesFenotypes(ArrayList<Double> genesFenotypes) {
-		this.genesFenotypes = genesFenotypes;
+		genesFenotypes = new ArrayList<Double>();
+		
+		for(int i = 0; i < numGenes; i++) {
+			genesFenotypes.add(genes.get(i).getFenotype());
+		}
 	}
 	
 	public void setEvaluation(Double evaluation) {
@@ -296,6 +305,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	
 	/**
 	 * Given an index, the allele in that position is replaced for newAllele (if the modification generates an invalid gene the modification is reverted)
+	 * Updates the fenotypes of the genes.
 	 * 
 	 * @param index of the newAllele
 	 * @param newAllele to be set
@@ -304,14 +314,16 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 		if(index > 0 && index < chromosomeLength) {
 			int pos = 0;
 			
-			for(Gene gene : genes) {
-				for(int i = 0; i < gene.getGeneLength(); i++) {
+			for(int j = 0; j < numGenes; j++) {
+				for(int i = 0; i < genes.get(j).getGeneLength(); i++) {
 					if(pos == index) {
-						gene.setAllele(i, newAllele);
+						genes.get(j).setAllele(i, newAllele);
 						return;
 					}
 					pos++;
 				}
+				//The new fenotype of the gene is updated
+				genesFenotypes.set(j, genes.get(j).getFenotype());
 			}
 		}
 	}

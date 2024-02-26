@@ -145,7 +145,6 @@ public class GeneticAlgorithm {
 		}
 	}
 	
-	//TODO
 	//If necessary mutate the chromosome
 	private void mutate() {
 		for(Chromosome c : population) {

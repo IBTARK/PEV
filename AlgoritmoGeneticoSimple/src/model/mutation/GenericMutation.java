@@ -26,6 +26,9 @@ public class GenericMutation extends Mutation{
 				if(c.getClass() == BinaryChromosome.class) {
 					c.setAllele(i, ((boolean) c.getAllele(i)) ? false : true );
 				}
+				else if(c.getClass() == RealChromosome.class) {
+					c.setAllele(i, random.nextDouble(c.getGene(i).getFenotypeFunction().getMinValue(), c.getGene(i).getFenotypeFunction().getMaxValue()));
+				}
 			}
 		}
 	}

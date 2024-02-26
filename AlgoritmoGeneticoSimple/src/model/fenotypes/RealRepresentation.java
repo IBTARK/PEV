@@ -20,7 +20,6 @@ public class RealRepresentation extends FenotypeFunction<RealGene>{
 
 	@Override
 	public FenotypeFunction clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new RealRepresentation(Double.valueOf(minValue), Double.valueOf(maxValue));
 	}
 }
