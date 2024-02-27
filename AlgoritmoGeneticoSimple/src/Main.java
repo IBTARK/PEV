@@ -1,10 +1,9 @@
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import control.Controller;
 import model.GeneticAlgorithm;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
@@ -21,19 +20,9 @@ import view.MainWindow;
 
 public class Main {
 	public static void main(String[] args) {
-		ArrayList<Integer> genesLengths = new ArrayList<>();
-		genesLengths.add(1);
+		GeneticAlgorithm alg = new GeneticAlgorithm();
 		
-		RealRepresentation rep = new RealRepresentation(0.0, Math.PI);
-		ArrayList<FenotypeFunction> genesFenotypesFunctions = new ArrayList<>();
-		genesFenotypesFunctions.add(rep);
-		
-		Selection selection = new TruncationSelection(0.1, 0.5);
-		Crossover crossover = new BLXAlphaCrossover(0.5);
-		Mutation mutation = new GenericMutation(0.05);
-		
-		GeneticAlgorithm alg = new GeneticAlgorithm(ChromosomeType.REALCHROMOSOME, 5, genesLengths, genesFenotypesFunctions, 20, 50, 
-													selection, crossover, 0.6, mutation, new Michalewicz(5), true);
+		Controller ctr = new Controller(alg);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -41,7 +30,7 @@ public class Main {
 
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					new MainWindow();
+					new MainWindow(ctr);
 				} 
 				catch (Exception e) 
 				{
@@ -50,10 +39,5 @@ public class Main {
 				
 			}
 		});
-		
-		for(Chromosome c : alg.execute()) {
-			System.out.println("x1: " + c.getGeneFenotype(0) + " x2: " + c.getGeneFenotype(1) + " fitness: " + c.getEvaluation());
-		}
-
 	}
 }

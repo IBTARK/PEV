@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 public class TopPanel extends JPanel{
 	private JLabel titleLabel;
 	
+	private int borderSize = 3;
+	
 	public TopPanel(String title, int width, int height){
 		super(new FlowLayout(FlowLayout.CENTER));
 		initGUI(title, width, height);
@@ -26,7 +28,7 @@ public class TopPanel extends JPanel{
 		
 		//The background and a border is set
 		setBackground(Color.GRAY);
-		setBorder(BorderFactory.createMatteBorder(0, 0, 5, 0, Color.BLACK));
+		setBorder(BorderFactory.createMatteBorder(0, 0, borderSize, 0, Color.BLACK));
 		
 		setMinimumSize(new Dimension(width, height));
 		setPreferredSize(new Dimension(width, height));

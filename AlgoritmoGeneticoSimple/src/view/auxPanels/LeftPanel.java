@@ -12,17 +12,21 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-public class LeftPanel extends JPanel{
+import control.Controller;
+import model.GenAlgObserver;
+
+public class LeftPanel extends JPanel implements GenAlgObserver{
+	private Controller ctr;
 	
 	private JButton menuButton;
 	
@@ -38,32 +42,46 @@ public class LeftPanel extends JPanel{
 	private JPanel mutPctgPanel; //Panel where the spinner to select the percentage of mutation will be displayed
 	private JSpinner mutPctgSpinner; //Spinner to select the percentage of mutation
 	
-	private JPanel repPrecisionPanel; //Panel where the spinner to select the precision will be displayed
-	private JSpinner repPrecisionSpinner; //Spinner to select the precision of the representation
-	
-	private JPanel elitismPctgPanel; //Panel where the spinner to select the percentage of elitism will be displayed
-	private JSpinner elitismPctgSpinner; //Spinner to select the percentage of elitism
-	
 	private JPanel selectionPanel; //Panel where the combo box to select the selection method will be displayed
+	private DefaultComboBoxModel<String> selectionModel;
 	private JComboBox<String> selectionComboBox; //Combo box to select the selection method
 	
+	private JPanel selectKPanel;
+	private JSpinner selectKSpinner;
+	
+	private JPanel selectTruncPanel;
+	private JSpinner selectTruncSpinner;
+	
+	private JPanel probabilisticPanel; 
+	private JCheckBox probabilisticCheckBox; //CheckBox to indicate if the selecton is probabilistic
+	
 	private JPanel crossoverPanel; //Panel where the combo box to select the crossover method will be displayed
+	private DefaultComboBoxModel<String> crossoverModel;
 	private JComboBox<String> crossoverComboBox; //Combo box to select the crossover method
 	
+	private JPanel selectAlphaPanel;
+	private JSpinner selectAlphaSpinner;
+	
 	private JPanel mutationPanel; //Panel where the combo box to select the mutation method will be displayed
+	private DefaultComboBoxModel<String> mutationModel;
 	private JComboBox<String> mutationComboBox; //Combo box to select the mutation method
 	
 	private JPanel elitismPanel; //Panel where the check box to indicate if the elitism is applied will be displayed
 	private JCheckBox elitismCheckBox; //CheckBox to indicate if elitism is applied
+	
+	private JPanel elitismPctgPanel; //Panel where the spinner to select the percentage of elitism will be displayed
+	private JSpinner elitismPctgSpinner; //Spinner to select the percentage of elitism
 	
 	private Color background = Color.GRAY;
 	
 	private int borderSize = 3;
 
 	
-	public LeftPanel(JButton menuButton, int width, int height) {
+	public LeftPanel(Controller ctr, JButton menuButton, int width, int height) {
+		this.ctr = ctr;
 		this.menuButton = menuButton;
 		initGUI(width, height);
+		ctr.addObserver(this);
 	}
 	
 	private void initGUI(int width, int height) {
@@ -102,42 +120,115 @@ public class LeftPanel extends JPanel{
 		
 		//Section to select the percentage of crossover
 		crossPctgPanel = new JPanel();
-		crossPctgSpinner = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
-		createSpinnerSection(crossPctgPanel, "Porcentaje de cruces: ", crossPctgSpinner, 60);
+		crossPctgSpinner = new JSpinner(new SpinnerNumberModel(60.0, 0.0, 100.0, 1.0));
+		//Configure the editor to display doubles
+        crossPctgSpinner.setEditor(new JSpinner.NumberEditor(crossPctgSpinner, "0.0"));
+		createSpinnerSection(crossPctgPanel, "Probabilidad de cruce: ", crossPctgSpinner, 56);
 		add(crossPctgPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the percentage of mutation
 		mutPctgPanel = new JPanel();
-		mutPctgSpinner = new JSpinner(new SpinnerNumberModel(5, 0, 100, 1));
-		createSpinnerSection(mutPctgPanel, "Porcentaje de mutación: ", mutPctgSpinner, 42);
+		mutPctgSpinner = new JSpinner(new SpinnerNumberModel(5.0, 0.0, 100.0, 1.0));
+		//Configure the editor to display doubles
+		mutPctgSpinner.setEditor(new JSpinner.NumberEditor(mutPctgSpinner, "0.0"));
+		createSpinnerSection(mutPctgPanel, "Probabilidad de mutación: ", mutPctgSpinner, 32);
 		add(mutPctgPanel);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the precision of the representation
-		repPrecisionPanel = new JPanel();
-		repPrecisionSpinner = new JSpinner(new SpinnerNumberModel(0.001, 0, 1, 0.001));
-		createSpinnerSection(repPrecisionPanel, "Precision de la representacion: ", repPrecisionSpinner, 2);
-		add(repPrecisionPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the selection method
 		selectionPanel = new JPanel();
-		selectionComboBox = new JComboBox<String>();
+		selectionModel = new DefaultComboBoxModel<String>();
+		selectionComboBox = new JComboBox<String>(selectionModel);
+		
+		selectionComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectionComboBox.getSelectedItem() == "Remain" || selectionComboBox.getSelectedItem() == "Tournament") {
+					selectKPanel.setVisible(true);
+				}
+				else {
+					selectKPanel.setVisible(false);
+				}
+				
+				if(selectionComboBox.getSelectedItem() == "Tournament") {
+					probabilisticPanel.setVisible(true);
+				}
+				else {
+					probabilisticPanel.setVisible(false);
+				}
+				
+				if(selectionComboBox.getSelectedItem() == "Truncation") {
+					selectTruncPanel.setVisible(true);
+				}
+				else {
+					selectTruncPanel.setVisible(false);
+				}
+			}
+		});
+		
 		createComboBoxArea(selectionPanel, "Método de Selección: ", selectionComboBox, 13);
 		add(selectionPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
+		//Section to select the value of k
+		selectKPanel = new JPanel();
+		selectKSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 100, 1));
+		createSpinnerSection(selectKPanel, "k: ", selectKSpinner, 178);
+		add(selectKPanel);
+		selectKPanel.setVisible(false);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Section to select the value of trunc
+		selectTruncPanel = new JPanel();
+		selectTruncSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 100, 1));
+		createSpinnerSection(selectTruncPanel, "trunc: ", selectTruncSpinner, 154);
+		add(selectTruncPanel);
+		selectTruncPanel.setVisible(false);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Section to indicate probabilistic
+		probabilisticPanel = new JPanel();
+		probabilisticCheckBox = new JCheckBox();
+		createCheckBoxSection(probabilisticPanel, "Probabilista: ", probabilisticCheckBox, 143);
+		add(probabilisticPanel);
+		probabilisticPanel.setVisible(false);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		
 		//Section to select the crossover method
 		crossoverPanel = new JPanel();
-		crossoverComboBox = new JComboBox<String>();
+		crossoverModel = new DefaultComboBoxModel<String>();
+		crossoverComboBox = new JComboBox<String>(crossoverModel);
+		
+		crossoverComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(crossoverComboBox.getSelectedItem() == "Arithmetic" || crossoverComboBox.getSelectedItem() == "BLXAlpha") {
+					selectAlphaPanel.setVisible(true);
+				}
+				else {
+					selectAlphaPanel.setVisible(false);
+				}
+			}
+		});
+		
 		createComboBoxArea(crossoverPanel, "Método de Cruce: ", crossoverComboBox, 33);
 		add(crossoverPanel);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Section to select the value of alpha
+		selectAlphaPanel = new JPanel();
+		selectAlphaSpinner = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
+		createSpinnerSection(selectAlphaPanel, "Alpha: ", selectAlphaSpinner, 152);
+		add(selectAlphaPanel);
+		selectAlphaPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 
 		//Section to select the mutation method
 		mutationPanel = new JPanel();
-		mutationComboBox = new JComboBox<String>();
+		mutationModel = new DefaultComboBoxModel<String>();
+		mutationComboBox = new JComboBox<String>(mutationModel);
 		createComboBoxArea(mutationPanel, "Método de Mutacion: ", mutationComboBox, 12);
 		add(mutationPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
@@ -146,7 +237,7 @@ public class LeftPanel extends JPanel{
 		//Section to select the percentage of elitism
 		elitismPanel = new JPanel();
 		elitismCheckBox = new JCheckBox();
-		createCheckBoxSection(elitismPanel, "Elitismo: ", elitismCheckBox, 0);
+		createCheckBoxSection(elitismPanel, "Elitismo: ", elitismCheckBox, 165);
 		//Action listener of the check box
 		elitismCheckBox.addActionListener(new ActionListener() {
 			@Override
@@ -158,7 +249,9 @@ public class LeftPanel extends JPanel{
 		add(elitismPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		elitismPctgPanel = new JPanel();
-		elitismPctgSpinner = new JSpinner(new SpinnerNumberModel(10, 0, 100, 1));
+		elitismPctgSpinner = new JSpinner(new SpinnerNumberModel(10.0, 0.0, 100.0, 1.0));
+		//Configure the editor to display doubles
+		elitismPctgSpinner.setEditor(new JSpinner.NumberEditor(elitismPctgSpinner, "0.0"));
 		createSpinnerSection(elitismPctgPanel, "Porcentaje de elitismo: ", elitismPctgSpinner, 50);
 		elitismPctgPanel.setVisible(false); //By default is invisible
 		add(elitismPctgPanel);
@@ -282,14 +375,135 @@ public class LeftPanel extends JPanel{
 		numGenPanel.setVisible(visible);
 		crossPctgPanel.setVisible(visible);
 		mutPctgPanel.setVisible(visible);
-		repPrecisionPanel.setVisible(visible); 
 		selectionPanel.setVisible(visible);
 		crossoverPanel.setVisible(visible); 
 		mutationPanel.setVisible(visible);
 		elitismPanel.setVisible(visible);
 	}
+
+//*********************************************************************************************
+//Getters
 	
+	/**
+	 * 
+	 * @return border size in pixels
+	 */
 	public int getBorderSize() {
 		return borderSize;
+	}
+	
+	/**
+	 * 
+	 * @return population size
+	 */
+	public int getPopulationSize() {
+		return (int) popSizeSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return the number of generations
+	 */
+	public int getGenerations() {
+		return (int) numGenSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return probability of crossover [0,100]
+	 */
+	public double getCrossoverPctg() {
+		return (double) crossPctgSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return probability of mutation [0,100]
+	 */
+	public double getMutationPctg() {
+		return (double) mutPctgSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return selected selection type
+	 */
+	public String getSelectionType() {
+		return (String) selectionComboBox.getSelectedItem();
+	}
+	
+	/**
+	 * 
+	 * @return the value of k
+	 */
+	public int getK() {
+		return (int) selectKSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return the value of trunc
+	 */
+	public double getTruncation() {
+		return (double) selectTruncSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return probabilistic
+	 */
+	public boolean getProbabilistic() {
+		return probabilisticCheckBox.isSelected();
+	}
+	
+	/**
+	 * 
+	 * @return selected crossover type
+	 */
+	public String getCrossoverType() {
+		return (String) crossoverComboBox.getSelectedItem();
+	}
+	
+	/**
+	 * 
+	 * @return value of alpha [0,100]
+	 */
+	public double getAlpha() {
+		return (double) selectAlphaSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return selected mutation type
+	 */
+	public String getMutationType() {
+		return (String) mutationComboBox.getSelectedItem();
+	}
+	
+	/**
+	 * 
+	 * @return the percentage of elitism [0,100]
+	 */
+	public double getElitismPctg() {
+		if(elitismCheckBox.isSelected()) {
+			return (double) elitismPctgSpinner.getValue();
+		}
+		else return 0.0;
+	}
+
+//*********************************************************************************************
+//Observer interface
+
+	@Override
+	public void onRegister() {
+		selectionModel.addAll(ctr.getSelectionTypes());
+		crossoverModel.addAll(ctr.getCrossoverTypes());
+		mutationModel.addAll(ctr.getMutationTypes());
+	}
+
+	@Override
+	public void onGenCompleted(int generation, double absoluteBest, double generationBest, double meanGeneration) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -4,15 +4,19 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import control.Controller;
+
 public class MainWindow extends JFrame{
+	private Controller ctr;
 	
-	private int width = 900;
-	private int height = 625;
+	private int width = 1500;
+	private int height = 800;
 	
 	private MainPanel mainPanel;
 	
-	public MainWindow(){
+	public MainWindow(Controller ctr){
 		super("Algoritmo Genético Simple");
+		this.ctr = ctr;
 		
 		initGUI();
 	}
@@ -20,7 +24,7 @@ public class MainWindow extends JFrame{
 	private void initGUI() {
 		
 		//The main panel is created an set
-		mainPanel = new MainPanel(width, height - 36);
+		mainPanel = new MainPanel(ctr, width, height - 36);
 		setContentPane(mainPanel);
 		
 		setMinimumSize(new Dimension(width, height));
