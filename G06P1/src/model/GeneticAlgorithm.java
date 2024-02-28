@@ -98,6 +98,10 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	public ArrayList<Chromosome> execute(){
 		ArrayList<Chromosome> elite = null;
 		absoluteBestFitness = Double.MIN_VALUE;
+		if(minimization) 
+			absoluteBestEvaluation = Double.MAX_VALUE;
+		else
+			absoluteBestEvaluation = Double.MIN_VALUE;
 		
 		onFirstGen();
 		
@@ -279,10 +283,20 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		
 		Collections.sort(population, Collections.reverseOrder());
 		
-		if(population.get(0).getFitness() > absoluteBestFitness) {
-			absoluteBestFitness = population.get(0).getFitness();
-			absoluteBestEvaluation = population.get(0).getEvaluation();
+		if(minimization) {
+			if(population.get(0).getEvaluation() < absoluteBestEvaluation) {
+				absoluteBestFitness = population.get(0).getFitness();
+				absoluteBestEvaluation = population.get(0).getEvaluation();
+			}
 		}
+		else {
+			if(population.get(0).getFitness() > absoluteBestFitness) {
+				absoluteBestFitness = population.get(0).getFitness();
+				absoluteBestEvaluation = population.get(0).getEvaluation();
+			}
+		}
+		
+		
 		
 		double meanGeneration = 0;
 		for(Chromosome c : population) {
