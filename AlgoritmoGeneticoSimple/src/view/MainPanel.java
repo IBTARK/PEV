@@ -77,7 +77,7 @@ public class MainPanel extends JPanel{
 		JPanel restPanel = new JPanel(new BorderLayout());
 		restPanel.setMinimumSize(new Dimension(windowsWidth - LEFTPANELWIDTH -13 , windowsHeight));
 		
-		topPanel = new TopPanel("Función 1", windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * TOPPANELPCTGHEIGHT));
+		topPanel = new TopPanel("Evolutiva", windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * TOPPANELPCTGHEIGHT));
 		restPanel.add(topPanel, BorderLayout.PAGE_START);
 		
 		//Action listener of the button menu
@@ -119,6 +119,8 @@ public class MainPanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				//Change the label
+				topPanel.setTitle(bottomPanel.getEvaluationFunctionType());
 				//Adjust the genetic algorithms settings
 				setGeneralSettings();
 				centerPanel.newEvolutionGraph(leftPanel.getGenerations());
@@ -148,6 +150,7 @@ public class MainPanel extends JPanel{
 		ctr.setPopulationSize(leftPanel.getPopulationSize());
 		ctr.setNumGenerations(leftPanel.getGenerations());
 		ctr.setCrossoverPctg(leftPanel.getCrossoverPctg() / 100);
+		ctr.setElitism(leftPanel.getElitismPctg() / 100);
 	}
 	
 	
@@ -160,22 +163,22 @@ public class MainPanel extends JPanel{
 		{
 			case "Montecarlo":
 			{
-				ctr.setSelection(new MontecarloSelection(leftPanel.getElitismPctg() / 100));
+				ctr.setSelection(new MontecarloSelection());
 				break;
 			}
 			case "Remain":
 			{
-				ctr.setSelection(new RemainSelection(leftPanel.getElitismPctg() / 100, leftPanel.getK()));
+				ctr.setSelection(new RemainSelection(leftPanel.getK()));
 				break;
 			}
 			case "Tournament":
 			{
-				ctr.setSelection(new TournamentSelection(leftPanel.getElitismPctg() / 100, leftPanel.getProbabilistic() ,leftPanel.getK()));
+				ctr.setSelection(new TournamentSelection(leftPanel.getProbabilistic() ,leftPanel.getK()));
 				break;
 			}
 			case "Truncation":
 			{
-				ctr.setSelection(new TruncationSelection(leftPanel.getElitismPctg() / 100, leftPanel.getTruncation()));
+				ctr.setSelection(new TruncationSelection(leftPanel.getTruncation()));
 				break;
 			}
 		}
@@ -190,12 +193,12 @@ public class MainPanel extends JPanel{
 		{
 			case "Arithmetic":
 			{
-				ctr.setCrossover(new ArithmeticCrossover(leftPanel.getAlpha()));
+				ctr.setCrossover(new ArithmeticCrossover(leftPanel.getAlpha() / 100));
 				break;
 			}
 			case "BLXAlpha":
 			{
-				ctr.setCrossover(new BLXAlphaCrossover(leftPanel.getAlpha()));
+				ctr.setCrossover(new BLXAlphaCrossover(leftPanel.getAlpha() / 100));
 				break;
 			}
 			case "Single point":
@@ -407,7 +410,7 @@ public class MainPanel extends JPanel{
 	 * @param max
 	 * @return
 	 */
-	private int computeBinaryGeneLength(double precision, double min, double max) {
+	private int computeBinaryGeneLength(double min, double max, double precision) {
 		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
 	}
 }

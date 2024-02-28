@@ -19,16 +19,14 @@ public class TournamentSelection extends Selection{
 	private Double prob; //Necessary for the probabilistic tournament
 	
 	
-	public TournamentSelection(Double elitism, int k) {
-		super(elitism);
+	public TournamentSelection(int k) {
 		random = new Random();
 		this.probabilistic = false;
 		this.k = k;
 		prob = 0.5; //Default value
 	}
 	
-	public TournamentSelection(Double elitism, Boolean probabilistic, int k) {
-		super(elitism);
+	public TournamentSelection(Boolean probabilistic, int k) {
 		random = new Random();
 		this.probabilistic = probabilistic;
 		this.k = k;
@@ -53,7 +51,7 @@ public class TournamentSelection extends Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Tournament selection
 	 */
-	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
+	public ArrayList<Chromosome> select(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		ArrayList<Chromosome> tournament = new ArrayList<Chromosome>();
 		

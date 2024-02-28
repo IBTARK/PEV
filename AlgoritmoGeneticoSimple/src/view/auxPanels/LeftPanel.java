@@ -219,7 +219,9 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the value of alpha
 		selectAlphaPanel = new JPanel();
-		selectAlphaSpinner = new JSpinner(new SpinnerNumberModel(60, 0, 100, 1));
+		selectAlphaSpinner = new JSpinner(new SpinnerNumberModel(60.0, 0.0, 100.0, 1.0));
+		//Configure the editor to display doubles
+		selectAlphaSpinner.setEditor(new JSpinner.NumberEditor(selectAlphaSpinner, "0.0"));
 		createSpinnerSection(selectAlphaPanel, "Alpha: ", selectAlphaSpinner, 152);
 		add(selectAlphaPanel);
 		selectAlphaPanel.setVisible(false);

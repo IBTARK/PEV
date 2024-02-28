@@ -14,8 +14,7 @@ public class TruncationSelection extends Selection{
 	
 	private Double trunc;
 	
-	public TruncationSelection(Double elitism, Double trunc) {
-		super(elitism);
+	public TruncationSelection(Double trunc) {
 		this.trunc = trunc;
 	}
 
@@ -23,7 +22,7 @@ public class TruncationSelection extends Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Truncation selection
 	 */
-	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
+	public ArrayList<Chromosome> select(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
 		//Order the population in descending order

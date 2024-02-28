@@ -37,7 +37,7 @@ public class ArithmeticCrossover implements Crossover{
 	@Override
 	public void cross(Chromosome c1, Chromosome c2) {
 		//TODO revisar
-		if(c1.getClass() == RealChromosome.class || c2.getClass() == RealChromosome.class) {
+		if(c1.getClass() == RealChromosome.class && c2.getClass() == RealChromosome.class) {
 			Chromosome cp1 = c1.clone();
 			Chromosome cp2 = c2.clone();
 			

@@ -44,6 +44,7 @@ public class RealChromosome extends Chromosome{
 		clone.setGenes(cloneGenes);
 		
 		//Set of the fitness, score and scoreAccumulated
+		clone.setEvaluation(Double.valueOf(evaluation));
 		clone.setFitness(Double.valueOf(fitness));
 		clone.setScore(Double.valueOf(score));
 		clone.setScoreAccumulated(Double.valueOf(scoreAccumulated));

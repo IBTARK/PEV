@@ -139,6 +139,15 @@ public class Controller {
 	}
 	
 	/**
+	 * Set elitism
+	 * 
+	 * @param elitism [0.0, 1.0]
+	 */
+	public void setElitism(double elitism) {
+		genAlg.setElitism(elitism);
+	}
+	
+	/**
 	 * Set the crossover probability
 	 * 
 	 * @param crossoverPctg

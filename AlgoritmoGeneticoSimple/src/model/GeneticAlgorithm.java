@@ -46,6 +46,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private ArrayList<Chromosome> population;
 	
+	private double elitism; //[0.0, 1.0]
+	
 	private List<GenAlgObserver> observerList;
 	
 	private double absoluteBestFitness; //Is the best fitness of all the generations
@@ -94,22 +96,35 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	public ArrayList<Chromosome> execute(){
+		ArrayList<Chromosome> elite = null;
+		absoluteBestFitness = Double.MIN_VALUE;
+		
 		//Generate an initial population
 		generatePopulation();
 		//Evaluate the population
 		evaluate();
 		
 		for(int i = 0; i < generations; i++) {
-			//Communicate with the observers
-			onGenCompleted(i, population);
+			//If necessary save the elite
+			if(elitism > 0)
+				elite = saveElite(population);
+			
 			//Selection
 			population = selection.select(population);
 			//Crossover
 			reproduce();
 			//Mutation
 			mutate();
+			
+			//If necessary introduce the elite
+			if(elitism > 0)
+				introduceElite(elite, population);
+			
 			//Evaluate the population
 			evaluate();
+			
+			//Communicate with the observers
+			onGenCompleted(i, population);
 		}
 		
 		//Sort the population in descending order
@@ -182,6 +197,39 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		for(Chromosome c : population) {
 			mutation.mutate(c);
 		}
+	}
+	
+	//Save the elite
+	private ArrayList<Chromosome> saveElite(ArrayList<Chromosome> population){
+		int sizeElite = (int) (population.size() * elitism);
+		ArrayList<Chromosome> elite = new ArrayList<Chromosome>();
+		
+		//Order the original population in descending order
+		Collections.sort(population, Collections.reverseOrder());
+		
+		for(int i = 0; i < sizeElite; i++) {
+			elite.add(population.get(i).clone());
+		}
+		
+		return elite;
+	}
+	
+	//Introduce elitism if necessary
+	private void introduceElite(List<Chromosome> elite, List<Chromosome> newPopulation) {
+		//Order the new population in descending order
+		Collections.sort(newPopulation, Collections.reverseOrder());
+		
+		//Replace the worst individuals of the newPopulation for the elite of the original population 
+		for(int i = 0; i < elite.size(); i++) {
+			newPopulation.remove(newPopulation.size() - 1);
+		}
+		
+		for(Chromosome c : elite) {
+			newPopulation.add(c);
+		}
+		
+		//The newPopulation is shuffled
+		Collections.shuffle(newPopulation);
 	}
 
 //**************************************************************************************
@@ -425,5 +473,14 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	public void setMinimization(boolean minimization) {
 		this.minimization = minimization;
 		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
+	}
+	
+	/**
+	 * Set the elitims
+	 * 
+	 * @param elitism
+	 */
+	public void setElitism(double elitism) {
+		this.elitism = elitism;
 	}
 }

@@ -14,8 +14,7 @@ public class MontecarloSelection extends Selection{
 	
 	private Random random;
 	
-	public MontecarloSelection(Double elitism) {
-		super(elitism);
+	public MontecarloSelection() {
 		random = new Random();
 	}
 
@@ -23,7 +22,7 @@ public class MontecarloSelection extends Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Montecarlo selection
 	 */
-	protected ArrayList<Chromosome> selection(List<Chromosome> population) {
+	public ArrayList<Chromosome> select(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
 		
 		for(int i = 0; i < population.size(); i++) {

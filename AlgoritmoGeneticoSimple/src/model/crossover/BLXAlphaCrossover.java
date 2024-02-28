@@ -41,14 +41,12 @@ public class BLXAlphaCrossover implements Crossover{
 	@Override
 	public void cross(Chromosome c1, Chromosome c2) {
 		//TODO revisar
-		if(c1.getClass() == RealChromosome.class || c2.getClass() == RealChromosome.class) {
-			Chromosome cp1 = c1.clone();
-			Chromosome cp2 = c2.clone();
+		if(c1.getClass() == RealChromosome.class && c2.getClass() == RealChromosome.class) {
 			Double cmax, cmin, I;
 			
 			for(int i = 0; i < c1.getChromosomeLength(); i++) {
-				cmax = Math.max((double)cp1.getAllele(i), (double)cp2.getAllele(i));
-				cmin = Math.min((double)cp1.getAllele(i), (double)cp2.getAllele(i));
+				cmax = Math.max((double)c1.getAllele(i), (double)c2.getAllele(i));
+				cmin = Math.min((double)c1.getAllele(i), (double)c2.getAllele(i));
 				I = cmax - cmin;
 				
 				if (I == 0) {//Random needs the origin to be different from the bound
