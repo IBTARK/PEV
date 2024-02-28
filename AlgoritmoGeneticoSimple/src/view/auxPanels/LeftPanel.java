@@ -24,6 +24,7 @@ import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.chromosomes.Chromosome;
 
 public class LeftPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -505,7 +506,16 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onGenCompleted(int generation, double absoluteBest, double generationBest, double meanGeneration) {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAlgFinished(Chromosome c) {
+		
+	}
+
+	@Override
+	public void onFirstGen() {
 		
 	}
 }

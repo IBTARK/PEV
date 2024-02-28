@@ -99,6 +99,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		ArrayList<Chromosome> elite = null;
 		absoluteBestFitness = Double.MIN_VALUE;
 		
+		onFirstGen();
+		
 		//Generate an initial population
 		generatePopulation();
 		//Evaluate the population
@@ -129,6 +131,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		
 		//Sort the population in descending order
 		Collections.sort(population, Collections.reverseOrder());
+		
+		onAlgFinished(population.get(0));
 		
 		return population;
 	}
@@ -259,6 +263,12 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 	}
 	
+	private void onFirstGen() {
+		for(GenAlgObserver o : observerList) {
+			o.onFirstGen();
+		}
+	}
+	
 	/**
 	 * Actions executed when a generation has been completed
 	 * 
@@ -283,15 +293,14 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		for(GenAlgObserver o : observerList) {
 			o.onGenCompleted(generation, absoluteBestEvaluation, population.get(0).getEvaluation(), meanGeneration);
 		}
-		
-		System.out.println("Tamaño: " + population.size());
-		System.out.println("Generación: " + generation);
-		System.out.println("MejorTotal: " + absoluteBestEvaluation);
-		System.out.println("MejorGen: " + population.get(0).getEvaluation());
-		System.out.println("MediaGen: " + meanGeneration);
-		
-		
+	
 		Collections.shuffle(population);
+	}
+	
+	private void onAlgFinished(Chromosome c) {
+		for(GenAlgObserver o : observerList) {
+			o.onAlgFinished(c);
+		}
 	}
 
 //**************************************************************************************
@@ -360,6 +369,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 		
 		return evaluationTypes;
+	}
+	
+	/**
+	 * @return minimization
+	 */
+	public boolean getMinimization() {
+		return minimization;
 	}
 	
 //**************************************************************************************

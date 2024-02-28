@@ -21,6 +21,7 @@ import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.chromosomes.Chromosome;
 
 public class BottomPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -261,6 +262,16 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		
 	}
 	
+	@Override
+	public void onAlgFinished(Chromosome c) {
+		
+	}
+	
+	@Override
+	public void onFirstGen() {
+		
+	}
+	
 //*********************************************************************************************
 //Getters
 	/**
@@ -303,4 +314,6 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	public int getDimensions() {
 		return (int) dimsSpinner.getValue();
 	}
+
+
 }

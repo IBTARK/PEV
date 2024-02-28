@@ -81,6 +81,13 @@ public class Controller {
 	public ArrayList<String> getEvaluationFunctionTypes(){
 		return genAlg.getEvaluationFunctionTypes();
 	}
+	
+	/**
+	 * @return minimization
+	 */
+	public boolean getMinimization() {
+		return genAlg.getMinimization();
+	}
 
 //************************************************************************************
 //Setters

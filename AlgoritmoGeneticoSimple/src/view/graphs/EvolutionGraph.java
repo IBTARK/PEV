@@ -9,6 +9,7 @@ import org.math.plot.Plot2DPanel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.chromosomes.Chromosome;
 
 public class EvolutionGraph extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -119,6 +120,16 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onRegister() {
+	}
+
+	@Override
+	public void onAlgFinished(Chromosome c) {
+		
+	}
+
+	@Override
+	public void onFirstGen() {
+		
 	}
 	
 	
