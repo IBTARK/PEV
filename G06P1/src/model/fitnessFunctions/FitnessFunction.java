@@ -8,6 +8,7 @@ import model.evaluationFunctions.EvaluationFunction;
 public class FitnessFunction {
 	private Boolean minimization;
 	private EvaluationFunction evaluationFunction;
+	private Chromosome bestOfGen; //Chromosome with best fitness of the generation
 	
 	public FitnessFunction(Boolean minimization, EvaluationFunction evaluationFunction) {
 		this.minimization = minimization;
@@ -23,8 +24,10 @@ public class FitnessFunction {
 			//Compute the evaluation
 			evaluation = population.get(i).computeEvaluation(evaluationFunction);
 			//If necessary update the maximum and minimum evaluation
-			if(evaluation > maxEvaluation)
+			if(evaluation > maxEvaluation) {
 				maxEvaluation = evaluation;
+				bestOfGen = population.get(i);
+			}
 			if(evaluation < minEvaluation)
 				minEvaluation = evaluation;
 			//Add the evaluation of the chromosome to the total evaluation
@@ -52,10 +55,15 @@ public class FitnessFunction {
 	 * @return the total fitness
 	 */
 	private Double displaceToMinimize(ArrayList<Chromosome> population, Double maxEvaluation) {
-		Double totalFitness = 0.0, fitness;
+		Double totalFitness = 0.0, fitness, maxFitness = Double.MIN_VALUE;
 		
 		for(Chromosome c : population) {
 			fitness = (1.05 * maxEvaluation) - c.getEvaluation();
+			//If necessary update the best chromosome
+			if(fitness > maxFitness) {
+				maxFitness = fitness;
+				bestOfGen = c;
+			}
 			c.setFitness(fitness);
 			totalFitness += fitness;
 		}
@@ -71,14 +79,27 @@ public class FitnessFunction {
 	 * @return the total fitness
 	 */
 	private Double displaceToMaximize(ArrayList<Chromosome> population, Double minEvaluation) {
-		Double totalFitness = 0.0, fitness;
+		Double totalFitness = 0.0, fitness, maxFitness = Double.MIN_VALUE;
 		
 		for(Chromosome c : population) {
 			fitness = (1.05 * Math.abs(minEvaluation)) + c.getEvaluation();
+			//If necessary update the best chromosome
+			if(fitness > maxFitness) {
+				maxFitness = fitness;
+				bestOfGen = c;
+			}
 			c.setFitness(fitness);
 			totalFitness += fitness;
 		}
 		
 		return totalFitness;
+	}
+	
+	/**
+	 * 
+	 * @return the best chromosome of the population
+	 */
+	public Chromosome getBestOfGen() {
+		return bestOfGen;
 	}
 }

@@ -28,6 +28,7 @@ import model.fenotypes.RealRepresentation;
 import model.mutation.GenericMutation;
 import model.selection.MontecarloSelection;
 import model.selection.RemainSelection;
+import model.selection.StochasticSelection;
 import model.selection.TournamentSelection;
 import model.selection.TruncationSelection;
 import view.auxPanels.BottomPanel;
@@ -181,6 +182,11 @@ public class MainPanel extends JPanel{
 				ctr.setSelection(new TruncationSelection(leftPanel.getTruncation()));
 				break;
 			}
+			case "Stochastic":
+			{
+				ctr.setSelection(new StochasticSelection());
+				break;
+			}
 		}
 	}
 	
@@ -223,7 +229,8 @@ public class MainPanel extends JPanel{
 		{
 			case "Generic":
 			{
-				ctr.setMutation(new GenericMutation(leftPanel.getMutationPctg() / 100));
+				ctr.setMutation(new GenericMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
 		}
@@ -264,7 +271,7 @@ public class MainPanel extends JPanel{
 	private void setRepresentation() {
 		switch (bottomPanel.getRepresentationType())
 		{
-			case "Binario":
+			case "Binary":
 			{
 				ctr.setChromosomeType(ChromosomeType.BINARYCHROMOSOME);
 				binarySettings();

@@ -30,12 +30,10 @@ public class RealChromosome extends Chromosome{
 		ArrayList<Integer> cloneGenesLengths = new ArrayList<Integer>();
 		ArrayList<FenotypeFunction> cloneGenesFenotypesFunctions = new ArrayList<FenotypeFunction>();
 		ArrayList<Gene> cloneGenes = new ArrayList<Gene>();
-		ArrayList<Double> cloneGenesFenotypes = new ArrayList<Double>();
 		for(int i = 0; i < numGenes; i++) {
 			cloneGenesLengths.add(Integer.valueOf(genesLengths.get(i)));
 			cloneGenesFenotypesFunctions.add(genes.get(i).getFenotypeFunction().clone());
 			cloneGenes.add(genes.get(i).clone());
-			cloneGenesFenotypes.add(Double.valueOf(genesFenotypes.get(i)));
 		}
 		
 		RealChromosome clone = new RealChromosome(cloneNumGenes, cloneGenesLengths, cloneGenesFenotypesFunctions);

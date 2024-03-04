@@ -10,7 +10,7 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Truncation selection
  */
-public class TruncationSelection extends Selection{
+public class TruncationSelection implements Selection{
 	
 	private Double trunc;
 	

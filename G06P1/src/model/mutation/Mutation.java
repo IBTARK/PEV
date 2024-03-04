@@ -2,13 +2,7 @@ package model.mutation;
 
 import model.chromosomes.Chromosome;
 
-public abstract class Mutation {
+public interface Mutation {
 	
-	protected Double probMutate;
-	
-	public Mutation(Double probMutate) {
-		this.probMutate = probMutate;
-	}
-	
-	public abstract void mutate(Chromosome c);
+	public void mutate(Chromosome c);
 }

@@ -7,10 +7,7 @@ import java.util.Random;
 
 import model.chromosomes.Chromosome;
 
-public abstract class Selection {
-	
-	public Selection() {
-	}
-	
-	public abstract ArrayList<Chromosome> select(List<Chromosome> population);
+public interface Selection {
+
+	public ArrayList<Chromosome> select(List<Chromosome> population);
 }

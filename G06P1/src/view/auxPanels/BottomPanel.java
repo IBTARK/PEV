@@ -22,6 +22,8 @@ import javax.swing.SpinnerNumberModel;
 import control.Controller;
 import model.GenAlgObserver;
 import model.chromosomes.Chromosome;
+import model.evaluationFunctions.EvaluationFunctionType;
+import model.fenotypes.FenotypeType;
 
 public class BottomPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -67,10 +69,24 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		functionSelectionCombo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(functionSelectionCombo.getSelectedItem() == "Michalewicz") {
+				if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.FUNCION1.toString()) {
+					minimizationCheckBox.setSelected(false);
+					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
+					dimsPanel.setVisible(false);
+				}
+				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.HOLDERTABLE.toString()) {
+					minimizationCheckBox.setSelected(true);
+					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
+					dimsPanel.setVisible(false);
+				}
+				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.MICHALEWICZ.toString()) {
+					minimizationCheckBox.setSelected(true);
+					repSelectionCombo.setSelectedItem(FenotypeType.REAL.toString());
 					dimsPanel.setVisible(true);
 				}
-				else {
+				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.MISHRABIRD.toString()) {
+					minimizationCheckBox.setSelected(true);
+					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
 					dimsPanel.setVisible(false);
 				}
 			}
@@ -104,7 +120,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		repSelectionCombo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(repSelectionCombo.getSelectedItem() == "Binario") {
+				if(repSelectionCombo.getSelectedItem() == FenotypeType.PRECISION.toString()) {
 					repPrecisionPanel.setVisible(true);
 				}
 				else {
@@ -119,7 +135,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the precision
 		repPrecisionPanel = new JPanel();
-		repPrecisionSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.0001, 1, 0.001));
+		repPrecisionSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.0001, 1, 0.01));
 		createSpinnerSection(repPrecisionPanel, "Precisión: ", repPrecisionSpinner, 20);
 		topPanel.add(repPrecisionPanel);
 		repPrecisionPanel.setVisible(false);

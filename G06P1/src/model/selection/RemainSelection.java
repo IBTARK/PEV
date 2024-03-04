@@ -8,7 +8,7 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Remain selection
  */
-public class RemainSelection extends Selection{
+public class RemainSelection implements Selection{
 	
 	private int k;
 	

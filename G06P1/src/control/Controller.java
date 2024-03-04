@@ -164,6 +164,15 @@ public class Controller {
 	}
 	
 	/**
+	 * Set the mutation probability
+	 * 
+	 * @param crossoverPctg
+	 */
+	public void setMutationProb(double mutationProb) {
+		genAlg.setMutationProb(mutationProb);
+	}
+	
+	/**
 	 * Set the selection type
 	 * 
 	 * @param selection

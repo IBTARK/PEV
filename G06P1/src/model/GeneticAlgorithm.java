@@ -39,6 +39,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private Crossover crossover;
 	
 	private Mutation mutation;
+	private double mutationProb;
 	
 	private FitnessFunction fitnessFunction;
 	private EvaluationFunction evaluationFunction;
@@ -65,7 +66,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	public GeneticAlgorithm(ChromosomeType chromosomeType, int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions,
 							int populationSize, int generations, Selection selection, Crossover crossover, double crossoverPctg,
-							Mutation mutation, EvaluationFunction evaluationFunction, Boolean minimization) {
+							Mutation mutation, double mutationPctg, EvaluationFunction evaluationFunction, Boolean minimization) {
 		random = new Random();
 		
 		this.chromosomeType = chromosomeType;
@@ -203,7 +204,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	//If necessary mutate the chromosome
 	private void mutate() {
 		for(Chromosome c : population) {
-			mutation.mutate(c);
+			if(random.nextDouble() < mutationProb) {
+				mutation.mutate(c);
+			}
 		}
 	}
 	
@@ -211,12 +214,18 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private ArrayList<Chromosome> saveElite(ArrayList<Chromosome> population){
 		int sizeElite = (int) (population.size() * elitism);
 		ArrayList<Chromosome> elite = new ArrayList<Chromosome>();
+		ArrayList<Chromosome> populationCpy = new ArrayList<Chromosome>();
+		
+		//Copy of the population
+		for(int i = 0; i < population.size(); i++) {
+			populationCpy.add(population.get(i));
+		}
 		
 		//Order the original population in descending order
-		Collections.sort(population, Collections.reverseOrder());
+		Collections.sort(populationCpy, Collections.reverseOrder());
 		
 		for(int i = 0; i < sizeElite; i++) {
-			elite.add(population.get(i).clone());
+			elite.add(populationCpy.get(i).clone());
 		}
 		
 		return elite;
@@ -281,18 +290,16 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	private void onGenCompleted(int generation, ArrayList<Chromosome> population) {
 		
-		Collections.sort(population, Collections.reverseOrder());
-		
 		if(minimization) {
-			if(population.get(0).getEvaluation() < absoluteBestEvaluation) {
-				absoluteBestFitness = population.get(0).getFitness();
-				absoluteBestEvaluation = population.get(0).getEvaluation();
+			if(fitnessFunction.getBestOfGen().getEvaluation() < absoluteBestEvaluation) {
+				absoluteBestFitness = fitnessFunction.getBestOfGen().getFitness();
+				absoluteBestEvaluation = fitnessFunction.getBestOfGen().getEvaluation();
 			}
 		}
 		else {
-			if(population.get(0).getFitness() > absoluteBestFitness) {
-				absoluteBestFitness = population.get(0).getFitness();
-				absoluteBestEvaluation = population.get(0).getEvaluation();
+			if(fitnessFunction.getBestOfGen().getFitness() > absoluteBestFitness) {
+				absoluteBestFitness = fitnessFunction.getBestOfGen().getFitness();
+				absoluteBestEvaluation = fitnessFunction.getBestOfGen().getEvaluation();
 			}
 		}
 		
@@ -305,10 +312,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		meanGeneration /= population.size();
 		
 		for(GenAlgObserver o : observerList) {
-			o.onGenCompleted(generation, absoluteBestEvaluation, population.get(0).getEvaluation(), meanGeneration);
+			o.onGenCompleted(generation, absoluteBestEvaluation, fitnessFunction.getBestOfGen().getEvaluation(), meanGeneration);
 		}
-	
-		Collections.shuffle(population);
 	}
 	
 	private void onAlgFinished(Chromosome c) {
@@ -456,6 +461,15 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setCrossoverPctg(double crossoverPctg) {
 		this.crossoverPctg = crossoverPctg;
+	}
+	
+	/**
+	 * Set the mutation probability
+	 * 
+	 * @param mutationProb
+	 */
+	public void setMutationProb(double mutationProb) {
+		this.mutationProb = mutationProb;
 	}
 	
 	/**

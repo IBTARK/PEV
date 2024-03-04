@@ -82,7 +82,7 @@ public abstract class Gene implements Cloneable{
 		
 		//If the change is not valid is reverted
 		if(!valid()) alleles.set(index, old);
-		else fenotypeFunction.apply(this); //The new fenotype is computed
+		else computeFenotype(); //The new fenotype is computed
 			
 		return old;
 	}

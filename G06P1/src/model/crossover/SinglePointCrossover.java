@@ -22,7 +22,7 @@ public class SinglePointCrossover implements Crossover{
 	 */
 	public void cross(Chromosome c1, Chromosome c2) {
 		
-		int pos = r.nextInt(0, c1.getChromosomeLength());
+		int pos = r.nextInt(1, c1.getChromosomeLength());
 		
 		//Select the alleles that will be replaced
 		ArrayList<Object> replacement1 = c1.getAlleles(pos, c1.getChromosomeLength() - 1);

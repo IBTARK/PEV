@@ -6,7 +6,7 @@ public enum ChromosomeType {
 	public String toString() {
 		switch(this) {
 			case BINARYCHROMOSOME:
-				return "Binario";
+				return "Binary";
 			case REALCHROMOSOME:
 				return "Real";
 			default:

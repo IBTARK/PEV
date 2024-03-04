@@ -11,7 +11,7 @@ import model.chromosomes.Chromosome;
 /**
  * This class implements the Tournament selection
  */
-public class TournamentSelection extends Selection{
+public class TournamentSelection implements Selection{
 	
 	private Random random;
 	private int k; //Number of chromosomes in the tournament

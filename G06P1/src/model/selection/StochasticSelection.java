@@ -4,32 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 
-/**
- * This class implements the Montecarlo selection
- */
-public class MontecarloSelection implements Selection{
-	
+public class StochasticSelection implements Selection{
+
 	private Random random;
 	
-	public MontecarloSelection() {
-		random = new Random();
+	public StochasticSelection(){
+		random = new Random();		
 	}
-
+	
 	@Override
-	/**
-	 * Given a population returns another population that has been selected following the Montecarlo selection
-	 */
 	public ArrayList<Chromosome> select(List<Chromosome> population) {
 		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
+		double a = random.nextDouble();
+		int elem = 0;
 		
 		for(int i = 0; i < population.size(); i++) {
-			double rnd = random.nextDouble();
-			int elem = 0;
+			double score = (a + i - 1) / population.size();
 			
-			while(elem < population.size() && rnd > population.get(elem).getScoreAccumulated()) {
+			
+			while(elem < population.size() && score > population.get(elem).getScoreAccumulated()) {
 				elem++;
 			}
 			

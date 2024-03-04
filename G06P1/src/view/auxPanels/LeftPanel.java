@@ -25,6 +25,8 @@ import javax.swing.SpinnerNumberModel;
 import control.Controller;
 import model.GenAlgObserver;
 import model.chromosomes.Chromosome;
+import model.crossover.CrossoverType;
+import model.selection.SelectionType;
 
 public class LeftPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -145,21 +147,21 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		selectionComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(selectionComboBox.getSelectedItem() == "Remain" || selectionComboBox.getSelectedItem() == "Tournament") {
+				if(selectionComboBox.getSelectedItem() == SelectionType.REMAIN.toString() || selectionComboBox.getSelectedItem() == SelectionType.TOURNAMENT.toString()) {
 					selectKPanel.setVisible(true);
 				}
 				else {
 					selectKPanel.setVisible(false);
 				}
 				
-				if(selectionComboBox.getSelectedItem() == "Tournament") {
+				if(selectionComboBox.getSelectedItem() == SelectionType.TOURNAMENT.toString()) {
 					probabilisticPanel.setVisible(true);
 				}
 				else {
 					probabilisticPanel.setVisible(false);
 				}
 				
-				if(selectionComboBox.getSelectedItem() == "Truncation") {
+				if(selectionComboBox.getSelectedItem() == SelectionType.TRUNCATION.toString()) {
 					selectTruncPanel.setVisible(true);
 				}
 				else {
@@ -182,7 +184,9 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the value of trunc
 		selectTruncPanel = new JPanel();
-		selectTruncSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 100, 1));
+		selectTruncSpinner = new JSpinner(new SpinnerNumberModel(3.0, 1.0, 100.0, 1.0));
+		//Configure the editor to display doubles
+		selectTruncSpinner.setEditor(new JSpinner.NumberEditor(selectTruncSpinner, "0.0"));
 		createSpinnerSection(selectTruncPanel, "trunc: ", selectTruncSpinner, 154);
 		add(selectTruncPanel);
 		selectTruncPanel.setVisible(false);
@@ -205,7 +209,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(crossoverComboBox.getSelectedItem() == "Arithmetic" || crossoverComboBox.getSelectedItem() == "BLXAlpha") {
+				if(crossoverComboBox.getSelectedItem() == CrossoverType.ARITHMETIC.toString()|| crossoverComboBox.getSelectedItem() == CrossoverType.BLXALPHA.toString()) {
 					selectAlphaPanel.setVisible(true);
 				}
 				else {
