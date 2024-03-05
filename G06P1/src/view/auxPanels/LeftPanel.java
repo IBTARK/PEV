@@ -184,10 +184,10 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the value of trunc
 		selectTruncPanel = new JPanel();
-		selectTruncSpinner = new JSpinner(new SpinnerNumberModel(3.0, 1.0, 100.0, 1.0));
+		selectTruncSpinner = new JSpinner(new SpinnerNumberModel(50.0, 1.0, 100.0, 1.0));
 		//Configure the editor to display doubles
 		selectTruncSpinner.setEditor(new JSpinner.NumberEditor(selectTruncSpinner, "0.0"));
-		createSpinnerSection(selectTruncPanel, "trunc: ", selectTruncSpinner, 154);
+		createSpinnerSection(selectTruncPanel, "trunc (%): ", selectTruncSpinner, 126);
 		add(selectTruncPanel);
 		selectTruncPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));

@@ -179,7 +179,7 @@ public class MainPanel extends JPanel{
 			}
 			case "Truncation":
 			{
-				ctr.setSelection(new TruncationSelection(leftPanel.getTruncation()));
+				ctr.setSelection(new TruncationSelection(leftPanel.getTruncation() / 100));
 				break;
 			}
 			case "Stochastic":

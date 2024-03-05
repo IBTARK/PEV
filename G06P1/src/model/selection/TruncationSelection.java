@@ -28,16 +28,20 @@ public class TruncationSelection implements Selection{
 		//Order the population in descending order
 		Collections.sort(population, Collections.reverseOrder());
 		
-		int numCopies = (int) (1 / trunc);
+		int numCopies = (int) (1 / trunc), i = 0, j = 0;
 		
-		while(newPopulation.size() < population.size()) {
-			for(int j = 0; j < population.size() && newPopulation.size() < population.size(); j++) {
-				for(int i = 0; i < numCopies && newPopulation.size() < population.size(); i++) {
-					//A clone of the original chromosome is added to the new population
-					newPopulation.add(population.get(j).clone());
-				}
+		while(i < population.size() && newPopulation.size() < population.size()) {
+			while(j < numCopies && newPopulation.size() < population.size()) {
+				//A clone of the original chromosome is added to the new population
+				newPopulation.add(population.get(i).clone());
+				
+				j++;
 			}
+			j = 0;
+			i++;
 		}
+		
+		System.out.println(newPopulation.size());
 		
 		return newPopulation;
 	}
