@@ -131,6 +131,11 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 	public void onFirstGen() {
 		
 	}
+
+	@Override
+	public void remove() {
+		ctr.removeObserver(this);
+	}
 	
 	
 }

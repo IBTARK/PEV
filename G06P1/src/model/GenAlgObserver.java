@@ -7,4 +7,5 @@ public interface GenAlgObserver {
 	void onFirstGen();
 	void onGenCompleted(int generation, double absoluteBest, double generationBest, double meanGeneration);
 	void onAlgFinished(Chromosome c);
+	void remove();
 }

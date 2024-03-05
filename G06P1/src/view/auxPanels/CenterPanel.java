@@ -62,6 +62,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		int width = evolutionGraph.getWidth(), height = evolutionGraph.getHeight();
 		
 		graphPanel.remove(evolutionGraph);
+		evolutionGraph.remove();
 		evolutionGraph = new EvolutionGraph(ctr, width, height, generations);
 		graphPanel.add(evolutionGraph);
 	}
@@ -123,6 +124,11 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		
 		solLabel.setText(text);
 		solPanel.setVisible(true);
+	}
+
+	@Override
+	public void remove() {
+		ctr.removeObserver(this);
 	}
 
 }

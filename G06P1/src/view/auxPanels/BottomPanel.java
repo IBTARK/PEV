@@ -288,6 +288,11 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		
 	}
 	
+	@Override
+	public void remove() {
+		ctr.removeObserver(this);
+	}
+	
 //*********************************************************************************************
 //Getters
 	/**
