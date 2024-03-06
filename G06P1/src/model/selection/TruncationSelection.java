@@ -41,8 +41,6 @@ public class TruncationSelection implements Selection{
 			i++;
 		}
 		
-		System.out.println(newPopulation.size());
-		
 		return newPopulation;
 	}
 
