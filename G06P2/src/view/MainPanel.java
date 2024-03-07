@@ -16,6 +16,7 @@ import control.Controller;
 import model.chromosomes.ChromosomeType;
 import model.crossover.ArithmeticCrossover;
 import model.crossover.BLXAlphaCrossover;
+import model.crossover.OrderCrossover;
 import model.crossover.SinglePointCrossover;
 import model.crossover.UniformCrossover;
 import model.evaluationFunctions.Funcion1;
@@ -221,6 +222,11 @@ public class MainPanel extends JPanel{
 			case "Uniform":
 			{
 				ctr.setCrossover(new UniformCrossover(leftPanel.getCrossoverPctg() / 100));
+				break;
+			}
+			case "Order":
+			{
+				ctr.setCrossover(new OrderCrossover());
 				break;
 			}
 		}
