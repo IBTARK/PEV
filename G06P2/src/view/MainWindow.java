@@ -9,8 +9,8 @@ import control.Controller;
 public class MainWindow extends JFrame{
 	private Controller ctr;
 	
-	private int width = 1500;
-	private int height = 800;
+	private int width = 1250;
+	private int height = 700;
 	
 	private MainPanel mainPanel;
 	

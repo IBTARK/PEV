@@ -1,7 +1,7 @@
 package model.crossover;
 
 public enum CrossoverType {
-	ARITHMETIC, BLXALPHA, SINGLEPOINT, UNIFORM;
+	ARITHMETIC, BLXALPHA, SINGLEPOINT, UNIFORM, ORDER;
 	
 	public String toString() {
 		switch(this) {
@@ -13,6 +13,8 @@ public enum CrossoverType {
 				return "Single point";
 			case UNIFORM:
 				return "Uniform";
+			case ORDER:
+				return "Order";
 			default:
 				return null;
 		}

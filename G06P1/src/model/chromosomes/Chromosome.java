@@ -302,7 +302,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	 * @param newAllele to be set
 	 */
 	public void setAllele(int index, Object newAllele) {
-		if(index > 0 && index < chromosomeLength) {
+		if(index >= 0 && index < chromosomeLength) {
 			int pos = 0;
 			
 			for(int j = 0; j < numGenes; j++) {
