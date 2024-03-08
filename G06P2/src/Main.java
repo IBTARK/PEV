@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 import model.chromosomes.RealChromosome;
-import model.crossover.OrderCrossover;
+import model.crossover.PMXCrossover;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.RealRepresentation;
 
@@ -34,7 +34,7 @@ public class Main {
 		ArrayList<FenotypeFunction> fenotypes = new ArrayList<FenotypeFunction>();
 		fenotypes.add(new RealRepresentation(1.0, 9.0));
 		
-		RealChromosome c1 = new RealChromosome(9,lengths , fenotypes), c2 = new RealChromosome(9,lengths , fenotypes);
+		RealChromosome c1 = new RealChromosome(9, lengths , fenotypes), c2 = new RealChromosome(9, lengths , fenotypes);
 		
 		ArrayList<Object> values1 = new ArrayList<Object>();
 		values1.add(1.0);
@@ -64,7 +64,7 @@ public class Main {
 		c1.replaceAlleles(values1, 0, 8);
 		c2.replaceAlleles(values2, 0, 8);
 		
-		OrderCrossover oc = new OrderCrossover();
+		PMXCrossover oc = new PMXCrossover();
 		
 		oc.cross(c1, c2);
 		

@@ -35,9 +35,6 @@ public class OrderCrossover implements Crossover{
 			p1 = aux;
 		}
 		
-		p1 = 3;
-		p2 = 6;
-		
 		//Deep copy of the original chromosomes
 		Chromosome cp1 = c1.clone(), cp2 = c2.clone();
 		//Sections to be copied

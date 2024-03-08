@@ -45,11 +45,6 @@ public class OrderPrioritaryPositionsCrossover implements Crossover{
 			priorityPositions.add(pos);
 		}
 		
-		priorityPositions = new ArrayList<Integer>();
-		priorityPositions.add(2);
-		priorityPositions.add(3);
-		priorityPositions.add(5);
-		
 		//Deep copy of the original chromosomes
 		Chromosome cp1 = c1.clone(), cp2 = c2.clone();
 		//Values to be copied

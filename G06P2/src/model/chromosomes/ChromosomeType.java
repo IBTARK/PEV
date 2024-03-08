@@ -1,7 +1,7 @@
 package model.chromosomes;
 
 public enum ChromosomeType {
-	BINARYCHROMOSOME, REALCHROMOSOME;
+	BINARYCHROMOSOME, REALCHROMOSOME, INTEGERCHROMOSOME;
 	
 	public String toString() {
 		switch(this) {
@@ -9,6 +9,8 @@ public enum ChromosomeType {
 				return "Binary";
 			case REALCHROMOSOME:
 				return "Real";
+			case INTEGERCHROMOSOME:
+				return "Integer";
 			default:
 				return null;
 		}
