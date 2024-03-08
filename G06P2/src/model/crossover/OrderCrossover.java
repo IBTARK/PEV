@@ -35,14 +35,20 @@ public class OrderCrossover implements Crossover{
 			p1 = aux;
 		}
 		
+		p1 = 3;
+		p2 = 6;
+		
+		//Deep copy of the original chromosomes
 		Chromosome cp1 = c1.clone(), cp2 = c2.clone();
+		//Sections to be copied
 		ArrayList<Object> alleles1 = cp1.getAlleles(p1, p2), alleles2 = cp2.getAlleles(p1, p2);
 		
+		//Exchange the sections
 		c1.replaceAlleles(alleles2, p1, p2);
 		c2.replaceAlleles(alleles1, p1, p2);
 		
-		int cont1 = (p2 + 1) % c1.getChromosomeLength(), contAux1 = (p2 + 1) % c1.getChromosomeLength();
-		int cont2 = (p2 + 1) % c1.getChromosomeLength(), contAux2 = (p2 + 1) % c1.getChromosomeLength();
+		int cont1 = (p2 + 1) % c1.getChromosomeLength(), contAux1 = cont1;
+		int cont2 = cont1, contAux2 = cont1;
 		while(cont1 != p1 && cont2 != p1) {
 			if(cont1 != p1) {
 				if(!alleles2.contains(cp1.getAllele(contAux1))) {
