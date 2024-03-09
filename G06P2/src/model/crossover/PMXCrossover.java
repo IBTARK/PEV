@@ -35,6 +35,8 @@ public class PMXCrossover implements Crossover{
 			p2 = p1;
 			p1 = aux;
 		}
+		
+		//TODO delete
 		p1 = 3;
 		p2 = 6;
 		
@@ -48,34 +50,36 @@ public class PMXCrossover implements Crossover{
 		c2.replaceAlleles(alleles1, p1, p2);
 		
 		//Add the missing alleles
-		int cont1 = (p2 + 1) % c1.getChromosomeLength();
+		int cont = (p2 + 1) % c1.getChromosomeLength();
 		//copy the alleles that have not been exchanged
-		while(cont1 != p1) {
+		while(cont != p1) {
 			//son1
-			if(!alleles2.contains(cp1.getAllele(cont1))) {
+			if(!alleles2.contains(cp1.getAllele(cont))) {
 				//copy the allele as the father
-				c1.setAllele(cont1, cp1.getAllele(cont1));
+				c1.setAllele(cont, cp1.getAllele(cont));
 			}
 			else {
-				//numero a buscar su homólogo en parte copiada del otro padre
-				//get position of that number
-				int index1 = cp2.indexOf(cp1.getAllele(cont1));
-				//el nuevo alelo será el que esté en esa pos del padre1 original
-				c1.setAllele(cont1, cp1.getAllele(index1));
+				//get the number on the required position
+				Object al1 = cp1.getAllele(cont);
+				//get the index on the other parent
+				int index = cp2.indexOf(al1);
+				//get the allele of the original parent on index
+				c1.setAllele(cont, cp1.getAllele(index));
 			}
 			//son2
-			if(!alleles1.contains(cp2.getAllele(cont1))) {
+			if(!alleles1.contains(cp2.getAllele(cont))) {
 				//copy the allele as the father
-				c2.setAllele(cont1, cp2.getAllele(cont1));
+				c2.setAllele(cont, cp2.getAllele(cont));
 			}
 			else {
-				//numero a buscar su homólogo en parte copiada del otro padre
-				//get position of that number
-				int index2 = cp1.indexOf(cp2.getAllele(cont1));
-				//el nuevo alelo será el que esté en esa pos del padre1 original
-				c2.setAllele(cont1, cp2.getAllele(index2));
+				//get the number on the required position
+				Object al1 = cp2.getAllele(cont);
+				//get the index on the other parent
+				int index = cp1.indexOf(al1);
+				//get the allele of the original parent on index
+				c2.setAllele(cont, cp2.getAllele(index));
 			}
-			cont1 = (cont1 + 1) % c1.getChromosomeLength();
+			cont = (cont + 1) % c1.getChromosomeLength();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import model.chromosomes.RealChromosome;
+import model.crossover.OrderPriorityOrderCrossover;
 import model.crossover.PMXCrossover;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.RealRepresentation;
@@ -64,7 +65,7 @@ public class Main {
 		c1.replaceAlleles(values1, 0, 8);
 		c2.replaceAlleles(values2, 0, 8);
 		
-		PMXCrossover oc = new PMXCrossover();
+		OrderPriorityOrderCrossover oc = new OrderPriorityOrderCrossover(4);
 		
 		oc.cross(c1, c2);
 		

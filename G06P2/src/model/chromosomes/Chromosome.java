@@ -253,20 +253,17 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	 * @return index of the first instance of allele in the chromosome (-1 if it doesnt exist)
 	 */
 	public int indexOf(Object allele) {
-		int pos = 0, foundPos = -1;
 		
-		for(Gene gene : genes) {
-			for(int i = 0; i < gene.getGeneLength(); i++) {
-				if(gene.getAllele(i) == allele) {
-					foundPos = i;
-					break;
+		for(int j = 0; j < chromosomeLength; j++) {
+			Gene g = genes.get(j);
+			for(int i = 0; i < g.getGeneLength(); i++) {
+				if(g.getAllele(i).equals(allele)) {
+					return j;
 				}
-				pos += 1;
 			}
-			if(foundPos != -1) break;
 		}
 		
-		return foundPos;
+		return -1;
 	}
 	
 	public Object getAllele(int index){
