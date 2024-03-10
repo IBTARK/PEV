@@ -5,6 +5,9 @@ import model.crossover.OrderPriorityOrderCrossover;
 import model.crossover.PMXCrossover;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.RealRepresentation;
+import model.mutation.ExchangeMutation;
+import model.mutation.InsertionMutation;
+import model.mutation.InversionMutation;
 
 public class Main {
 	public static void main(String[] args) {
@@ -49,15 +52,15 @@ public class Main {
 		values1.add(9.0);
 		
 		ArrayList<Object> values2 = new ArrayList<Object>();
-		values2.add(4.0);
-		values2.add(5.0);
-		values2.add(2.0);
 		values2.add(1.0);
-		values2.add(8.0);
-		values2.add(7.0);
+		values2.add(2.0);
 		values2.add(6.0);
 		values2.add(9.0);
+		values2.add(4.0);
+		values2.add(7.0);
 		values2.add(3.0);
+		values2.add(8.0);
+		values2.add(5.0);
 		
 		c1.initializeChromosomeRandom();
 		c2.initializeChromosomeRandom();
@@ -65,9 +68,9 @@ public class Main {
 		c1.replaceAlleles(values1, 0, 8);
 		c2.replaceAlleles(values2, 0, 8);
 		
-		OrderPriorityOrderCrossover oc = new OrderPriorityOrderCrossover(4);
+		InsertionMutation im = new InsertionMutation(2);
 		
-		oc.cross(c1, c2);
+		im.mutate(c2);
 		
 		System.out.print("Hola");
 	}
