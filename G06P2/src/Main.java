@@ -3,9 +3,11 @@ import java.util.ArrayList;
 import model.chromosomes.RealChromosome;
 import model.crossover.OrderPriorityOrderCrossover;
 import model.crossover.PMXCrossover;
+import model.evaluationFunctions.Funcion1;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.RealRepresentation;
 import model.mutation.ExchangeMutation;
+import model.mutation.HeuristicMutation;
 import model.mutation.InsertionMutation;
 import model.mutation.InversionMutation;
 
@@ -68,9 +70,9 @@ public class Main {
 		c1.replaceAlleles(values1, 0, 8);
 		c2.replaceAlleles(values2, 0, 8);
 		
-		InsertionMutation im = new InsertionMutation(2);
+		HeuristicMutation hm = new HeuristicMutation(3, new Funcion1(), false);
 		
-		im.mutate(c2);
+		hm.mutate(c2);
 		
 		System.out.print("Hola");
 	}
