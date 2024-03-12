@@ -254,11 +254,13 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	 */
 	public int indexOf(Object allele) {
 		
-		for(int j = 0; j < chromosomeLength; j++) {
-			Gene g = genes.get(j);
+		int pos = 0;
+		
+		for(Gene g : genes) {
 			for(int i = 0; i < g.getGeneLength(); i++) {
+				pos++;
 				if(g.getAllele(i).equals(allele)) {
-					return j;
+					return pos;
 				}
 			}
 		}
