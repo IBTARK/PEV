@@ -26,7 +26,6 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	
 	public Chromosome(int numGenes,  List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
 		this.numGenes = numGenes;
-		//this.genesFenotypesFunctions = genesFenotypesFunctions;
 		this.genesLengths = genesLengths;
 		
 		random = new Random();
@@ -46,6 +45,33 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 		else { // Not all the genes have the same fenotype function
 			for(int i = 1; i < numGenes; i++){
 				chromosomeLength += genesLengths.get(i);
+			}
+		}
+		
+	}
+	
+	public Chromosome(int numGenes,  int genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
+		this.numGenes = numGenes;
+		this.genesLengths = new ArrayList<Integer>();
+		this.genesLengths.add(genesLengths);
+		
+		random = new Random();
+		
+		genes = new ArrayList<Gene>();
+		
+		//Compute the size of the chormosome
+		chromosomeLength = genesLengths;
+		
+		if(genesFenotypesFunctions.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
+			for(int i = 1; i < numGenes; i++){
+				chromosomeLength += genesLengths;
+				this.genesLengths.add(Integer.valueOf(genesLengths));
+				genesFenotypesFunctions.add(genesFenotypesFunctions.get(0).clone());
+			}
+		}
+		else { // Not all the genes have the same fenotype function
+			for(int i = 1; i < numGenes; i++){
+				chromosomeLength += genesLengths;
 			}
 		}
 		
