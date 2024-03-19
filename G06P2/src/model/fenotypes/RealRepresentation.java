@@ -1,6 +1,5 @@
 package model.fenotypes;
 
-import model.genes.Gene;
 import model.genes.RealGene;
 
 public class RealRepresentation extends FenotypeFunction<RealGene>{

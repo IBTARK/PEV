@@ -34,27 +34,25 @@ public class IJCrossover implements Crossover{
 		c1.replaceAlleles(replacement2, 0, pos);
 		
 		for(int i = pos+1; i < c1.getChromosomeLength(); i++) {
-			Object alelo = c1.getAllele(i);
-			Double al = (double)alelo;
-			while(replacement2.contains((Object)al)) {
-				al = al -1;
-				if(al == 0) {
-					al = (double)c1.getChromosomeLength();
-				}
+			if(replacement2.contains(c1.getAllele(i))) {
+				for(int j = 1; j < c1.getChromosomeLength()+1; j++) {
+					if(!replacement2.contains((Object)j)) {
+						replacement2.add((Object)j);
+						c1.setAllele(i, (Object)j);
+						break;
+					}
+				}	
 			}
-			replacement2.add((Object)al);
-			c1.setAllele(i, (Object)al);
 			
-			alelo = c2.getAllele(i);
-			al = (double)alelo;
-			while(replacement1.contains((Object)al)) {
-				al = al -1;
-				if(al == 0) {
-					al = (double)c2.getChromosomeLength();
-				}
+			if(replacement1.contains(c2.getAllele(i))) {
+				for(int j = 1; j < c2.getChromosomeLength()+1; j++) {
+					if(!replacement1.contains((Object)j)) {
+						replacement1.add((Object)j);
+						c2.setAllele(i, (Object)j);
+						break;
+					}
+				}	
 			}
-			replacement1.add((Object)al);
-			c2.setAllele(i, (Object)al);
 		}
 	}
 }

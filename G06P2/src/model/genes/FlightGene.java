@@ -19,7 +19,6 @@ public class FlightGene extends Gene{
 		this.id  = id;
 		this.type = type;		
 		this.tels = tels;
-		
 	}
 	
 	/**
