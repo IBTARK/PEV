@@ -1,7 +1,7 @@
 package model.mutation;
 
 public enum MutationType {
-	GENERIC, INVERSIONMUTATION, INSERTIONMUTATION, HEURISTICMUTATION, EXCHANGEMUTATION;
+	GENERIC, INVERSIONMUTATION, INSERTIONMUTATION, HEURISTICMUTATION, EXCHANGEMUTATION, IJMUTATION;
 	
 	public String toString() {
 		switch(this) {
@@ -15,6 +15,8 @@ public enum MutationType {
 				return "Heuristic";
 			case EXCHANGEMUTATION:
 				return "Exchange";
+			case IJMUTATION:
+				return "IJ";
 			default:
 				return null;
 		}

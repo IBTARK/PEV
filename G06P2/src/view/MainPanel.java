@@ -16,17 +16,31 @@ import control.Controller;
 import model.chromosomes.ChromosomeType;
 import model.crossover.ArithmeticCrossover;
 import model.crossover.BLXAlphaCrossover;
+import model.crossover.CycleCrossover;
+import model.crossover.IJCrossover;
 import model.crossover.OrderCrossover;
+import model.crossover.OrderPrioritaryPositionsCrossover;
+import model.crossover.OrderPriorityOrderCrossover;
+import model.crossover.OrdinalCodificationCrossover;
+import model.crossover.PMXCrossover;
 import model.crossover.SinglePointCrossover;
 import model.crossover.UniformCrossover;
+import model.evaluationFunctions.AirportFunction;
+import model.evaluationFunctions.EvaluationFunction;
 import model.evaluationFunctions.Funcion1;
 import model.evaluationFunctions.HolderTable;
 import model.evaluationFunctions.Michalewicz;
 import model.evaluationFunctions.MishraBird;
+import model.fenotypes.AirportRepresentation;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.PrecisionRepresentation;
 import model.fenotypes.RealRepresentation;
+import model.mutation.ExchangeMutation;
 import model.mutation.GenericMutation;
+import model.mutation.HeuristicMutation;
+import model.mutation.IJMutation;
+import model.mutation.InsertionMutation;
+import model.mutation.InversionMutation;
 import model.selection.MontecarloSelection;
 import model.selection.RankingSelection;
 import model.selection.RemainSelection;
@@ -123,7 +137,7 @@ public class MainPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Change the label
-				topPanel.setTitle(bottomPanel.getEvaluationFunctionType());
+				topPanel.setTitle("Airport");
 				//Adjust the genetic algorithms settings
 				setGeneralSettings();
 				centerPanel.newEvolutionGraph(leftPanel.getGenerations());
@@ -131,7 +145,7 @@ public class MainPanel extends JPanel{
 				setCrossover();
 				setMutation();
 				setEvaluationFunction();
-				ctr.setMinimization(bottomPanel.getMinimization());
+				ctr.setMinimization(true); //TODO
 				setRepresentation();
 				
 				//Execute the genetic algorithm
@@ -229,6 +243,36 @@ public class MainPanel extends JPanel{
 				ctr.setCrossover(new OrderCrossover());
 				break;
 			}
+			case "PMX":
+			{
+				ctr.setCrossover(new PMXCrossover());
+				break;
+			}
+			case "Order prioritary positions":
+			{
+				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositions()));
+				break;
+			}
+			case "Order priority":
+			{
+				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositions()));
+				break;
+			}
+			case "Ordinal codification":
+			{
+				ctr.setCrossover(new OrdinalCodificationCrossover()); //TODO ver el parámetro
+				break;
+			}
+			case "Cycle":
+			{
+				ctr.setCrossover(new CycleCrossover());
+				break;
+			}
+			case "IJ":
+			{
+				ctr.setCrossover(new IJCrossover());
+				break;
+			}
 		}
 	}
 	
@@ -245,6 +289,36 @@ public class MainPanel extends JPanel{
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
+			case "Inversion":
+			{
+				ctr.setMutation(new InversionMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Insertion":
+			{
+				ctr.setMutation(new InsertionMutation(leftPanel.getNumInsertions()));
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Heuristic":
+			{
+				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), leftPanel.getEvaluationFunction(), leftPanel.getMinimization()));
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Exchange":
+			{
+				ctr.setMutation(new ExchangeMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "IJ":
+			{
+				ctr.setMutation(new IJMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
 		}
 	}
 	
@@ -252,51 +326,15 @@ public class MainPanel extends JPanel{
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
-		switch (bottomPanel.getEvaluationFunctionType())
-		{
-			case "Funcion1":
-			{
-				ctr.setEvaluationFunction(new Funcion1());
-				break;
-			}
-			case "Holder Table":
-			{
-				ctr.setEvaluationFunction(new HolderTable());
-				break;
-			}
-			case "Michalewicz":
-			{
-				ctr.setEvaluationFunction(new Michalewicz(bottomPanel.getDimensions()));
-				break;
-			}
-			case "Mishra Bird":
-			{
-				ctr.setEvaluationFunction(new MishraBird());
-				break;
-			}
-		}
+		ctr.setEvaluationFunction(new AirportFunction());
 	}
 	
 	/**
 	 * Set the representation
 	 */
 	private void setRepresentation() {
-		switch (bottomPanel.getRepresentationType())
-		{
-			case "Binary":
-			{
-				ctr.setChromosomeType(ChromosomeType.BINARYCHROMOSOME);
-				binarySettings();
-				break;
-			}
-			case "Real":
-			{
-				ctr.setChromosomeType(ChromosomeType.REALCHROMOSOME);
-				realSettings();
-				break;
-			}
-		}
-		
+		ctr.setChromosomeType(ChromosomeType.AIRPORTCHROMOSOME);
+		airportSettings();		
 		numGenesSettings();
 	}
 	
@@ -304,132 +342,20 @@ public class MainPanel extends JPanel{
 	 * Set the number of genes
 	 */
 	private void numGenesSettings() {
-		switch (bottomPanel.getEvaluationFunctionType())
-		{
-			case "Funcion1":
-			{
-				ctr.setNumGenes(2);
-				break;
-			}
-			case "Holder Table":
-			{
-				ctr.setNumGenes(2);
-				break;
-			}
-			case "Michalewicz":
-			{
-				ctr.setNumGenes(bottomPanel.getDimensions());
-				break;
-			}
-			case "Mishra Bird":
-			{
-				ctr.setNumGenes(2);
-				break;
-			}
-		}
+		ctr.setNumGenes(1); //TODO revisar
 	}
 	
 	/**
 	 * Real representation settings
 	 */
-	private void realSettings() {
+	private void airportSettings() {
 		ArrayList<FenotypeFunction> fenotypes = new ArrayList<FenotypeFunction>();
 		ArrayList<Integer> genesLengths = new ArrayList<Integer>();
 		
-		switch (bottomPanel.getEvaluationFunctionType())			
-		{
-			case "Funcion1":
-			{
-				genesLengths.add(1);
-				fenotypes.add(new RealRepresentation(-10.0, 10.0));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Holder Table":
-			{
-				genesLengths.add(1);
-				fenotypes.add(new RealRepresentation(-10.0, 10.0));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Michalewicz":
-			{
-				genesLengths.add(1);
-				fenotypes.add(new RealRepresentation(0.0, Math.PI));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Mishra Bird":
-			{
-				genesLengths.add(1);
-				genesLengths.add(1);
-				fenotypes.add(new RealRepresentation(-10.0, 0.0));
-				fenotypes.add(new RealRepresentation(-6.5, 0.0));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-		}
-	}
-	
-	/**
-	 * Binary representation settings
-	 */
-	private void binarySettings() {
-		ArrayList<FenotypeFunction> fenotypes = new ArrayList<FenotypeFunction>();
-		ArrayList<Integer> genesLengths = new ArrayList<Integer>();
 		
-		switch (bottomPanel.getEvaluationFunctionType())			
-		{
-			case "Funcion1":
-			{
-				genesLengths.add(computeBinaryGeneLength(-10.0, 10.0, bottomPanel.getPrecision()));
-				fenotypes.add(new PrecisionRepresentation(-10.0, 10.0, genesLengths.get(0)));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Holder Table":
-			{
-				genesLengths.add(computeBinaryGeneLength(-10.0, 10.0, bottomPanel.getPrecision()));
-				fenotypes.add(new PrecisionRepresentation(-10.0, 10.0, genesLengths.get(0)));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Michalewicz":
-			{
-				genesLengths.add(computeBinaryGeneLength(0.0, Math.PI, bottomPanel.getPrecision()));
-				fenotypes.add(new PrecisionRepresentation(0.0, Math.PI, genesLengths.get(0)));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-			case "Mishra Bird":
-			{
-				genesLengths.add(computeBinaryGeneLength(-10.0, 0.0, bottomPanel.getPrecision()));
-				genesLengths.add(computeBinaryGeneLength(-6.5, 0.0, bottomPanel.getPrecision()));
-				fenotypes.add(new PrecisionRepresentation(-10.0, 0.0, genesLengths.get(0)));
-				fenotypes.add(new PrecisionRepresentation(-6.5, 0.0, genesLengths.get(1)));
-				ctr.setGenesFenotypesFunctions(fenotypes);
-				ctr.setGenesLengths(genesLengths);
-				break;
-			}
-		}
-	}
-	
-	/**
-	 * Size of a binary gene
-	 * 
-	 * @param precision
-	 * @param min
-	 * @param max
-	 * @return
-	 */
-	private int computeBinaryGeneLength(double min, double max, double precision) {
-		return (int) (Math.log10(((max - min) / precision) + 1) / Math.log10(2));
+		genesLengths.add(1);
+		fenotypes.add(new AirportRepresentation(1.0, bottomPanel.getProblem()));
+		ctr.setGenesFenotypesFunctions(fenotypes);
+		ctr.setGenesLengths(genesLengths);
 	}
 }

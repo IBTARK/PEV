@@ -12,36 +12,20 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
 import model.chromosomes.Chromosome;
-import model.evaluationFunctions.EvaluationFunctionType;
-import model.fenotypes.FenotypeType;
 
 public class BottomPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
 	
-	private JComboBox<String> functionSelectionCombo;
-	private DefaultComboBoxModel<String> functionSelectionComboModel; //Combo box to select the representation
-	
-	private JComboBox<String> repSelectionCombo;
-	private DefaultComboBoxModel<String> repSelectionComboModel; //Combo box to select the representation
-	
-	private JPanel minimizationPanel; //Panel where the check box to indicate if the elitism is applied will be displayed
-	private JCheckBox minimizationCheckBox; //Checkbox box to select minimization of maximization
-	
-	private JPanel repPrecisionPanel; //Panel where the spinner to select the precision will be displayed
-	private JSpinner repPrecisionSpinner; //Spinner to select the precision of the representation
-	
-	private JPanel dimsPanel; //Panel where the spinner to select the dimension of the function
-	private JSpinner dimsSpinner; //Spinner to select the dimension of the function
+	private JPanel problemPanel; //Panel to select the problem
+	private JComboBox<String> problemSelectionCombo;
+	private DefaultComboBoxModel<String> problemSelectionComboModel; //Combo box to select the problem
 	
 	private JButton runButton;
 	
@@ -62,86 +46,27 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		//Top pannel
 		JPanel topPanel = new JPanel();
 		
-		//Section to select the function
-		functionSelectionComboModel = new DefaultComboBoxModel<String>();
-		functionSelectionCombo = new JComboBox<String>(functionSelectionComboModel);
+		//Section to select the problem
+		problemPanel = new JPanel();
+		problemSelectionComboModel = new DefaultComboBoxModel<String>();
+		problemSelectionCombo = new JComboBox<String>(problemSelectionComboModel);
 		
-		functionSelectionCombo.addActionListener(new ActionListener() {
+		problemSelectionCombo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.FUNCION1.toString()) {
-					minimizationCheckBox.setSelected(false);
-					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
-					dimsPanel.setVisible(false);
-				}
-				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.HOLDERTABLE.toString()) {
-					minimizationCheckBox.setSelected(true);
-					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
-					dimsPanel.setVisible(false);
-				}
-				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.MICHALEWICZ.toString()) {
-					minimizationCheckBox.setSelected(true);
-					repSelectionCombo.setSelectedItem(FenotypeType.REAL.toString());
-					dimsPanel.setVisible(true);
-				}
-				else if(functionSelectionCombo.getSelectedItem() == EvaluationFunctionType.MISHRABIRD.toString()) {
-					minimizationCheckBox.setSelected(true);
-					repSelectionCombo.setSelectedItem(FenotypeType.PRECISION.toString());
-					dimsPanel.setVisible(false);
-				}
-			}
-		});
-		
-		JPanel selectFunctionPanel = new JPanel();
-		createComboBoxArea(selectFunctionPanel, "Selecciona la función",functionSelectionCombo, 20);
-		topPanel.add(selectFunctionPanel);
-		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-		
-		//Section to select the number of dimensions
-		dimsPanel = new JPanel();
-		dimsSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 10, 1));
-		createSpinnerSection(dimsPanel, "Dimensiones: ", dimsSpinner, 20);
-		topPanel.add(dimsPanel);
-		dimsPanel.setVisible(false);
-		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-		
-		//Section to select minimization or maximization
-		minimizationPanel = new JPanel();
-		minimizationCheckBox = new JCheckBox();
-		createCheckBoxSection(minimizationPanel, "Minimización: ", minimizationCheckBox, 20);
-		topPanel.add(minimizationPanel);
-		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-		
-		//Section to select the representation
-		JPanel  repSelectionPanel = new JPanel();
-		repSelectionComboModel = new DefaultComboBoxModel<String>();
-		repSelectionCombo = new JComboBox<String>(repSelectionComboModel);
-		
-		repSelectionCombo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(repSelectionCombo.getSelectedItem() == FenotypeType.PRECISION.toString()) {
-					repPrecisionPanel.setVisible(true);
+				if(problemSelectionCombo.getSelectedItem() == "12") {
+					//TODO
 				}
 				else {
-					repPrecisionPanel.setVisible(false);
+					//TODO
 				}
 			}
 		});
 		
-		createComboBoxArea(repSelectionPanel, "Selecciona la representación", repSelectionCombo, 20);
-		topPanel.add(repSelectionPanel);
+		createComboBoxArea(problemPanel, "Selecciona el problema", problemSelectionCombo, 20);
+		topPanel.add(problemPanel);
 		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
-		
-		//Section to select the precision
-		repPrecisionPanel = new JPanel();
-		repPrecisionSpinner = new JSpinner(new SpinnerNumberModel(0.01, 0.000001, 1, 0.01));
-		createSpinnerSection(repPrecisionPanel, "Precisión: ", repPrecisionSpinner, 20);
-		topPanel.add(repPrecisionPanel);
-		repPrecisionPanel.setVisible(false);
-		topPanel.add(Box.createRigidArea(new Dimension(0, 40)));
-		
-		topPanel.setBackground(background);
+		//problemPanel.setVisible(true);
 		add(topPanel);
 		
 		//Buttons panel
@@ -173,7 +98,6 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		
 		return label;
 	}
-	
 
 	/**
 	 * Crates a panel with a label and a combo box
@@ -204,73 +128,13 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		panel.setBackground(background);
 	}
-	
-	/**
-	 * Create a panel with a label and a spinner
-	 * 
-	 * @param panel panel where the label and the combo box will be displayed
-	 * @param text string of the label
-	 * @param spinner spinner to be added
-	 * @param model of the spinner
-	 * @param pixelsBtwnLabelSpinner pixels between the label and the spinner
-	 */
-	private void createSpinnerSection(JPanel panel, String text, JSpinner spinner, int pixelsBtwnLabelSpinner) {
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		
-		//label
-		JLabel label = createLabel(text);
-		panel.add(label);
-		
-		//Space between label and spinner
-		panel.add(Box.createRigidArea(new Dimension(pixelsBtwnLabelSpinner, 0)));
-		
-		//Spinner
-		spinner.setPreferredSize(new Dimension(50, 20));
-		spinner.setMaximumSize(new Dimension(50, 20));
-		spinner.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(spinner);
-		
-		//Panel properties
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		panel.setBackground(background);
-	}
-	
-	/**
-	 * Create a panel with a label and a checkbox
-	 * 
-	 * @param panel panel where the label and the check box will be displayed
-	 * @param text string of the label
-	 * @param checkbox check box to be added
-	 * @param pixelsBtwnLabelCheck pixels between the label and the check box
-	 */
-	private void createCheckBoxSection(JPanel panel, String text, JCheckBox checkbox, int pixelsBtwnLabelCheck) {
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-		
-		//label
-		JLabel label = createLabel(text);
-		panel.add(label);
-		
-		//Space between label and spinner
-		panel.add(Box.createRigidArea(new Dimension(pixelsBtwnLabelCheck, 0)));
-		
-		//Check box
-		checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.add(checkbox);
-		
-		//Panel properties
-		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		panel.setBackground(background);
-	}
 
 //*********************************************************************************************
 //Observer interface
 
 	@Override
 	public void onRegister() {
-		functionSelectionComboModel.addAll(ctr.getEvaluationFunctionTypes());
-		repSelectionComboModel.addAll(ctr.getFenotypeTypes());
+		problemSelectionComboModel.addAll(ctr.getProblemTypes());
 	}
 
 	@Override
@@ -295,46 +159,8 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	
 //*********************************************************************************************
 //Getters
-	/**
-	 * 
-	 * @return the name of the evaluation function
-	 */
-	public String getEvaluationFunctionType() {
-		return (String) functionSelectionCombo.getSelectedItem();
-	}
 	
-	/**
-	 * 
-	 * @return the type of representation
-	 */
-	public String getRepresentationType() {
-		return (String) repSelectionCombo.getSelectedItem();
+	public Double getProblem() {
+		return (Double) problemSelectionCombo.getSelectedItem();
 	}
-	
-	/**
-	 * 
-	 * @return minimization
-	 */
-	public boolean getMinimization() {
-		return minimizationCheckBox.isSelected();
-	}
-	
-	/**
-	 * 
-	 * @return precision
-	 */
-	public double getPrecision() {
-		return (double) repPrecisionSpinner.getValue();
-	}
-	
-	
-	/**
-	 * 
-	 * @return dimensions
-	 */
-	public int getDimensions() {
-		return (int) dimsSpinner.getValue();
-	}
-
-
 }

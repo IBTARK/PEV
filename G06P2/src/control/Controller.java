@@ -1,15 +1,10 @@
 package control;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import model.GenAlgObserver;
 import model.GeneticAlgorithm;
-import model.chromosomes.ChromosomeType;
 import model.crossover.Crossover;
-import model.evaluationFunctions.EvaluationFunction;
-import model.fenotypes.FenotypeFunction;
-import model.fitnessFunctions.FitnessFunction;
 import model.mutation.Mutation;
 import model.selection.Selection;
 
@@ -69,37 +64,14 @@ public class Controller {
 	}
 	
 	/**
-	 * @return an array list with the names of the types of fenotypes
+	 * @return an array list with the names of the problem types 
 	 */
-	public ArrayList<String> getFenotypeTypes(){
-		return genAlg.getFenotypeTypes();
-	}
-	
-	/**
-	 * @return an array list with the names of the evaluation functions 
-	 */
-	public ArrayList<String> getEvaluationFunctionTypes(){
-		return genAlg.getEvaluationFunctionTypes();
-	}
-	
-	/**
-	 * @return minimization
-	 */
-	public boolean getMinimization() {
-		return genAlg.getMinimization();
+	public ArrayList<String> getProblemTypes(){
+		return genAlg.getProblemTypes();
 	}
 
 //************************************************************************************
-//Setters
-	/**
-	 * Set the chromosome type
-	 * 
-	 * @param chromosomeType
-	 */
-	public void setChromosomeType (ChromosomeType chromosomeType) {
-		genAlg.setChromosomeType(chromosomeType);
-	}
-	
+//Setters	
 	/**
 	 * Set the number of genes
 	 * 
@@ -116,15 +88,6 @@ public class Controller {
 	 */
 	public void setGenesLengths (ArrayList<Integer> genesLengths) {
 		genAlg.setGenesLengths(genesLengths);
-	}
-	
-	/**
-	 * Set the genes fenotypes functions
-	 * 
-	 * @param genesFenotypesFunctions
-	 */
-	public void setGenesFenotypesFunctions (List<FenotypeFunction> genesFenotypesFunctions) {
-		genAlg.setGenesFenotypesFunctions(genesFenotypesFunctions);
 	}
 	
 	/**
@@ -200,20 +163,11 @@ public class Controller {
 	}
 	
 	/**
-	 * Set the evaluation function and update the fitness function
+	 * Set the problem
 	 * 
-	 * @param evaluationFunction
+	 * @param mutation
 	 */
-	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
-		genAlg.setEvaluationFunction(evaluationFunction);
-	}
-	
-	/**
-	 * Set the minimization variable and update the fitness function
-	 * 
-	 * @param minimization
-	 */
-	public void setMinimization(boolean minimization) {
-		genAlg.setMinimization(minimization);
+	public void setProblem(int numFlightts) {
+		genAlg.setNumFlights(numFlightts);
 	}
 }

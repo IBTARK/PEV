@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import control.Controller;
+import model.GeneticAlgorithm;
 import model.chromosomes.AirportChromosome;
 import model.chromosomes.RealChromosome;
 import model.crossover.CycleCrossover;
@@ -25,11 +30,11 @@ import model.mutation.HeuristicMutation;
 import model.mutation.IJMutation;
 import model.mutation.InsertionMutation;
 import model.mutation.InversionMutation;
+import view.MainWindow;
 
 public class Main {
 	public static void main(String[] args) {
-		/*
-		GeneticAlgorithm alg = new GeneticAlgorithm();
+		/*GeneticAlgorithm alg = new GeneticAlgorithm();
 		
 		Controller ctr = new Controller(alg);
 		
@@ -47,9 +52,8 @@ public class Main {
 				}
 				
 			}
-		});
-		*/
-		
+		});*/
+		 
 		//read the files
 		int problem = 12;
 		String fileF = ".\\src\\datos";

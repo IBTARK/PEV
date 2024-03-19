@@ -1,7 +1,7 @@
 package model.fenotypes;
 
 public enum FenotypeType {
-	PRECISION, REAL;
+	PRECISION, REAL, AIRPORT;
 	
 	public String toString() {
 		switch(this) {
@@ -9,6 +9,8 @@ public enum FenotypeType {
 				return "Binary";
 			case REAL:
 				return "Real";
+			case AIRPORT:
+				return "Airport";
 			default:
 				return null;
 		}

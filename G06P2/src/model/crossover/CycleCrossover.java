@@ -10,7 +10,6 @@ import model.chromosomes.Chromosome;
 public class CycleCrossover implements Crossover{
 
 	public CycleCrossover() {
-		
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import model.airport.ProblemType;
 import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
@@ -32,6 +33,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private int populationSize;
 	private int generations;
+	
+	private int numFlights;
 	
 	private Selection selection;
 	
@@ -397,6 +400,19 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		return minimization;
 	}
 	
+	/**
+	 * @return an array list with the names of the types of evaluation functions
+	 */
+	public ArrayList<String> getProblemTypes(){
+		ArrayList<String> problemTypes = new ArrayList<String>();
+		
+		for(ProblemType et : ProblemType.values()) {
+			problemTypes.add(et.toString());
+		}
+		
+		return problemTypes;
+	}
+	
 //**************************************************************************************
 //Setters
 	
@@ -526,5 +542,14 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setElitism(double elitism) {
 		this.elitism = elitism;
+	}
+	
+	/**
+	 * Set the number of flights
+	 * 
+	 * @param number of flights
+	 */
+	public void setNumFlights(int numFlights) {
+		this.numFlights = numFlights;
 	}
 }

@@ -1,7 +1,7 @@
 package model.evaluationFunctions;
 
 public enum EvaluationFunctionType {
-	FUNCION1, HOLDERTABLE, MICHALEWICZ, MISHRABIRD;
+	FUNCION1, HOLDERTABLE, MICHALEWICZ, MISHRABIRD, AIRPORT;
 	
 	public String toString() {
 		switch(this) {
@@ -13,6 +13,8 @@ public enum EvaluationFunctionType {
 				return "Michalewicz";
 			case MISHRABIRD:
 				return "Mishra Bird";
+			case AIRPORT:
+				return "Airport";
 			default:
 				return null;
 		}
