@@ -1,13 +1,17 @@
 import java.util.ArrayList;
 
 import model.chromosomes.RealChromosome;
+import model.crossover.CycleCrossover;
+import model.crossover.IJCrossover;
 import model.crossover.OrderPriorityOrderCrossover;
+import model.crossover.OrdinalCodificationCrossover;
 import model.crossover.PMXCrossover;
 import model.evaluationFunctions.Funcion1;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.RealRepresentation;
 import model.mutation.ExchangeMutation;
 import model.mutation.HeuristicMutation;
+import model.mutation.IJMutation;
 import model.mutation.InsertionMutation;
 import model.mutation.InversionMutation;
 
@@ -54,15 +58,15 @@ public class Main {
 		values1.add(9.0);
 		
 		ArrayList<Object> values2 = new ArrayList<Object>();
-		values2.add(1.0);
+		values2.add(4.0);
+		values2.add(5.0);
 		values2.add(2.0);
+		values2.add(1.0);
+		values2.add(8.0);
+		values2.add(7.0);
 		values2.add(6.0);
 		values2.add(9.0);
-		values2.add(4.0);
-		values2.add(7.0);
 		values2.add(3.0);
-		values2.add(8.0);
-		values2.add(5.0);
 		
 		c1.initializeChromosomeRandom();
 		c2.initializeChromosomeRandom();
@@ -70,9 +74,9 @@ public class Main {
 		c1.replaceAlleles(values1, 0, 8);
 		c2.replaceAlleles(values2, 0, 8);
 		
-		HeuristicMutation hm = new HeuristicMutation(3, new Funcion1(), false);
+		IJMutation ij = new IJMutation();
 		
-		hm.mutate(c2);
+		ij.mutate(c2);
 		
 		System.out.print("Hola");
 	}

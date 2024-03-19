@@ -20,7 +20,7 @@ public class AirportChromosome extends Chromosome{
 	}
 
 	@Override
-	public Chromosome clone() {
+	/*public Chromosome clone() {
 		int cloneNumGenes = Integer.valueOf(numGenes);
 		
 		//Deep copy of the genesLengths and genesFenotypesFunctions lists
@@ -38,13 +38,16 @@ public class AirportChromosome extends Chromosome{
 		//Set the genes and their fenotypes
 		clone.setGenes(cloneGenes);
 		
-		//Set of the fitness, score and scoreAccumulated
+		Set of the fitness, score and scoreAccumulated
 		clone.setEvaluation(Double.valueOf(evaluation));
 		clone.setFitness(Double.valueOf(fitness));
 		clone.setScore(Double.valueOf(score));
 		clone.setScoreAccumulated(Double.valueOf(scoreAccumulated));
 		
 		return clone;
+	}*/
+	public Chromosome clone() {
+		return null;
 	}
 
 	public String toString() {
