@@ -26,6 +26,7 @@ import control.Controller;
 import model.GenAlgObserver;
 import model.chromosomes.Chromosome;
 import model.crossover.CrossoverType;
+import model.mutation.MutationType;
 import model.selection.SelectionType;
 
 public class LeftPanel extends JPanel implements GenAlgObserver{
@@ -67,6 +68,12 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	
 	private JPanel selectAlphaPanel;
 	private JSpinner selectAlphaSpinner;
+	
+	private JPanel selectNumPositionsPanel;
+	private JSpinner selectNumPositionsSpinner;
+	
+	private JPanel selectNumInsertionsPanel;
+	private JSpinner selectNumInsertionsSpinner;
 	
 	private JPanel mutationPanel; //Panel where the combo box to select the mutation method will be displayed
 	private DefaultComboBoxModel<String> mutationModel;
@@ -180,7 +187,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 			}
 		});
 		
-		createComboBoxArea(selectionPanel, "MÃ©todo de SelecciÃ³n: ", selectionComboBox, 13);
+		createComboBoxArea(selectionPanel, "Método de Selección: ", selectionComboBox, 13);
 		add(selectionPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -220,7 +227,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		probabilisticPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
-		
 		//Section to select the crossover method
 		crossoverPanel = new JPanel();
 		crossoverModel = new DefaultComboBoxModel<String>();
@@ -229,17 +235,64 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(crossoverComboBox.getSelectedItem() == CrossoverType.ARITHMETIC.toString()|| crossoverComboBox.getSelectedItem() == CrossoverType.BLXALPHA.toString()) {
+				if(crossoverComboBox.getSelectedItem() == CrossoverType.ARITHMETIC.toString()) {
 					selectAlphaPanel.setVisible(true);
+					selectNumPositionsPanel.setVisible(false);
 				}
-				else {
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.BLXALPHA.toString()) {
+					selectAlphaPanel.setVisible(true);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.SINGLEPOINT.toString()) {
 					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.UNIFORM.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDER.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.PMX.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDERPRIORITARYPOSITIONS.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(true);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDERPRIORITARYORDER.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(true);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDINALCODIFICATION.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+					//TODO
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.CYCLE.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
+				}
+				else if (crossoverComboBox.getSelectedItem() == CrossoverType.IJ.toString()) {
+					selectAlphaPanel.setVisible(false);
+					selectNumPositionsPanel.setVisible(false);
 				}
 			}
 		});
 		
-		createComboBoxArea(crossoverPanel, "MÃ©todo de Cruce: ", crossoverComboBox, 33);
+		createComboBoxArea(crossoverPanel, "Método de Cruce: ", crossoverComboBox, 33);
 		add(crossoverPanel);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Section to select the number of positions to cross
+		selectNumPositionsPanel = new JPanel();
+		selectNumPositionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, ctr.getNumFlights(), 1));
+		createSpinnerSection(selectNumPositionsPanel, "Número de posiciones: ", selectNumPositionsSpinner, 152);
+		add(selectNumPositionsPanel);
+		selectNumPositionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the value of alpha
@@ -256,10 +309,30 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		mutationPanel = new JPanel();
 		mutationModel = new DefaultComboBoxModel<String>();
 		mutationComboBox = new JComboBox<String>(mutationModel);
-		createComboBoxArea(mutationPanel, "MÃ©todo de Mutacion: ", mutationComboBox, 12);
+		
+		mutationComboBox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(mutationComboBox.getSelectedItem() == MutationType.INSERTIONMUTATION.toString()) {
+					selectNumInsertionsPanel.setVisible(true);
+				}
+				else {
+					selectNumInsertionsPanel.setVisible(true);
+				}
+			}
+		});
+		
+		createComboBoxArea(mutationPanel, "Método de Mutación: ", mutationComboBox, 12);
 		add(mutationPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
+		//Section to select the number of positions to insert for mutation
+		selectNumInsertionsPanel = new JPanel();
+		selectNumInsertionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, ctr.getNumFlights(), 1));
+		createSpinnerSection(selectNumInsertionsPanel, "Número de insercciones: ", selectNumInsertionsSpinner, 152);
+		add(selectNumInsertionsPanel);
+		selectNumInsertionsPanel.setVisible(false);
+		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the percentage of elitism
 		elitismPanel = new JPanel();
@@ -453,6 +526,14 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	
 	/**
 	 * 
+	 * @return number of positions to cross [0,12] or [0,25]
+	 */
+	public int getNumPositions() {
+		return (int) selectNumPositionsSpinner.getValue();
+	}
+	
+	/**
+	 * 
 	 * @return selected selection type
 	 */
 	public String getSelectionType() {
@@ -465,6 +546,14 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	 */
 	public int getK() {
 		return (int) selectKSpinner.getValue();
+	}
+	
+	/**
+	 * 
+	 * @return the number of insertions to mutate
+	 */
+	public int getNumInsertions() {
+		return (int) selectNumInsertionsSpinner.getValue();
 	}
 	
 	/**

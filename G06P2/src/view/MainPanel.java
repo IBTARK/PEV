@@ -145,7 +145,7 @@ public class MainPanel extends JPanel{
 				setCrossover();
 				setMutation();
 				setEvaluationFunction();
-				ctr.setMinimization(true); //TODO
+				ctr.setMinimization(true); //TODO revisar
 				setRepresentation();
 				
 				//Execute the genetic algorithm
@@ -303,7 +303,7 @@ public class MainPanel extends JPanel{
 			}
 			case "Heuristic":
 			{
-				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), leftPanel.getEvaluationFunction(), leftPanel.getMinimization()));
+				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), new AirportFunction(), true)); //TODO revisar
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}

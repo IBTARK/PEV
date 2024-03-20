@@ -401,6 +401,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
+	 * @return type of problem
+	 */
+	public int getNumFlights() {
+		return numFlights;
+	}
+	
+	/**
 	 * @return an array list with the names of the types of evaluation functions
 	 */
 	public ArrayList<String> getProblemTypes(){

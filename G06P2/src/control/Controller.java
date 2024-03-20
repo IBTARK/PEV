@@ -1,10 +1,14 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.GenAlgObserver;
 import model.GeneticAlgorithm;
+import model.chromosomes.ChromosomeType;
 import model.crossover.Crossover;
+import model.evaluationFunctions.EvaluationFunction;
+import model.fenotypes.FenotypeFunction;
 import model.mutation.Mutation;
 import model.selection.Selection;
 
@@ -69,9 +73,25 @@ public class Controller {
 	public ArrayList<String> getProblemTypes(){
 		return genAlg.getProblemTypes();
 	}
+	
+	/**
+	 * @return the problem type
+	 */
+	public int getNumFlights(){
+		return genAlg.getNumFlights();
+	}
 
 //************************************************************************************
 //Setters	
+	/**
+	 * Set the chromosome type
+	 * 
+	 * @param chromosomeType
+	 */
+	public void setChromosomeType (ChromosomeType chromosomeType) {
+		genAlg.setChromosomeType(chromosomeType);
+	}
+	
 	/**
 	 * Set the number of genes
 	 * 
@@ -88,6 +108,15 @@ public class Controller {
 	 */
 	public void setGenesLengths (ArrayList<Integer> genesLengths) {
 		genAlg.setGenesLengths(genesLengths);
+	}
+	
+	/**
+	 * Set the genes fenotypes functions
+	 * 
+	 * @param genesFenotypesFunctions
+	 */
+	public void setGenesFenotypesFunctions (List<FenotypeFunction> genesFenotypesFunctions) {
+		genAlg.setGenesFenotypesFunctions(genesFenotypesFunctions);
 	}
 	
 	/**
@@ -167,7 +196,25 @@ public class Controller {
 	 * 
 	 * @param mutation
 	 */
-	public void setProblem(int numFlightts) {
+	public void setNumFlights(int numFlightts) {
 		genAlg.setNumFlights(numFlightts);
+	}
+	
+	/**
+	 * Set the evaluation function and update the fitness function
+	 * 
+	 * @param evaluationFunction
+	 */
+	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
+		genAlg.setEvaluationFunction(evaluationFunction);
+	}
+	
+	/**
+	 * Set the minimization variable and update the fitness function
+	 * 
+	 * @param minimization
+	 */
+	public void setMinimization(boolean minimization) {
+		genAlg.setMinimization(minimization);
 	}
 }
