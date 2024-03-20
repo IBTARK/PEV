@@ -74,6 +74,21 @@ public class AirportChromosome extends Chromosome{
 	 */
 	public void initializeChromosomeRandom() {
 		Collections.shuffle(genes); //reordenar aleatoriamente los genes
+		//ordenar los genes
+		/*ArrayList<Gene> cloneGenes = new ArrayList<Gene>();
+		cloneGenes.add(genes.get(7).clone());
+		cloneGenes.add(genes.get(8).clone());
+		cloneGenes.add(genes.get(11).clone());
+		cloneGenes.add(genes.get(5).clone());
+		cloneGenes.add(genes.get(3).clone());
+		cloneGenes.add(genes.get(10).clone());
+		cloneGenes.add(genes.get(4).clone());
+		cloneGenes.add(genes.get(9).clone());
+		cloneGenes.add(genes.get(2).clone());
+		cloneGenes.add(genes.get(1).clone());
+		cloneGenes.add(genes.get(6).clone());
+		cloneGenes.add(genes.get(0).clone());
+		genes = cloneGenes;*/
 	}
 	
 	public ArrayList<ArrayList<FlightGene>> getTracks() {

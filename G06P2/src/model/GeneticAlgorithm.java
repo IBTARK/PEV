@@ -195,6 +195,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 					//Generate a airport chromosome
 					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo, telsInfo, genesFenotypesFunctions);
 					//Initialize the airport chromosome 
+					
 					ac.initializeChromosomeRandom();
 					//Add the chromosome to the population
 					population.add(ac);

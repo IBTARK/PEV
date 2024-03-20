@@ -62,7 +62,7 @@ public class PMXCrossover implements Crossover{
 				//get the number on the required position
 				Object al1 = cp1.getAllele(cont);
 				//get the index on the other parent
-				int index = cp2.indexOf(al1);
+				int index = cp2.indexOf(al1)-1;
 				//get the allele of the original parent on index
 				c1.setAllele(cont, cp1.getAllele(index));
 			}
@@ -75,7 +75,7 @@ public class PMXCrossover implements Crossover{
 				//get the number on the required position
 				Object al1 = cp2.getAllele(cont);
 				//get the index on the other parent
-				int index = cp1.indexOf(al1);
+				int index = cp1.indexOf(al1)-1;
 				//get the allele of the original parent on index
 				c2.setAllele(cont, cp2.getAllele(index));
 			}
