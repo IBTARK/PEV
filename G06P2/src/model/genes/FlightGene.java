@@ -11,6 +11,7 @@ public class FlightGene extends Gene{
 	private String id;
 	private FlightType type;
 	private ArrayList<Integer> tels;
+	private Double TLA;
 	
 	
 	public FlightGene(int numFlight, String id, FlightType type, ArrayList<Integer> tels, FenotypeFunction fenotypeFunction) {
@@ -44,6 +45,10 @@ public class FlightGene extends Gene{
 		return tels;
 	}
 	
+	public double getTLA() {
+		return TLA;
+	}
+	
 	public void setAllele(int numFlight){
 		alleles.set(0, numFlight);
 	}
@@ -63,6 +68,10 @@ public class FlightGene extends Gene{
 	
 	public void setTels(ArrayList<Integer> tels){
 		this.tels = tels;
+	}
+	
+	public void setTLA(double TLA) {
+		this.TLA = TLA;
 	}
 
 	@Override

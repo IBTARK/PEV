@@ -78,7 +78,7 @@ public abstract class Chromosome implements Comparable<Chromosome>, Cloneable{
 	}
 	
 	/**
-	 * Method that initializes each gene of the chormosome randomly
+	 * Method that initializes each gene of the chromosome randomly
 	 */
 	public void initializeChromosomeRandom() {
 		for(Gene g : genes) {

@@ -144,6 +144,7 @@ public class MainPanel extends JPanel{
 				setSelection();
 				setCrossover();
 				setMutation();
+				setProblem();
 				setEvaluationFunction();
 				ctr.setMinimization(true); //TODO revisar
 				setRepresentation();
@@ -260,7 +261,7 @@ public class MainPanel extends JPanel{
 			}
 			case "Ordinal codification":
 			{
-				ctr.setCrossover(new OrdinalCodificationCrossover()); //TODO ver el parámetro
+				//ctr.setCrossover(new OrdinalCodificationCrossover()); //TODO ver el parámetro
 				break;
 			}
 			case "Cycle":
@@ -323,6 +324,28 @@ public class MainPanel extends JPanel{
 	}
 	
 	/**
+	 * Set the problem type
+	 */
+	private void setProblem() {
+		Double im = bottomPanel.getProblem();
+		switch (bottomPanel.getProblem().intValue())
+		{
+			case 12:
+			{
+				ctr.setNumFlights(12);
+				ctr.setNumTracks(3);
+				break;
+			}
+			case 25:
+			{
+				ctr.setNumFlights(25);
+				ctr.setNumTracks(5);
+				break;
+			}
+		}
+	}
+	
+	/**
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
@@ -346,7 +369,7 @@ public class MainPanel extends JPanel{
 	}
 	
 	/**
-	 * Real representation settings
+	 * airport representation settings
 	 */
 	private void airportSettings() {
 		ArrayList<FenotypeFunction> fenotypes = new ArrayList<FenotypeFunction>();

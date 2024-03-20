@@ -24,6 +24,7 @@ import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.airport.ProblemType;
 import model.chromosomes.Chromosome;
 import model.crossover.CrossoverType;
 import model.mutation.MutationType;
@@ -120,14 +121,14 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		//Section to select the population size
 		popSizePanel = new JPanel();
 		popSizeSpinner = new JSpinner(new SpinnerNumberModel(100, 2, 100000, 1));
-		createSpinnerSection(popSizePanel, "TamaÃ±o de la poblaciÃ³n: ", popSizeSpinner, 43);
+		createSpinnerSection(popSizePanel, "Tamaño de la población: ", popSizeSpinner, 43);
 		this.add(popSizePanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the number of generations
 		numGenPanel = new JPanel();
 		numGenSpinner = new JSpinner(new SpinnerNumberModel(100, 1, 100000, 1));
-		createSpinnerSection(numGenPanel, "NÃºmero de generaciones: ", numGenSpinner, 35);
+		createSpinnerSection(numGenPanel, "Número de generaciones: ", numGenSpinner, 35);
 		add(numGenPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -145,7 +146,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		mutPctgSpinner = new JSpinner(new SpinnerNumberModel(5.0, 0.0, 100.0, 1.0));
 		//Configure the editor to display doubles
 		mutPctgSpinner.setEditor(new JSpinner.NumberEditor(mutPctgSpinner, "0.0"));
-		createSpinnerSection(mutPctgPanel, "Probabilidad de mutaciÃ³n: ", mutPctgSpinner, 32);
+		createSpinnerSection(mutPctgPanel, "Probabilidad de mutación: ", mutPctgSpinner, 32);
 		add(mutPctgPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -153,7 +154,8 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		selectionPanel = new JPanel();
 		selectionModel = new DefaultComboBoxModel<String>();
 		selectionComboBox = new JComboBox<String>(selectionModel);
-		
+		//default
+		selectionModel.setSelectedItem(SelectionType.MONTECARLO.toString());
 		selectionComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -231,7 +233,8 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverPanel = new JPanel();
 		crossoverModel = new DefaultComboBoxModel<String>();
 		crossoverComboBox = new JComboBox<String>(crossoverModel);
-		
+		//default
+		crossoverModel.setSelectedItem(CrossoverType.PMX.toString());
 		crossoverComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -289,8 +292,9 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the number of positions to cross
 		selectNumPositionsPanel = new JPanel();
-		selectNumPositionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, ctr.getNumFlights(), 1));
-		createSpinnerSection(selectNumPositionsPanel, "Número de posiciones: ", selectNumPositionsSpinner, 152);
+		selectNumPositionsSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 24, 1));
+		//Configure the editor to display doubles
+		createSpinnerSection(selectNumPositionsPanel, "Número de posiciones: ", selectNumPositionsSpinner, 23);
 		add(selectNumPositionsPanel);
 		selectNumPositionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
@@ -309,7 +313,8 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		mutationPanel = new JPanel();
 		mutationModel = new DefaultComboBoxModel<String>();
 		mutationComboBox = new JComboBox<String>(mutationModel);
-		
+		//default
+		mutationModel.setSelectedItem(MutationType.INVERSIONMUTATION.toString());
 		mutationComboBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -317,7 +322,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 					selectNumInsertionsPanel.setVisible(true);
 				}
 				else {
-					selectNumInsertionsPanel.setVisible(true);
+					selectNumInsertionsPanel.setVisible(false);
 				}
 			}
 		});
@@ -328,8 +333,8 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the number of positions to insert for mutation
 		selectNumInsertionsPanel = new JPanel();
-		selectNumInsertionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, ctr.getNumFlights(), 1));
-		createSpinnerSection(selectNumInsertionsPanel, "Número de insercciones: ", selectNumInsertionsSpinner, 152);
+		selectNumInsertionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, 24, 1)); //TODO change depending on the problem
+		createSpinnerSection(selectNumInsertionsPanel, "Número de insercciones: ", selectNumInsertionsSpinner, 23);
 		add(selectNumInsertionsPanel);
 		selectNumInsertionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));

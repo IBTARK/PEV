@@ -18,7 +18,9 @@ import javax.swing.JPanel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.airport.ProblemType;
 import model.chromosomes.Chromosome;
+import model.fenotypes.FenotypeType;
 
 public class BottomPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -50,7 +52,8 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		problemPanel = new JPanel();
 		problemSelectionComboModel = new DefaultComboBoxModel<String>();
 		problemSelectionCombo = new JComboBox<String>(problemSelectionComboModel);
-		
+		//default
+		problemSelectionComboModel.setSelectedItem(ProblemType.VUELOS12.toString());
 		problemSelectionCombo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -161,6 +164,6 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 //Getters
 	
 	public Double getProblem() {
-		return (Double) problemSelectionCombo.getSelectedItem();
+		return Double.valueOf(problemSelectionCombo.getSelectedItem().toString());
 	}
 }

@@ -1,11 +1,16 @@
 package model;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 import model.airport.ProblemType;
+import model.chromosomes.AirportChromosome;
 import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
@@ -35,6 +40,11 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private int generations;
 	
 	private int numFlights;
+	private int numTracks;
+	
+	HashMap<Integer, ArrayList<String>> flightsInfo;
+	HashMap<Integer, ArrayList<Integer>> telsInfo;
+	
 	
 	private Selection selection;
 	
@@ -150,6 +160,10 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 * @return an initialized population with "populationSize" individuals
 	 */
 	private void generatePopulation(){
+		
+		//read the data from file
+		loadData();
+		
 		population = new ArrayList<Chromosome>();
 		for(int i = 0; i < populationSize; i++) {
 			//TODO add a line for every type of chromosome
@@ -169,10 +183,21 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 				{
 					//Generate a binary chromosome
 					RealChromosome rc = new RealChromosome(numGenes, genesLengths, genesFenotypesFunctions);
-					//Initialize the binary chromosome 
+					//Initialize the real chromosome 
 					rc.initializeChromosomeRandom();
 					//Add the chromosome to the population
 					population.add(rc);
+					
+					break;
+				}
+				case AIRPORTCHROMOSOME:
+				{
+					//Generate a airport chromosome
+					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo, telsInfo, genesFenotypesFunctions);
+					//Initialize the airport chromosome 
+					ac.initializeChromosomeRandom();
+					//Add the chromosome to the population
+					population.add(ac);
 					
 					break;
 				}
@@ -252,6 +277,65 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		Collections.shuffle(newPopulation);
 	}
 
+	private void loadData() {
+		String fileF = ".\\src\\datos";
+		String fileT = ".\\src\\datos";
+		if(numFlights == 12) {
+			fileF += "\\vuelos1.txt";
+			fileT += "\\TEL1.txt";
+			numTracks = 3;
+		}
+		else {
+			fileF += "\\vuelos2.txt";
+			fileT += "\\TEL2.txt";
+			numTracks = 5;
+		}
+		//read flights
+		int i = 1;
+		flightsInfo = new HashMap<Integer, ArrayList<String>>();
+        
+		File file = new File(fileF);
+        Scanner scanner = null;
+		try {
+			scanner = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] elements = line.split("\t");
+            
+            ArrayList<String> elems = new ArrayList<String>();
+            elems.add(elements[0]);
+            elems.add(elements[1]);
+            flightsInfo.put(i, elems);
+            i++;
+        }
+        scanner.close();
+        
+        //read tels
+        telsInfo = new HashMap<Integer, ArrayList<Integer>>();
+		file = new File(fileT);
+        scanner = null;
+        for(int j = 0; j < numFlights; j++) {
+        	ArrayList<Integer> elems = new ArrayList<Integer>();
+        	telsInfo.put(j, elems);
+        }
+        
+        try {
+			scanner = new Scanner(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+        while (scanner.hasNextLine()) {
+        	String line = scanner.nextLine();
+            String[] elems = line.split("\t");
+            for(int j = 0; j < numFlights; j++) {
+            	telsInfo.get(j).add(Integer.valueOf(elems[j].strip()));
+            }
+        }
+        scanner.close();
+	}
 //**************************************************************************************
 //Observable interface
 	@Override
@@ -408,6 +492,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
+	 * @return number of tracks of the airport
+	 */
+	public int getNumTracks() {
+		return numTracks;
+	}
+	
+	/**
 	 * @return an array list with the names of the types of evaluation functions
 	 */
 	public ArrayList<String> getProblemTypes(){
@@ -558,5 +649,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setNumFlights(int numFlights) {
 		this.numFlights = numFlights;
+	}
+	
+	public void setNumTracks(int numTracks) {
+		this.numTracks = numTracks;
 	}
 }

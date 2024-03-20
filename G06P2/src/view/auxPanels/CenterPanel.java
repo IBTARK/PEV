@@ -111,9 +111,9 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		String text = "";
 		
 		if(ctr.getMinimization())
-			text += "MÃ­nimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
+			text += "Mánimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		else
-			text += "MÃ¡ximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
+			text += "Máximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		
 		for(int i = 0; i < c.getNumGenes(); i++) {
 			text += " x" + (i + 1) + " = " + new DecimalFormat("#.##").format(c.getGeneFenotype(i));

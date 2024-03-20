@@ -80,6 +80,27 @@ public class Controller {
 	public int getNumFlights(){
 		return genAlg.getNumFlights();
 	}
+	
+	/**
+	 * @return an array list with the names of the types of fenotypes
+	 */
+	public ArrayList<String> getFenotypeTypes(){
+		return genAlg.getFenotypeTypes();
+	}
+	
+	/**
+	 * @return an array list with the names of the evaluation functions 
+	 */
+	public ArrayList<String> getEvaluationFunctionTypes(){
+		return genAlg.getEvaluationFunctionTypes();
+	}
+	
+	/**
+	 * @return minimization
+	 */
+	public boolean getMinimization() {
+		return genAlg.getMinimization();
+	}
 
 //************************************************************************************
 //Setters	
@@ -196,8 +217,12 @@ public class Controller {
 	 * 
 	 * @param mutation
 	 */
-	public void setNumFlights(int numFlightts) {
-		genAlg.setNumFlights(numFlightts);
+	public void setNumFlights(int numFlights) {
+		genAlg.setNumFlights(numFlights);
+	}
+	
+	public void setNumTracks(int numTracks) {
+		genAlg.setNumTracks(numTracks);
 	}
 	
 	/**
