@@ -154,6 +154,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		Collections.sort(population, Collections.reverseOrder());
 		
 		onAlgFinished(population.get(0));
+		System.out.println(population.get(0));
 		
 		return population;
 	}

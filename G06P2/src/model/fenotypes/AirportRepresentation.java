@@ -14,7 +14,7 @@ public class AirportRepresentation extends FenotypeFunction<FlightGene>{
 	}
 	
 	@Override
-	public Double apply(FlightGene g) {
+	public Double apply(FlightGene g) {		
 		return g.getAllele().doubleValue(); //TODO
 	}
 

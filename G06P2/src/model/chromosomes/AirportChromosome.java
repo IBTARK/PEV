@@ -46,14 +46,20 @@ public class AirportChromosome extends Chromosome{
 			cloneGenesFenotypesFunctions.add(genes.get(i).getFenotypeFunction().clone());
 			cloneGenes.add(genes.get(i).clone());
 		}
+		//se ponen vacías las pistas
 		ArrayList<ArrayList<FlightGene>> clonetracks = new ArrayList<ArrayList<FlightGene>>();
 		for(int i = 0; i < tracks.size(); i++) {
+			ArrayList<FlightGene> l = new ArrayList<FlightGene>();
+			clonetracks.add(l);
+		}
+		
+		/*for(int i = 0; i < tracks.size(); i++) {
 			ArrayList<FlightGene> clonetracki = new ArrayList<FlightGene>();
 			for(int j = 0; j < tracks.get(i).size(); j++) {
 				clonetracki.add(tracks.get(i).get(j)); //TODO clone the element
 			}
 			clonetracks.add(clonetracki);
-		}
+		}*/
 		
 		AirportChromosome clone = new AirportChromosome(clonetracks, cloneGenes, cloneGenesFenotypesFunctions);
 		
@@ -106,8 +112,16 @@ public class AirportChromosome extends Chromosome{
 			s += " " + ((FlightGene) genes.get(i)).getAllele();
 		}
 		
-		s += "]";
-		
+		s += "]\n";
+		s += "----------PISTAS----------\n";
+		for(int i = 0; i < tracks.size(); i++) {
+			s += "pista " + (i+1) + ": \n";
+			ArrayList<FlightGene> track = tracks.get(i);
+			for(FlightGene vuelo : track) {
+				s += vuelo.getId() + " " + vuelo.getTLA() + "\n";
+			}
+		}
+
 		return s;
 	}
 }
