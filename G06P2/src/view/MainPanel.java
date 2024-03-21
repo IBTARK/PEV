@@ -261,7 +261,7 @@ public class MainPanel extends JPanel{
 			}
 			case "Ordinal codification":
 			{
-				//ctr.setCrossover(new OrdinalCodificationCrossover()); //TODO ver el parámetro
+				ctr.setCrossover(new OrdinalCodificationCrossover(bottomPanel.getProblem().intValue()));
 				break;
 			}
 			case "Cycle":

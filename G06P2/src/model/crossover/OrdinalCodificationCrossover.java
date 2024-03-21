@@ -13,22 +13,13 @@ public class OrdinalCodificationCrossover implements Crossover{
 	private Random r;
 	private ArrayList<Object> lista;
 
-	public OrdinalCodificationCrossover(Chromosome c) {
+	public OrdinalCodificationCrossover(int numFlights) {
 		r = new Random();
 		
-		//lista = c.getAlleles(0, c.getChromosomeLength());
-		//TODO ordenar según criterio
-		//TODO eliminar
 		lista = new ArrayList<Object>();
-		lista.add(1.0);
-		lista.add(2.0);
-		lista.add(3.0);
-		lista.add(4.0);
-		lista.add(5.0);
-		lista.add(6.0);
-		lista.add(7.0);
-		lista.add(8.0);
-		lista.add(9.0);
+		for(int i = 0; i < numFlights; i++) {
+			lista.add((double)i+1);
+		}
 	}
 	
 	@Override
@@ -39,7 +30,8 @@ public class OrdinalCodificationCrossover implements Crossover{
 		int pos = r.nextInt(0, c1.getChromosomeLength()); //TODO 0 ó 1 primera pos. ver PMX
 		
 		//TODO eliminar
-		pos = 4;
+		//pos = 4;
+		
 		//exchange section
 		for(int i = 0; i < pos; i++) {
 			int elem = cod1.get(i);
@@ -60,9 +52,10 @@ public class OrdinalCodificationCrossover implements Crossover{
 		
 		for(int i = 0; i < c.getChromosomeLength(); i++) {
 			Object a = c.getAllele(i);
-			int ind = copia.indexOf((Double)a);
+			Integer el = (Integer)a;
+			int ind = copia.indexOf(el.doubleValue());
 			codificado.add(ind+1);
-			copia.remove((Object)a);
+			copia.remove(el.doubleValue());
 		}
 		return codificado;
 	}
@@ -76,7 +69,7 @@ public class OrdinalCodificationCrossover implements Crossover{
 		for(int i = 0; i < l.size(); i++) {
 			int a = l.get(i)-1;
 			Double d = (Double)copia.get(a); //TODO eliminar el casting
-			c.setAllele(i, d);
+			c.setAllele(i, d.intValue());
 			copia.remove((Object)d);
 		}
 	}

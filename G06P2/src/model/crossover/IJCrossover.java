@@ -8,7 +8,7 @@ import model.chromosomes.Chromosome;
 /**
  * Class to implement the IJ crossover.
  * Exchanges alleles given a position as single point crossover.
- * Then, on the other part, if an allele is already used, it is replaced by the allele - 1 until it is not used. 
+ * Then, on the other part, if an allele is already used, it is replaced by the first allele that not is used in order. 
  */
 public class IJCrossover implements Crossover{
 
@@ -20,12 +20,12 @@ public class IJCrossover implements Crossover{
 	
 	@Override
 	/**
-	 * CX crossover (the original chromosomes are modified)
+	 * IJ crossover (the original chromosomes are modified)
 	 */
 	public void cross(Chromosome c1, Chromosome c2) {
 		int pos = random.nextInt(1, c1.getChromosomeLength());
 		//TODO eliminar
-		pos = 3;
+		//pos = 3;
 		
 		//Select the alleles that will be replaced
 		ArrayList<Object> replacement1 = c1.getAlleles(0, pos);
@@ -43,6 +43,9 @@ public class IJCrossover implements Crossover{
 					}
 				}	
 			}
+			else {
+				replacement2.add(c1.getAllele(i));
+			}
 			
 			if(replacement1.contains(c2.getAllele(i))) {
 				for(int j = 1; j < c2.getChromosomeLength()+1; j++) {
@@ -52,6 +55,9 @@ public class IJCrossover implements Crossover{
 						break;
 					}
 				}	
+			}
+			else {
+				replacement1.add(c2.getAllele(i));
 			}
 		}
 	}

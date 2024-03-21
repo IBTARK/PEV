@@ -41,8 +41,8 @@ public class InsertionMutation implements Mutation{
 		allelesToInsert.sort(null);
 		
 		//TODO delete
-		allelesToInsert.set(0, 3);
-		allelesToInsert.set(1, 7);
+		//allelesToInsert.set(0, 3);
+		//allelesToInsert.set(1, 7);
 		
 		ArrayList<Integer> insertionPositions = new ArrayList<Integer>();
 		
@@ -56,8 +56,8 @@ public class InsertionMutation implements Mutation{
 		}
 		
 		//TODO delete
-		insertionPositions.set(0, 1);
-		insertionPositions.set(1, 5);
+		//insertionPositions.set(0, 1);
+		//insertionPositions.set(1, 5);
 		
 		for (int j = 0; j < numIns; j++) {
 			//get the allele in position

@@ -46,10 +46,11 @@ public class OrderCrossover implements Crossover{
 		
 		int cont1 = (p2 + 1) % c1.getChromosomeLength(), contAux1 = cont1;
 		int cont2 = cont1, contAux2 = cont1;
-		while(cont1 != p1 && cont2 != p1) {
+		while(cont1 != p1 || cont2 != p1) {
 			if(cont1 != p1) {
 				if(!alleles2.contains(cp1.getAllele(contAux1))) {
 					c1.setAllele(cont1, cp1.getAllele(contAux1));
+					alleles2.add(cp1.getAllele(contAux1));
 					cont1 = (cont1 + 1) % c1.getChromosomeLength();
 				}
 				contAux1 = (contAux1 + 1) % c1.getChromosomeLength();
@@ -58,6 +59,7 @@ public class OrderCrossover implements Crossover{
 			if(cont2 != p1) {
 				if(!alleles1.contains(cp2.getAllele(contAux2))) {
 					c2.setAllele(cont2, cp2.getAllele(contAux2));
+					alleles1.add(cp2.getAllele(contAux2));
 					cont2 = (cont2 + 1) % c2.getChromosomeLength();
 				}
 				contAux2 = (contAux2 + 1) % c2.getChromosomeLength();

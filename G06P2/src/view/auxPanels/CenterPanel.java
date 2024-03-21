@@ -111,13 +111,15 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		String text = "";
 		
 		if(ctr.getMinimization())
-			text += "Mánimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
+			text += "Mínimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		else
 			text += "Máximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		
+		text += "[";
 		for(int i = 0; i < c.getNumGenes(); i++) {
-			text += " x" + (i + 1) + " = " + new DecimalFormat("#.##").format(c.getGeneFenotype(i));
+			text += " " + new DecimalFormat("#.##").format(c.getGeneFenotype(i)) + ",";
 		}
+		text += "]";
 		
 		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight - TAMSOLPANEL));
 		setPreferredSizeGraph(initialWidth, initialHeight - TAMSOLPANEL);

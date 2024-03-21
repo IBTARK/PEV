@@ -23,8 +23,8 @@ public class ExchangeMutation implements Mutation{
 		}
 		
 		//TODO delete
-		p1 = 2;
-		p2 = 6;
+		//p1 = 2;
+		//p2 = 6;
 		
 		//exchange the alleles at those points
 		Object allele1 = c.getAllele(p1), allele2 = c.getAllele(p2);

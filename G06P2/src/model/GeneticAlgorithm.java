@@ -5,9 +5,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 import model.airport.ProblemType;
 import model.chromosomes.AirportChromosome;
@@ -22,6 +24,7 @@ import model.evaluationFunctions.EvaluationFunctionType;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.FenotypeType;
 import model.fitnessFunctions.FitnessFunction;
+import model.genes.Gene;
 import model.mutation.Mutation;
 import model.mutation.MutationType;
 import model.selection.Selection;
@@ -206,6 +209,23 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 	}
 	
+	private boolean tieneRepetidos(ArrayList<Chromosome> l) {
+        for (Chromosome c : l) {
+            Set<Integer> conjunto = new HashSet<>();
+            for (Gene g : c.getGenes()) {
+                // Si el elemento ya está en el conjunto, es un duplicado
+                if (conjunto.contains((Integer)g.getAlleles().get(0))) {
+                    return true;
+                }
+                // Agrega el elemento al conjunto
+                conjunto.add((Integer)g.getAlleles().get(0));
+            }
+        }
+
+        // No se encontraron duplicados
+        return false;
+    }
+	
 	/**
 	 * Compute the fitness, score and accumulatedScore of every chromosome of the population
 	 */
@@ -224,7 +244,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 				selected.add(c);
 			}
 		}
-		
 		for(int i = 1; i < selected.size(); i = i + 2) {
 			crossover.cross(selected.get(i - 1), selected.get(i));
 		}

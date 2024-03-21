@@ -45,13 +45,12 @@ public class OrderPriorityOrderCrossover implements Crossover{
 		}
 		
 		//TODO eliminar
-		positions = new ArrayList<Integer>();
+		/*positions = new ArrayList<Integer>();
 		positions.add(2);
 		positions.add(3);
 		positions.add(5);
 		positions.add(8);
-		
-		
+		*/
 		
 		//Deep copy of the original chromosomes
 		Chromosome cp1 = c1.clone(), cp2 = c2.clone();
@@ -61,8 +60,8 @@ public class OrderPriorityOrderCrossover implements Crossover{
 		for(int i = 0; i < numPos; i++) {
 			allelesInPosC1.add(c1.getAllele(positions.get(i)));
 			allelesInPosC2.add(c2.getAllele(positions.get(i)));
-			posInC2.add(c2.indexOf(c1.getAllele(positions.get(i))));
-			posInC1.add(c1.indexOf(c2.getAllele(positions.get(i))));
+			posInC2.add(c2.indexOf(c1.getAllele(positions.get(i)))-1);
+			posInC1.add(c1.indexOf(c2.getAllele(positions.get(i)))-1);
 		}
 		
 		int pos1 = 0, pos2 = 0;
@@ -83,6 +82,7 @@ public class OrderPriorityOrderCrossover implements Crossover{
 				pos2++;
 			}
 		}
+		System.out.println("");
 	}
 
 }
