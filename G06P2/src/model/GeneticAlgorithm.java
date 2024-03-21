@@ -17,6 +17,7 @@ import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
 import model.crossover.Crossover;
 import model.crossover.CrossoverType;
+import model.evaluationFunctions.AirportFunction;
 import model.evaluationFunctions.EvaluationFunction;
 import model.evaluationFunctions.EvaluationFunctionType;
 import model.fenotypes.FenotypeFunction;
@@ -173,7 +174,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 				case AIRPORTCHROMOSOME:
 				{
 					//Generate a airport chromosome
-					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo, telsInfo, genesFenotypesFunctions);
+					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
 					//Initialize the airport chromosome 
 					
 					ac.initializeChromosomeRandom();
@@ -314,7 +315,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
         telsInfo = new HashMap<Integer, ArrayList<Integer>>();
 		file = new File(fileT);
         scanner = null;
-        for(int j = 0; j < numFlights; j++) {
+        for(int j = 1; j <= numFlights; j++) {
         	ArrayList<Integer> elems = new ArrayList<Integer>();
         	telsInfo.put(j, elems);
         }
@@ -327,11 +328,14 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
         while (scanner.hasNextLine()) {
         	String line = scanner.nextLine();
             String[] elems = line.split("\t");
-            for(int j = 0; j < numFlights; j++) {
-            	telsInfo.get(j).add(Integer.valueOf(elems[j].strip()));
+            for(int j = 1; j <= numFlights; j++) {
+            	telsInfo.get(j).add(Integer.valueOf(elems[j - 1].strip()));
             }
         }
         scanner.close();
+        
+        ((AirportFunction) evaluationFunction).setFlightsInfo(flightsInfo);
+        ((AirportFunction) evaluationFunction).setTelsInfo(telsInfo);
 	}
 //**************************************************************************************
 //Observable interface

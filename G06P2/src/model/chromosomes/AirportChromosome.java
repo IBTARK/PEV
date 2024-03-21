@@ -2,10 +2,9 @@ package model.chromosomes;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
-import model.airport.FlightType;
 import model.fenotypes.FenotypeFunction;
 import model.genes.FlightGene;
 import model.genes.Gene;
@@ -14,12 +13,11 @@ public class AirportChromosome extends Chromosome{
 	
 	ArrayList<ArrayList<FlightGene>> tracks;
 
-	public AirportChromosome(int numPistas, HashMap<Integer, ArrayList<String>> flights,  HashMap<Integer, ArrayList<Integer>> tels, List<FenotypeFunction> genesFenotypesFunctions) {
-		super(flights.values().size(), 1, genesFenotypesFunctions);
+	public AirportChromosome(int numPistas, Set<Integer> flights, List<FenotypeFunction> genesFenotypesFunctions) {
+		super(flights.size(), 1, genesFenotypesFunctions);
 		
-		for(Integer numFlight : flights.keySet()) {
-			flights.get(numFlight).size();
-			genes.add(new FlightGene(numFlight, flights.get(numFlight).get(0), FlightType.valueOf(flights.get(numFlight).get(1)), tels.get(numFlight-1), genesFenotypesFunctions.get(numFlight-1)));
+		for(Integer numFlight : flights) {
+			genes.add(new FlightGene(numFlight, genesFenotypesFunctions.get(numFlight-1)));
 		}
 		
 		tracks = new ArrayList<ArrayList<FlightGene>>();
@@ -46,7 +44,7 @@ public class AirportChromosome extends Chromosome{
 			cloneGenesFenotypesFunctions.add(genes.get(i).getFenotypeFunction().clone());
 			cloneGenes.add(genes.get(i).clone());
 		}
-		//se ponen vacías las pistas
+		//se ponen vacï¿½as las pistas
 		ArrayList<ArrayList<FlightGene>> clonetracks = new ArrayList<ArrayList<FlightGene>>();
 		for(int i = 0; i < tracks.size(); i++) {
 			ArrayList<FlightGene> l = new ArrayList<FlightGene>();
@@ -118,7 +116,7 @@ public class AirportChromosome extends Chromosome{
 			s += "pista " + (i+1) + ": \n";
 			ArrayList<FlightGene> track = tracks.get(i);
 			for(FlightGene vuelo : track) {
-				s += vuelo.getId() + " " + vuelo.getTLA() + "\n";
+				s += vuelo.getAllele(0) + " " + vuelo.getTLA() + "\n";
 			}
 		}
 

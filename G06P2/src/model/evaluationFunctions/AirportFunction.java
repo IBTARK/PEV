@@ -20,21 +20,6 @@ public class AirportFunction implements EvaluationFunction{
 		double fitness = 0;
 		AirportChromosome ac = (AirportChromosome)c;
 		
-		//TODO eliminar
-		/*
-		ac.setAllele(0, 8);
-		ac.setAllele(1, 9);
-		ac.setAllele(2, 10);
-		ac.setAllele(3, 11);
-		ac.setAllele(4, 12);
-		ac.setAllele(5, 7);
-		ac.setAllele(6, 6);
-		ac.setAllele(7, 5);
-		ac.setAllele(8, 4);
-		ac.setAllele(9, 3);
-		ac.setAllele(10, 2);
-		ac.setAllele(11, 1);
-		*/
 		
 		for(int i = 0; i < c.getChromosomeLength(); i++) {
 			FlightGene flight = (FlightGene) c.getGene(i);
@@ -49,10 +34,10 @@ public class AirportFunction implements EvaluationFunction{
 					//get the TLA of the last flight
 					FlightGene lastflight = track.get(track.size()-1);
 					TLAanterior = lastflight.getTLA();
-					TLA = Math.max(TLAanterior + getSeparation(lastflight, flight), flight.getTel(j));
+					TLA = Math.max(TLAanterior + getSeparation(lastflight, flight), telsInfo.get(flight.getAllele(0)).get(j));
 				}
 				else {
-					TLA = Math.max(TLAanterior + 0, flight.getTel(j));
+					TLA = Math.max(TLAanterior + 0, telsInfo.get(flight.getAllele(0)).get(j));
 				}
 				if(TLA < menorTLA) {
 					menorTLA = TLA;
@@ -60,14 +45,14 @@ public class AirportFunction implements EvaluationFunction{
 				}
 			}
 			flight.setTLA(menorTLA);
-			//se asigna el vuelo actual a la pista con m�nimo TLA (menor_TLA)
+			//se asigna el vuelo actual a la pista con minimo TLA (menor_TLA)
 			ac.getTracks().get(index).add(flight);
 			
 			//search the fewer tel of the flight
 			int menorTel = 1000;
-			for(int k = 0; k < flight.getTels().size(); k++) {
-				if(flight.getTel(k) < menorTel) {
-					menorTel = flight.getTel(k);
+			for(int k = 0; k < telsInfo.get(flight.getAllele(0)).size(); k++) {
+				if(telsInfo.get(flight.getAllele(0)).get(k) < menorTel) {
+					menorTel = telsInfo.get(flight.getAllele(0)).get(k);
 				}
 			}
 			
@@ -78,8 +63,8 @@ public class AirportFunction implements EvaluationFunction{
 	}
 	
 	private Double getSeparation(FlightGene anterior, FlightGene actual) {
-		FlightType tipeanterior = anterior.getType();
-		FlightType tipeactual = actual.getType();
+		FlightType tipeanterior =  FlightType.valueOf(flightsInfo.get(anterior.getAllele(0)).get(1));
+		FlightType tipeactual = FlightType.valueOf(flightsInfo.get(actual.getAllele(0)).get(1));
 		if(tipeactual == FlightType.W && tipeanterior == FlightType.W) {
 			return 1.0;
 		}
