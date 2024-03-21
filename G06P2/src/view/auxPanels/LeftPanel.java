@@ -121,14 +121,14 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		//Section to select the population size
 		popSizePanel = new JPanel();
 		popSizeSpinner = new JSpinner(new SpinnerNumberModel(100, 2, 100000, 1));
-		createSpinnerSection(popSizePanel, "Tamaño de la población: ", popSizeSpinner, 43);
+		createSpinnerSection(popSizePanel, "TamaÃ±o de la poblacion: ", popSizeSpinner, 43);
 		this.add(popSizePanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the number of generations
 		numGenPanel = new JPanel();
 		numGenSpinner = new JSpinner(new SpinnerNumberModel(100, 1, 100000, 1));
-		createSpinnerSection(numGenPanel, "Número de generaciones: ", numGenSpinner, 35);
+		createSpinnerSection(numGenPanel, "Numero de generaciones: ", numGenSpinner, 35);
 		add(numGenPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -146,7 +146,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		mutPctgSpinner = new JSpinner(new SpinnerNumberModel(5.0, 0.0, 100.0, 1.0));
 		//Configure the editor to display doubles
 		mutPctgSpinner.setEditor(new JSpinner.NumberEditor(mutPctgSpinner, "0.0"));
-		createSpinnerSection(mutPctgPanel, "Probabilidad de mutación: ", mutPctgSpinner, 32);
+		createSpinnerSection(mutPctgPanel, "Probabilidad de mutacion: ", mutPctgSpinner, 32);
 		add(mutPctgPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -189,7 +189,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 			}
 		});
 		
-		createComboBoxArea(selectionPanel, "Método de Selección: ", selectionComboBox, 13);
+		createComboBoxArea(selectionPanel, "Metodo de Seleccion: ", selectionComboBox, 13);
 		add(selectionPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -286,7 +286,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 			}
 		});
 		
-		createComboBoxArea(crossoverPanel, "Método de Cruce: ", crossoverComboBox, 33);
+		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 33);
 		add(crossoverPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -324,7 +324,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 			}
 		});
 		
-		createComboBoxArea(mutationPanel, "Método de Mutación: ", mutationComboBox, 12);
+		createComboBoxArea(mutationPanel, "Metodo de Mutacion: ", mutationComboBox, 12);
 		add(mutationPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -332,7 +332,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		selectNumPositionsPanel = new JPanel();
 		selectNumPositionsSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 24, 1));
 		//Configure the editor to display doubles
-		createSpinnerSection(selectNumPositionsPanel, "Número de posiciones: ", selectNumPositionsSpinner, 23);
+		createSpinnerSection(selectNumPositionsPanel, "Numero de posiciones: ", selectNumPositionsSpinner, 23);
 		add(selectNumPositionsPanel);
 		selectNumPositionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
@@ -340,7 +340,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		//Section to select the number of positions to insert for mutation
 		selectNumInsertionsPanel = new JPanel();
 		selectNumInsertionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, 24, 1)); //TODO change depending on the problem
-		createSpinnerSection(selectNumInsertionsPanel, "Número de insercciones: ", selectNumInsertionsSpinner, 23);
+		createSpinnerSection(selectNumInsertionsPanel, "Numero de insercciones: ", selectNumInsertionsSpinner, 23);
 		add(selectNumInsertionsPanel);
 		selectNumInsertionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));

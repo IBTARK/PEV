@@ -13,10 +13,8 @@ import java.util.Set;
 
 import model.airport.ProblemType;
 import model.chromosomes.AirportChromosome;
-import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 import model.chromosomes.ChromosomeType;
-import model.chromosomes.RealChromosome;
 import model.crossover.Crossover;
 import model.crossover.CrossoverType;
 import model.evaluationFunctions.EvaluationFunction;
@@ -172,28 +170,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		for(int i = 0; i < populationSize; i++) {
 			//TODO add a line for every type of chromosome
 			switch(chromosomeType) {
-				case BINARYCHROMOSOME:
-				{
-					//Generate a binary chromosome
-					BinaryChromosome bc = new BinaryChromosome(numGenes, genesLengths, genesFenotypesFunctions);
-					//Initialize the binary chromosome 
-					bc.initializeChromosomeRandom();
-					//Add the chromosome to the population
-					population.add(bc);
-					
-					break;
-				}
-				case REALCHROMOSOME:
-				{
-					//Generate a binary chromosome
-					RealChromosome rc = new RealChromosome(numGenes, genesLengths, genesFenotypesFunctions);
-					//Initialize the real chromosome 
-					rc.initializeChromosomeRandom();
-					//Add the chromosome to the population
-					population.add(rc);
-					
-					break;
-				}
 				case AIRPORTCHROMOSOME:
 				{
 					//Generate a airport chromosome
@@ -214,7 +190,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
         for (Chromosome c : l) {
             Set<Integer> conjunto = new HashSet<>();
             for (Gene g : c.getGenes()) {
-                // Si el elemento ya está en el conjunto, es un duplicado
+                // Si el elemento ya estï¿½ en el conjunto, es un duplicado
                 if (conjunto.contains((Integer)g.getAlleles().get(0))) {
                     return true;
                 }

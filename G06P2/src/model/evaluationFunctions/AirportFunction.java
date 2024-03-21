@@ -1,6 +1,7 @@
 package model.evaluationFunctions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.airport.FlightType;
 import model.airport.ProblemType;
@@ -9,11 +10,32 @@ import model.chromosomes.Chromosome;
 import model.genes.FlightGene;
 
 public class AirportFunction implements EvaluationFunction{
+	
+	HashMap<Integer, ArrayList<String>> flightsInfo;
+	HashMap<Integer, ArrayList<Integer>> telsInfo;
+	
 
 	@Override
 	public Double apply(Chromosome c) {
 		double fitness = 0;
 		AirportChromosome ac = (AirportChromosome)c;
+		
+		//TODO eliminar
+		/*
+		ac.setAllele(0, 8);
+		ac.setAllele(1, 9);
+		ac.setAllele(2, 10);
+		ac.setAllele(3, 11);
+		ac.setAllele(4, 12);
+		ac.setAllele(5, 7);
+		ac.setAllele(6, 6);
+		ac.setAllele(7, 5);
+		ac.setAllele(8, 4);
+		ac.setAllele(9, 3);
+		ac.setAllele(10, 2);
+		ac.setAllele(11, 1);
+		*/
+		
 		for(int i = 0; i < c.getChromosomeLength(); i++) {
 			FlightGene flight = (FlightGene) c.getGene(i);
 			//calculamos el TLA del vuelo a cada pista
@@ -38,7 +60,7 @@ public class AirportFunction implements EvaluationFunction{
 				}
 			}
 			flight.setTLA(menorTLA);
-			//se asigna el vuelo actual a la pista con mínimo TLA (menor_TLA)
+			//se asigna el vuelo actual a la pista con mï¿½nimo TLA (menor_TLA)
 			ac.getTracks().get(index).add(flight);
 			
 			//search the fewer tel of the flight
@@ -86,5 +108,13 @@ public class AirportFunction implements EvaluationFunction{
 			return 1.0;
 		}
 		return 0.0;
+	}
+	
+	public void setFlightsInfo(HashMap<Integer, ArrayList<String>> flightsInfo) {
+		this.flightsInfo = flightsInfo;
+	}
+	
+	public void setTelsInfo(HashMap<Integer, ArrayList<Integer>> telsInfo) {
+		this.telsInfo = telsInfo;
 	}
 }

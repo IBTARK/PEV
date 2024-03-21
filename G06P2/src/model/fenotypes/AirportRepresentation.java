@@ -1,7 +1,6 @@
 package model.fenotypes;
 
 import model.genes.FlightGene;
-import model.genes.RealGene;
 
 public class AirportRepresentation extends FenotypeFunction<FlightGene>{
 

@@ -1,10 +1,8 @@
 package model.selection;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import model.chromosomes.BinaryChromosome;
 import model.chromosomes.Chromosome;
 
 /**

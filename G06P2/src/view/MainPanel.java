@@ -14,8 +14,6 @@ import javax.swing.JPanel;
 
 import control.Controller;
 import model.chromosomes.ChromosomeType;
-import model.crossover.ArithmeticCrossover;
-import model.crossover.BLXAlphaCrossover;
 import model.crossover.CycleCrossover;
 import model.crossover.IJCrossover;
 import model.crossover.OrderCrossover;
@@ -26,17 +24,9 @@ import model.crossover.PMXCrossover;
 import model.crossover.SinglePointCrossover;
 import model.crossover.UniformCrossover;
 import model.evaluationFunctions.AirportFunction;
-import model.evaluationFunctions.EvaluationFunction;
-import model.evaluationFunctions.Funcion1;
-import model.evaluationFunctions.HolderTable;
-import model.evaluationFunctions.Michalewicz;
-import model.evaluationFunctions.MishraBird;
 import model.fenotypes.AirportRepresentation;
 import model.fenotypes.FenotypeFunction;
-import model.fenotypes.PrecisionRepresentation;
-import model.fenotypes.RealRepresentation;
 import model.mutation.ExchangeMutation;
-import model.mutation.GenericMutation;
 import model.mutation.HeuristicMutation;
 import model.mutation.IJMutation;
 import model.mutation.InsertionMutation;
@@ -219,16 +209,6 @@ public class MainPanel extends JPanel{
 		
 		switch (leftPanel.getCrossoverType())
 		{
-			case "Arithmetic":
-			{
-				ctr.setCrossover(new ArithmeticCrossover(leftPanel.getAlpha() / 100));
-				break;
-			}
-			case "BLXAlpha":
-			{
-				ctr.setCrossover(new BLXAlphaCrossover(leftPanel.getAlpha() / 100));
-				break;
-			}
 			case "Single point":
 			{
 				ctr.setCrossover(new SinglePointCrossover());
@@ -284,12 +264,6 @@ public class MainPanel extends JPanel{
 		
 		switch (leftPanel.getMutationType())
 		{
-			case "Generic":
-			{
-				ctr.setMutation(new GenericMutation());
-				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
-				break;
-			}
 			case "Inversion":
 			{
 				ctr.setMutation(new InversionMutation());
@@ -334,12 +308,14 @@ public class MainPanel extends JPanel{
 			{
 				ctr.setNumFlights(12);
 				ctr.setNumTracks(3);
+				ctr.setMinimization(true);
 				break;
 			}
 			case 25:
 			{
 				ctr.setNumFlights(25);
 				ctr.setNumTracks(5);
+				ctr.setMinimization(true);
 				break;
 			}
 		}
