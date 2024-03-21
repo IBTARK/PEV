@@ -1,19 +1,26 @@
 package view.auxPanels;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import control.Controller;
 import model.GenAlgObserver;
 import model.chromosomes.Chromosome;
 import view.graphs.EvolutionGraph;
+import view.tables.RunwayTable;
 
 public class CenterPanel extends JPanel implements GenAlgObserver{
 	
@@ -22,10 +29,13 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	
 	private JPanel graphPanel;
 	private JPanel solPanel;
+	private JPanel tablesPanel;
 	
 	private JLabel solLabel;
 	
-	private static final int TAMSOLPANEL = 30;
+	private ArrayList<JTable> tables;
+	
+	private static final int TAMSOLPANEL = 130;
 	
 	private int initialWidth;
 	private int initialHeight;
@@ -34,6 +44,9 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		this.ctr = ctr;
 		initialWidth = width;
 		initialHeight = height;
+		
+		tables = new ArrayList<JTable>();
+		
 		initGUI(ctr, width, height, generations);
 		ctr.addObserver(this);
 	}
@@ -49,10 +62,18 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		add(graphPanel);
 		
 		//Solution panel
-		solPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		solPanel = new JPanel();
+		solPanel.setLayout(new BoxLayout(solPanel, BoxLayout.Y_AXIS));
 		solLabel = createLabel("Evaluaci√≥n: ");
+		solLabel.setAlignmentX(CENTER_ALIGNMENT);
 		solPanel.setPreferredSize(new Dimension(width, TAMSOLPANEL));
 		solPanel.add(solLabel);
+		solPanel.setAlignmentX(CENTER_ALIGNMENT);
+		
+		tablesPanel = new JPanel();
+		solPanel.add(new JScrollPane(tablesPanel));
+		
+		
 		solPanel.setVisible(false);
 		add(solPanel);
 		
@@ -107,13 +128,13 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	}
 
 	@Override
-	public void onAlgFinished(Chromosome c) {
+	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
 		String text = "";
 		
 		if(ctr.getMinimization())
-			text += "MÌnimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
+			text += "Minimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		else
-			text += "M·ximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
+			text += "Maximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
 		
 		text += "[";
 		for(int i = 0; i < c.getNumGenes(); i++) {
@@ -125,6 +146,28 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		setPreferredSizeGraph(initialWidth, initialHeight - TAMSOLPANEL);
 		
 		solLabel.setText(text);
+		
+		tablesPanel.removeAll();
+		
+		tables = new ArrayList<JTable>();
+		
+		for(int track = 1; track <= numTracks; track++) {
+			RunwayTable tableModel = new RunwayTable(track, flightsInfo);
+			JTable table = new JTable(tableModel);
+			tables.add(table);
+			
+			JPanel tablePanel = new JPanel(new BorderLayout());
+			tablePanel.add(new JScrollPane(table));
+			
+			tablePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(20, 100, 70), 4), "Pista " + track));
+			tablePanel.setPreferredSize(new Dimension(200, 100));
+			
+			tablesPanel.add(tablePanel);
+			
+			tableModel.setElems(c);
+			
+		}
+		
 		solPanel.setVisible(true);
 	}
 

@@ -2,6 +2,7 @@ package view.graphs;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JPanel;
 
@@ -123,7 +124,7 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 	}
 
 	@Override
-	public void onAlgFinished(Chromosome c) {
+	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
 		
 	}
 

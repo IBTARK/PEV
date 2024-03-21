@@ -21,8 +21,6 @@ import model.crossover.OrderPrioritaryPositionsCrossover;
 import model.crossover.OrderPriorityOrderCrossover;
 import model.crossover.OrdinalCodificationCrossover;
 import model.crossover.PMXCrossover;
-import model.crossover.SinglePointCrossover;
-import model.crossover.UniformCrossover;
 import model.evaluationFunctions.AirportFunction;
 import model.fenotypes.AirportRepresentation;
 import model.fenotypes.FenotypeFunction;
@@ -131,11 +129,11 @@ public class MainPanel extends JPanel{
 				//Adjust the genetic algorithms settings
 				setGeneralSettings();
 				centerPanel.newEvolutionGraph(leftPanel.getGenerations());
+				setEvaluationFunction();
 				setSelection();
 				setCrossover();
 				setMutation();
 				setProblem();
-				setEvaluationFunction();
 				ctr.setMinimization(true); //TODO revisar
 				setRepresentation();
 				
@@ -209,16 +207,6 @@ public class MainPanel extends JPanel{
 		
 		switch (leftPanel.getCrossoverType())
 		{
-			case "Single point":
-			{
-				ctr.setCrossover(new SinglePointCrossover());
-				break;
-			}
-			case "Uniform":
-			{
-				ctr.setCrossover(new UniformCrossover(leftPanel.getCrossoverPctg() / 100));
-				break;
-			}
 			case "Order":
 			{
 				ctr.setCrossover(new OrderCrossover());
@@ -231,12 +219,12 @@ public class MainPanel extends JPanel{
 			}
 			case "Order prioritary positions":
 			{
-				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositions()));
+				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositionsCrossover()));
 				break;
 			}
 			case "Order priority":
 			{
-				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositions()));
+				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositionsCrossover()));
 				break;
 			}
 			case "Ordinal codification":
@@ -278,7 +266,7 @@ public class MainPanel extends JPanel{
 			}
 			case "Heuristic":
 			{
-				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), new AirportFunction(), true)); //TODO revisar
+				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), ctr.getFitnessFunction()));
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}

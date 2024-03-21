@@ -1,18 +1,10 @@
 package model.crossover;
 
 public enum CrossoverType {
-	ARITHMETIC, BLXALPHA, SINGLEPOINT, UNIFORM, ORDER, PMX, ORDERPRIORITARYPOSITIONS, ORDERPRIORITARYORDER, ORDINALCODIFICATION, CYCLE, IJ;
+	ORDER, PMX, ORDERPRIORITARYPOSITIONS, ORDERPRIORITARYORDER, ORDINALCODIFICATION, CYCLE, IJ;
 	
 	public String toString() {
 		switch(this) {
-			case ARITHMETIC:
-				return "Arithmetic";
-			case BLXALPHA:
-				return "BLXAlpha";
-			case SINGLEPOINT:
-				return "Single point";
-			case UNIFORM:
-				return "Uniform";
 			case ORDER:
 				return "Order";
 			case PMX:

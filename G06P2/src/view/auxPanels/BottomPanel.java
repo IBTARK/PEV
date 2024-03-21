@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -69,6 +71,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		createComboBoxArea(problemPanel, "Selecciona el problema", problemSelectionCombo, 20);
 		topPanel.add(problemPanel);
 		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
+		topPanel.setBackground(background);
 		//problemPanel.setVisible(true);
 		add(topPanel);
 		
@@ -146,7 +149,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	}
 	
 	@Override
-	public void onAlgFinished(Chromosome c) {
+	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
 		
 	}
 	

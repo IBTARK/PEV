@@ -9,6 +9,7 @@ import model.chromosomes.ChromosomeType;
 import model.crossover.Crossover;
 import model.evaluationFunctions.EvaluationFunction;
 import model.fenotypes.FenotypeFunction;
+import model.fitnessFunctions.FitnessFunction;
 import model.mutation.Mutation;
 import model.selection.Selection;
 
@@ -100,6 +101,10 @@ public class Controller {
 	 */
 	public boolean getMinimization() {
 		return genAlg.getMinimization();
+	}
+	
+	public FitnessFunction getFitnessFunction(){
+		return genAlg.getFitnessFunction();
 	}
 
 //************************************************************************************

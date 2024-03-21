@@ -16,10 +16,10 @@ public class HeuristicMutation implements Mutation{
 	
 	private FitnessFunction fitnessFunction; //fitness function to evaluate the new population
 	
-	public HeuristicMutation(int numPos, EvaluationFunction evaluationFunction, boolean minimization) {
+	public HeuristicMutation(int numPos, FitnessFunction fitnessFunction) {
 		random = new Random();
 		this.numPos = numPos;
-		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
+		this.fitnessFunction = fitnessFunction;
 	}
 	
 	private void checkNumInsValid(Chromosome c) {
