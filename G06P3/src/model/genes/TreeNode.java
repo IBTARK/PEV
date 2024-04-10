@@ -32,7 +32,7 @@ public class TreeNode<T>{
 	 * The type of the only available allele is double.
 	 */
 	public Double initializeNodeRandom(Random random) {
-		alleles.set(0, random.nextDouble(fenotypeFunction.getMinValue(), fenotypeFunction.getMaxValue()));
+		elem.set(0, random.nextDouble(fenotypeFunction.getMinValue(), fenotypeFunction.getMaxValue()));
 		return fenotype = fenotypeFunction.apply(this);
 	}
 
