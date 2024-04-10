@@ -9,50 +9,46 @@ import model.fenotypes.FenotypeFunction;
  * Representation of a simple node (one element on the node) of a tree.
  *
  */
-public class TreeNode extends Gene{
-	private ArrayList<TreeNode> children;
-	private TreeNode father;
+public class TreeNode<T>{
+	private ArrayList<TreeNode<T>> children;
+	private TreeNode<T> father;
+	
+	private T elem; //elemento del nodo
 
-	public TreeNode(FenotypeFunction fenotypeFunction) {
-		super(1, fenotypeFunction);
-		children = new ArrayList<TreeNode>();
+	public TreeNode(T elem) {
+		this.elem = elem;
+		children = new ArrayList<TreeNode<T>>();
 		father = null;
 	}
 	
-	public TreeNode(TreeNode father, FenotypeFunction fenotypeFunction) {
-		super(1, fenotypeFunction);
-		children = new ArrayList<TreeNode>();
+	public TreeNode(T elem, TreeNode<T> father) {
+		this.elem = elem;
+		children = new ArrayList<TreeNode<T>>();
 		this.father = father;
 	}
 
-	@Override
 	/**
 	 * Random initialization of a gene. 
 	 * The type of the only available allele is double.
 	 */
-	public Double initializeGeneRandom(Random random) {
+	public Double initializeNodeRandom(Random random) {
 		alleles.set(0, random.nextDouble(fenotypeFunction.getMinValue(), fenotypeFunction.getMaxValue()));
 		return fenotype = fenotypeFunction.apply(this);
 	}
-	
-	/**
-	 * Random initialization of a gene. 
-	 * The type of the only available allele is integer.
-	 */
-	public Double initializeGeneRandomInteger(Random random) {
-		alleles.set(0, random.nextInt(fenotypeFunction.getMinValue().intValue(), fenotypeFunction.getMaxValue().intValue()));
-		return fenotype = fenotypeFunction.apply(this);
-	}
 
-	@Override
 	protected boolean valid() {
 		return true;
 	}
 
 	@Override
-	public Gene clone() {
-		TreeNode newNode = new TreeNode(getFather(), fenotypeFunction);
-		newNode.setAlleles(alleles);
+	public TreeNode<T> clone() {
+		TreeNode<T> newNode = new TreeNode(getFather().clone());
+		ArrayList<TreeNode<T>> childrenCpy = new ArrayList<TreeNode<T>>();
+		for (TreeNode<T> child : children){
+			childrenCpy.add(child.clone());
+		}
+		newNode.setChildren(childrenCpy);
+
 		return newNode;
 	}
 	
@@ -61,7 +57,7 @@ public class TreeNode extends Gene{
 	 * 
 	 * @param child node to be added as a child
 	 */
-	public void addChild(TreeNode child) {
+	public void addChild(TreeNode<T> child) {
 		if(!children.contains(child))
 			children.add(child);
 	}
@@ -71,7 +67,7 @@ public class TreeNode extends Gene{
 	 * 
 	 * @param child node to be removed
 	 */
-	public void removeChild(TreeNode child) {
+	public void removeChild(TreeNode<T> child) {
 		if(children.contains(child))
 			children.remove(child);
 	}
@@ -83,7 +79,7 @@ public class TreeNode extends Gene{
 	 * 
 	 * @return father of the node
 	 */
-	public TreeNode getFather() {
+	public TreeNode<T> getFather() {
 		return father;
 	}
 	
@@ -91,8 +87,12 @@ public class TreeNode extends Gene{
 	 * 
 	 * @return list of children of this node
 	 */
-	public ArrayList<TreeNode> getChildren(){
+	public ArrayList<TreeNode<T>> getChildren(){
 		return children;
+	}
+	
+	public T getElem(){
+		return elem;
 	}
 	
 	public int getNumChildren() {
@@ -102,13 +102,17 @@ public class TreeNode extends Gene{
 //**********************************************************************************
 //Setters
 	
-	public void setFather(TreeNode father) {
+	public void setFather(TreeNode<T> father) {
 		this.father = father;
 	}
 	
 
-	public void setChildren(ArrayList<TreeNode> children){
+	public void setChildren(ArrayList<TreeNode<T>> children){
 		this.children = children;
+	}
+	
+	public void getElem(T elem){
+		this.elem = elem;
 	}
 
 }
