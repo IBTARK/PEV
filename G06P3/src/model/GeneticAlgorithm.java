@@ -1,52 +1,47 @@
 package model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
 
-import model.airport.ProblemType;
 import model.chromosomes.AirportChromosome;
-import model.chromosomes.Chromosome;
-import model.chromosomes.ChromosomeType;
-import model.crossover.Crossover;
-import model.crossover.CrossoverType;
-import model.evaluationFunctions.AirportFunction;
-import model.evaluationFunctions.EvaluationFunction;
-import model.evaluationFunctions.EvaluationFunctionType;
-import model.fenotypes.FenotypeFunction;
-import model.fenotypes.FenotypeType;
-import model.fitnessFunctions.FitnessFunction;
-import model.genes.Gene;
-import model.mutation.Mutation;
-import model.mutation.MutationType;
-import model.selection.Selection;
-import model.selection.SelectionType;
+import model.listRep.chromosomes.Chromosome;
+import model.listRep.chromosomes.ChromosomeType;
+import model.listRep.crossover.Crossover;
+import model.listRep.crossover.CrossoverType;
+import model.listRep.evaluationFunctions.EvaluationFunction;
+import model.listRep.evaluationFunctions.EvaluationFunctionType;
+import model.listRep.fenotypes.FenotypeFunction;
+import model.listRep.fenotypes.FenotypeType;
+import model.listRep.fitnessFunctions.FitnessFunction;
+import model.listRep.mutation.Mutation;
+import model.listRep.mutation.MutationType;
+import model.listRep.selection.Selection;
+import model.listRep.selection.SelectionType;
+import model.treeRep.trees.InitializationType;
 
 public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private Random random;
 	
+	//*****************
+	//List representation
 	private ChromosomeType chromosomeType;
 	private int numGenes;
 	private List<Integer> genesLengths;
 	private List<FenotypeFunction> genesFenotypesFunctions;
 	
+	//*****************
+	//Tree representation
+	private int maxHeight;
+	private int minHeight;
+	private InitializationType iniType;
+	
+	
+	//*************
 	private int populationSize;
 	private int generations;
-	
-	private int numFlights;
-	private int numTracks;
-	
-	HashMap<Integer, ArrayList<String>> flightsInfo;
-	HashMap<Integer, ArrayList<Integer>> telsInfo;
-	
 	
 	private Selection selection;
 	
@@ -60,7 +55,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private EvaluationFunction evaluationFunction;
 	private boolean minimization;
 	
-	private ArrayList<Chromosome> population;
+	private ArrayList<Representation> population;
 	
 	private double elitism; //[0.0, 1.0]
 	
@@ -71,7 +66,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	public GeneticAlgorithm() {
 		random = new Random();
-		population = new ArrayList<Chromosome>();
+		population = new ArrayList<Representation>();
 		
 		//List of observers
 		observerList = new ArrayList<GenAlgObserver>();
@@ -103,7 +98,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		this.minimization = minimization;
 		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
 		
-		population = new ArrayList<Chromosome>();
+		population = new ArrayList<Representation>();
 		
 		//List of observers
 		observerList = new ArrayList<GenAlgObserver>();
@@ -158,15 +153,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
+	 * Generate a population for a representation with base type list
 	 * 
 	 * @return an initialized population with "populationSize" individuals
 	 */
-	private void generatePopulation(){
+	private void generatePopulationList(){
 		
-		//read the data from file
-		loadData();
-		
-		population = new ArrayList<Chromosome>();
+		population = new ArrayList<Representation>();
 		for(int i = 0; i < populationSize; i++) {
 			//TODO add a line for every type of chromosome
 			switch(chromosomeType) {
@@ -186,22 +179,68 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 	}
 	
-	private boolean tieneRepetidos(ArrayList<Chromosome> l) {
-        for (Chromosome c : l) {
-            Set<Integer> conjunto = new HashSet<>();
-            for (Gene g : c.getGenes()) {
-                // Si el elemento ya est� en el conjunto, es un duplicado
-                if (conjunto.contains((Integer)g.getAlleles().get(0))) {
-                    return true;
-                }
-                // Agrega el elemento al conjunto
-                conjunto.add((Integer)g.getAlleles().get(0));
-            }
-        }
-
-        // No se encontraron duplicados
-        return false;
-    }
+	/**
+	 * Generate a population for a representation with base type tree
+	 * 
+	 * @return an initialized population with "populationSize" individuals
+	 */
+	private void generatePopulationTree(){
+		
+		population = new ArrayList<Representation>();
+		
+		if(iniType == InitializationType.RAMPEDANDHALF) {
+			
+		}
+		else {
+			for(int i = 0; i < populationSize; i++) {
+				//TODO add a line for every type of chromosome
+				switch(iniType) {
+					case FULL:
+					{
+						//Generate a airport chromosome
+						TreeChromosome tc = new TreeChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
+						//Initialize the airport chromosome 
+						
+						ac.initializeChromosomeRandom();
+						//Add the chromosome to the population
+						population.add(ac);
+						
+						break;
+					}
+					case GROW:
+					{
+						//Generate a airport chromosome
+						AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
+						//Initialize the airport chromosome 
+						
+						ac.initializeChromosomeRandom();
+						//Add the chromosome to the population
+						population.add(ac);
+						
+						break;
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < populationSize; i++) {
+			//TODO add a line for every type of chromosome
+			switch(chromosomeType) {
+				case AIRPORTCHROMOSOME:
+				{
+					//Generate a airport chromosome
+					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
+					//Initialize the airport chromosome 
+					
+					ac.initializeChromosomeRandom();
+					//Add the chromosome to the population
+					population.add(ac);
+					
+					break;
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Compute the fitness, score and accumulatedScore of every chromosome of the population
@@ -274,68 +313,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		Collections.shuffle(newPopulation);
 	}
 
-	private void loadData() {
-		String fileF = ".\\src\\datos";
-		String fileT = ".\\src\\datos";
-		if(numFlights == 12) {
-			fileF += "\\vuelos1.txt";
-			fileT += "\\TEL1.txt";
-			numTracks = 3;
-		}
-		else {
-			fileF += "\\vuelos2.txt";
-			fileT += "\\TEL2.txt";
-			numTracks = 5;
-		}
-		//read flights
-		int i = 1;
-		flightsInfo = new HashMap<Integer, ArrayList<String>>();
-        
-		File file = new File(fileF);
-        Scanner scanner = null;
-		try {
-			scanner = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] elements = line.split("\t");
-            
-            ArrayList<String> elems = new ArrayList<String>();
-            elems.add(elements[0]);
-            elems.add(elements[1]);
-            flightsInfo.put(i, elems);
-            i++;
-        }
-        scanner.close();
-        
-        //read tels
-        telsInfo = new HashMap<Integer, ArrayList<Integer>>();
-		file = new File(fileT);
-        scanner = null;
-        for(int j = 1; j <= numFlights; j++) {
-        	ArrayList<Integer> elems = new ArrayList<Integer>();
-        	telsInfo.put(j, elems);
-        }
-        
-        try {
-			scanner = new Scanner(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-        while (scanner.hasNextLine()) {
-        	String line = scanner.nextLine();
-            String[] elems = line.split("\t");
-            for(int j = 1; j <= numFlights; j++) {
-            	telsInfo.get(j).add(Integer.valueOf(elems[j - 1].strip()));
-            }
-        }
-        scanner.close();
-        
-        ((AirportFunction) evaluationFunction).setFlightsInfo(flightsInfo);
-        ((AirportFunction) evaluationFunction).setTelsInfo(telsInfo);
-	}
 //**************************************************************************************
 //Observable interface
 	@Override
@@ -405,7 +382,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private void onAlgFinished(Chromosome c) {
 		for(GenAlgObserver o : observerList) {
-			o.onAlgFinished(c, numTracks, flightsInfo);
+			o.onAlgFinished(c);
 		}
 	}
 
@@ -483,34 +460,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	public boolean getMinimization() {
 		return minimization;
 	}
-	
-	/**
-	 * @return type of problem
-	 */
-	public int getNumFlights() {
-		return numFlights;
-	}
-	
-	/**
-	 * @return number of tracks of the airport
-	 */
-	public int getNumTracks() {
-		return numTracks;
-	}
-	
-	/**
-	 * @return an array list with the names of the types of evaluation functions
-	 */
-	public ArrayList<String> getProblemTypes(){
-		ArrayList<String> problemTypes = new ArrayList<String>();
-		
-		for(ProblemType et : ProblemType.values()) {
-			problemTypes.add(et.toString());
-		}
-		
-		return problemTypes;
-	}
-	
 
 	/**
 	 * @return fitness function
@@ -556,6 +505,34 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setGenesFenotypesFunctions (List<FenotypeFunction> genesFenotypesFunctions) {
 		this.genesFenotypesFunctions = genesFenotypesFunctions;
+	}
+	
+	
+	/**
+	 * Set the maximum height of the tree representation
+	 * 
+	 * @param maxHeight
+	 */
+	public void setMaxHeight(int maxHeight) {
+		this.maxHeight = maxHeight;
+	}
+	
+	/**
+	 * Set the minimum height of the tree representation
+	 * 
+	 * @param minHeight
+	 */
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
+	}
+	
+	/**
+	 * Set the initilization type of the tree representation
+	 * 
+	 * @param iniType
+	 */
+	public void setIniType(InitializationType iniType) {
+		this.iniType = iniType;
 	}
 	
 	/**
@@ -642,24 +619,11 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
-	 * Set the elitims
+	 * Set the elitism
 	 * 
 	 * @param elitism
 	 */
 	public void setElitism(double elitism) {
 		this.elitism = elitism;
-	}
-	
-	/**
-	 * Set the number of flights
-	 * 
-	 * @param number of flights
-	 */
-	public void setNumFlights(int numFlights) {
-		this.numFlights = numFlights;
-	}
-	
-	public void setNumTracks(int numTracks) {
-		this.numTracks = numTracks;
 	}
 }
