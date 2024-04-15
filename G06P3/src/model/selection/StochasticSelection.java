@@ -1,9 +1,10 @@
-package model.listRep.selection;
+package model.selection;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.listRep.chromosomes.Chromosome;
+import model.Representation;
+import model.Selection;
 
 public class StochasticSelection implements Selection{
 
@@ -14,8 +15,8 @@ public class StochasticSelection implements Selection{
 	}
 	
 	@Override
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population) {
-		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
+	public ArrayList<Representation> select(ArrayList<Representation> population) {
+		ArrayList<Representation> newPopulation = new ArrayList<Representation>();
 		double a = random.nextDouble();
 		int elem = 0;
 		

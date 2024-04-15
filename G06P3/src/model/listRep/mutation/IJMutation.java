@@ -1,5 +1,7 @@
 package model.listRep.mutation;
 
+import model.Mutation;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 public class IJMutation implements Mutation{
@@ -8,7 +10,8 @@ public class IJMutation implements Mutation{
 	}
 
 	@Override
-	public void mutate(Chromosome c) {
+	public void mutate(Representation co) {
+		Chromosome c = (Chromosome) co;
 		
 		//invertir la lista
 		int start = 0;

@@ -1,8 +1,8 @@
-package model.listRep.mutation;
+package model;
 
 import model.listRep.chromosomes.Chromosome;
 
 public interface Mutation {
 	
-	public void mutate(Chromosome c);
+	public void mutate(Representation c);
 }

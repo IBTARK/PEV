@@ -2,6 +2,8 @@ package model.listRep.crossover;
 
 import java.util.ArrayList;
 
+import model.Crossover;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 /**
@@ -16,7 +18,10 @@ public class CycleCrossover implements Crossover{
 	/**
 	 * CX crossover (the original chromosomes are modified)
 	 */
-	public void cross(Chromosome c1, Chromosome c2) {
+	public void cross(Representation co1, Representation co2) {
+		Chromosome c1 = (Chromosome) co1;
+		Chromosome c2 = (Chromosome) co2;
+		
 		int index = 0;
 		//save the alleles positions of the cycle
 		Object al2 = c2.getAllele(index);

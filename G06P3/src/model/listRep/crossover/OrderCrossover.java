@@ -3,6 +3,8 @@ package model.listRep.crossover;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.Crossover;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 /**
@@ -20,7 +22,10 @@ public class OrderCrossover implements Crossover{
 	/**
 	 * Order crossover (the original chromosomes are modified)
 	 */
-	public void cross(Chromosome c1, Chromosome c2) {
+	public void cross(Representation co1, Representation co2) {
+		Chromosome c1 = (Chromosome) co1;
+		Chromosome c2 = (Chromosome) co2;
+		
 		int p1 = random.nextInt(c1.getChromosomeLength()), p2 = random.nextInt(c1.getChromosomeLength());
 		
 		//The points have to be different

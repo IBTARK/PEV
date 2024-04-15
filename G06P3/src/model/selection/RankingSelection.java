@@ -1,9 +1,10 @@
-package model.listRep.selection;
+package model.selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import model.listRep.chromosomes.Chromosome;
+import model.Representation;
+import model.Selection;
 
 public class RankingSelection implements Selection{
 
@@ -22,7 +23,7 @@ public class RankingSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Montecarlo selection
 	 */
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population) {
+	public ArrayList<Representation> select(ArrayList<Representation> population) {
 		//The population is sorted in descending order
 		Collections.sort(population, Collections.reverseOrder());
 		

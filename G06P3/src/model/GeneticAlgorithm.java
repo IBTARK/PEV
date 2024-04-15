@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
-import model.chromosomes.AirportChromosome;
 import model.listRep.chromosomes.Chromosome;
 import model.listRep.chromosomes.ChromosomeType;
-import model.listRep.crossover.Crossover;
 import model.listRep.crossover.CrossoverType;
 import model.listRep.evaluationFunctions.EvaluationFunction;
 import model.listRep.evaluationFunctions.EvaluationFunctionType;
 import model.listRep.fenotypes.FenotypeFunction;
 import model.listRep.fenotypes.FenotypeType;
 import model.listRep.fitnessFunctions.FitnessFunction;
-import model.listRep.mutation.Mutation;
 import model.listRep.mutation.MutationType;
-import model.listRep.selection.Selection;
 import model.listRep.selection.SelectionType;
+import model.treeRep.symbols.Symbols;
 import model.treeRep.trees.InitializationType;
+import model.treeRep.trees.TreeChromosome;
 
 public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
@@ -37,6 +34,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private int maxHeight;
 	private int minHeight;
 	private InitializationType iniType;
+	private Symbols symbols;
 	
 	
 	//*************
@@ -189,54 +187,61 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		population = new ArrayList<Representation>();
 		
 		if(iniType == InitializationType.RAMPEDANDHALF) {
+			for(int i = 2; i <= maxHeight; i++) {
+				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
+					//Generate a tree
+					TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
+					tc.fullInitialization(symbols, i);
+					
+					//Add the tree to the population
+					population.add(tc);
+				}
+				
+				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
+					//Generate a tree
+					TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
+					tc.growInitialization(symbols, i);
+					
+					//Add the tree to the population
+					population.add(tc);
+				}
+			}
 			
+			for(int i = population.size(); i < populationSize; i++) {
+				//Generate a tree
+				TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
+				tc.growInitialization(symbols, maxHeight);
+				
+				//Add the tree to the population
+				population.add(tc);
+			}
 		}
 		else {
 			for(int i = 0; i < populationSize; i++) {
-				//TODO add a line for every type of chromosome
+				//TODO add a line for every type of initialization
 				switch(iniType) {
 					case FULL:
 					{
-						//Generate a airport chromosome
-						TreeChromosome tc = new TreeChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
-						//Initialize the airport chromosome 
+						//Generate a tree
+						TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
+						tc.fullInitialization(symbols, maxHeight);
 						
-						ac.initializeChromosomeRandom();
-						//Add the chromosome to the population
-						population.add(ac);
+						//Add the tree to the population
+						population.add(tc);
 						
 						break;
 					}
 					case GROW:
 					{
-						//Generate a airport chromosome
-						AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
-						//Initialize the airport chromosome 
+						//Generate a tree
+						TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
+						tc.growInitialization(symbols, maxHeight);
 						
-						ac.initializeChromosomeRandom();
-						//Add the chromosome to the population
-						population.add(ac);
+						//Add the tree to the population
+						population.add(tc);
 						
 						break;
 					}
-				}
-			}
-		}
-		
-		for(int i = 0; i < populationSize; i++) {
-			//TODO add a line for every type of chromosome
-			switch(chromosomeType) {
-				case AIRPORTCHROMOSOME:
-				{
-					//Generate a airport chromosome
-					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
-					//Initialize the airport chromosome 
-					
-					ac.initializeChromosomeRandom();
-					//Add the chromosome to the population
-					population.add(ac);
-					
-					break;
 				}
 			}
 		}
@@ -468,6 +473,10 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		return fitnessFunction;
 	}
 	
+	public Symbols getSymbols() {
+		return symbols;
+	}
+	
 //**************************************************************************************
 //Setters
 	
@@ -533,6 +542,15 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setIniType(InitializationType iniType) {
 		this.iniType = iniType;
+	}
+	
+	/**
+	 * Set the symbols for the tree representation
+	 * 
+	 * @param symbols
+	 */
+	public void setSymbols(Symbols symbols) {
+		this.symbols = symbols;
 	}
 	
 	/**

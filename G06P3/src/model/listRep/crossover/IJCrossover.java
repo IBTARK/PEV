@@ -3,6 +3,8 @@ package model.listRep.crossover;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.Crossover;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 /**
@@ -22,7 +24,10 @@ public class IJCrossover implements Crossover{
 	/**
 	 * IJ crossover (the original chromosomes are modified)
 	 */
-	public void cross(Chromosome c1, Chromosome c2) {
+	public void cross(Representation co1, Representation co2) {
+		Chromosome c1 = (Chromosome) co1;
+		Chromosome c2 = (Chromosome) co2;
+		
 		int pos = random.nextInt(1, c1.getChromosomeLength());
 		//TODO eliminar
 		//pos = 3;

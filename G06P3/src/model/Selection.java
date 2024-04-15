@@ -1,4 +1,4 @@
-package model.listRep.selection;
+package model;
 
 import java.util.ArrayList;
 
@@ -6,5 +6,5 @@ import model.listRep.chromosomes.Chromosome;
 
 public interface Selection {
 
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population);
+	public ArrayList<Representation> select(ArrayList<Representation> population);
 }

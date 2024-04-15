@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import model.Mutation;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 import model.listRep.fitnessFunctions.FitnessFunction;
 
@@ -28,7 +30,9 @@ public class HeuristicMutation implements Mutation{
 	}
 
 	@Override
-	public void mutate(Chromosome c) {
+	public void mutate(Representation co) {
+		Chromosome c = (Chromosome) co;
+		
 		checkNumInsValid(c);
 			
 		ArrayList<Integer> allelesToInsert = new ArrayList<Integer>();

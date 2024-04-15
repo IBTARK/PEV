@@ -1,4 +1,4 @@
-package model.listRep.selection;
+package model.selection;
 
 public enum SelectionType {
 	MONTECARLO, REMAIN, TOURNAMENT, TRUNCATION, STOCHASTIC, RANKING;

@@ -1,9 +1,10 @@
-package model.listRep.selection;
+package model.selection;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import model.listRep.chromosomes.Chromosome;
+import model.Representation;
+import model.Selection;
 
 /**
  * This class implements the Truncation selection
@@ -20,8 +21,8 @@ public class TruncationSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Truncation selection
 	 */
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population) {
-		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
+	public ArrayList<Representation> select(ArrayList<Representation> population) {
+		ArrayList<Representation> newPopulation = new ArrayList<Representation>();
 		
 		//Order the population in descending order
 		Collections.sort(population, Collections.reverseOrder());

@@ -1,8 +1,10 @@
-package model.listRep.selection;
+package model.selection;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.Representation;
+import model.Selection;
 import model.listRep.chromosomes.Chromosome;
 
 /**
@@ -20,8 +22,8 @@ public class MontecarloSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Montecarlo selection
 	 */
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population) {
-		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
+	public ArrayList<Representation> select(ArrayList<Representation> population) {
+		ArrayList<Representation> newPopulation = new ArrayList<Representation>();
 		
 		for(int i = 0; i < population.size(); i++) {
 			double rnd = random.nextDouble();

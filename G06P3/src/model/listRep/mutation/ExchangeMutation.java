@@ -2,6 +2,8 @@ package model.listRep.mutation;
 
 import java.util.Random;
 
+import model.Mutation;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 public class ExchangeMutation implements Mutation{
@@ -13,7 +15,9 @@ public class ExchangeMutation implements Mutation{
 	}
 
 	@Override
-	public void mutate(Chromosome c) {
+	public void mutate(Representation co) {
+		Chromosome c = (Chromosome) co;
+		
 		//choose 2 points
 		int p1 = random.nextInt(0, c.getChromosomeLength()), p2 = random.nextInt(0, c.getChromosomeLength());
 		

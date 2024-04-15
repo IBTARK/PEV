@@ -1,7 +1,9 @@
-package model.listRep.selection;
+package model.selection;
 
 import java.util.ArrayList;
 
+import model.Representation;
+import model.Selection;
 import model.listRep.chromosomes.Chromosome;
 
 /**
@@ -19,9 +21,9 @@ public class RemainSelection implements Selection{
 	/**
 	 * Given a population returns another population that has been selected following the Remain selection
 	 */
-	public ArrayList<Chromosome> select(ArrayList<Chromosome> population) {
+	public ArrayList<Representation> select(ArrayList<Representation> population) {
 		
-		ArrayList<Chromosome> newPopulation = new ArrayList<Chromosome>();
+		ArrayList<Representation> newPopulation = new ArrayList<Representation>();
 		
 		//Adds p_i * k clones of one chromosome to the newPopulation
 		for(int i = 0; i < population.size(); i++) {
@@ -32,7 +34,7 @@ public class RemainSelection implements Selection{
 		
 		//Add the remaining chromosomes to the newPopulation using Montecarlo selection
 		if(newPopulation.size() < population.size()) {
-			ArrayList<Chromosome> newPopulation2 = new ArrayList<Chromosome>();
+			ArrayList<Representation> newPopulation2 = new ArrayList<Representation>();
 			
 			newPopulation2 = (new MontecarloSelection()).select(population);
 			

@@ -3,6 +3,8 @@ package model.listRep.mutation;
 import java.util.ArrayList;
 import java.util.Random;
 
+import model.Mutation;
+import model.Representation;
 import model.listRep.chromosomes.Chromosome;
 
 public class InsertionMutation implements Mutation{
@@ -23,7 +25,9 @@ public class InsertionMutation implements Mutation{
 	}
 
 	@Override
-	public void mutate(Chromosome c) {
+	public void mutate(Representation co) {
+		Chromosome c = (Chromosome) co;
+		
 		checkNumInsValid(c);
 			
 		ArrayList<Integer> allelesToInsert = new ArrayList<Integer>();
