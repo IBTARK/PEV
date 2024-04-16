@@ -38,6 +38,9 @@ public class TerminalMutation implements Mutation{
 		
 		if(sn != null) {
 			Symbol s = (t.getSymbols().getTerminals().get(random.nextInt(0, t.getSymbols().getTerminals().size()))).clone();
+			while(s.getSymbol() == sn.getSymbol().getSymbol()) {
+				s = (t.getSymbols().getTerminals().get(random.nextInt(0, t.getSymbols().getTerminals().size()))).clone();
+			}
 			s.repos();
 			sn.setSymbol(s);
 		}

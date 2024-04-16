@@ -10,7 +10,6 @@ import model.treeRep.symbols.Symbols;
 public class TreeChromosome extends Representation{		
 	
 	protected TreeNode<Symbol> root;
-	protected ArrayList<TreeNode<Symbol>> children;
 	
 	
 	protected int maxHeight;
@@ -25,7 +24,6 @@ public class TreeChromosome extends Representation{
 		
 		this.nodesFenotypesFunctions = nodesFenotypesFunctions;
 		root = new TreeNode<Symbol>();
-		children = new ArrayList<TreeNode<Symbol>>();
 		
 		this.symbols = symbols;
 		
@@ -42,18 +40,16 @@ public class TreeChromosome extends Representation{
 		if(root.getDescendants().contains(node)) {
 			//The descendants of the nodes to be interchanged are removed from their parents
 			TreeNode<Symbol> act = node.getFather();
-			ArrayList<TreeNode<Symbol>> descs = node.getDescendants();
-			descs.add(node);
 			
 			//Remove the node from the list of children
 			act.getChildren().remove(node);
 			
 			//Remove the descendants of the node from the rest of the tree
-			while(act != root) {
-				act.removeDescendants(descs);
+			while(act != null) {
+				act.removeDescendants(node.getDescendants());
+				act.removeDescendant(node);
 				act = act.getFather();
 			}
-			act.removeDescendants(descs);
 		}
 	}
 	
@@ -63,24 +59,29 @@ public class TreeChromosome extends Representation{
 	 * @param node
 	 * @param father
 	 */
-	public void addNode(TreeNode<Symbol> node, TreeNode<Symbol> father) {
+	public void addNode(TreeNode<Symbol> node, TreeNode<Symbol> father, int pos) {
 		if(!root.getDescendants().contains(node)) {
-			ArrayList<TreeNode<Symbol>> descs = node.getDescendants();
-			descs.add(node);
-			
 			node.setFather(father);
 			
 			//Add the node to the list of children
 			TreeNode<Symbol> act = father;
-			act.addChild(node);
+			act.addChild(node, pos);
 			
 			//Add the descendants of the node to the rest of the tree
-			while(act != root) {
-				act.addDescendants(descs);
+			while(act != null) {
+				act.addDescendants(node.getDescendants());
+				act.addDescendant(node);
 				act = act.getFather();
 			}
-			act.addDescendants(descs);
 		}
+	}
+	
+	/**
+	 * 
+	 * @return number of nodes in the tree
+	 */
+	public int getSize() {
+		return root.getDescendants().size() + 1;
 	}
 
 //**********************************************************************************
@@ -135,6 +136,9 @@ public class TreeChromosome extends Representation{
 	private void growInitializationAux(TreeNode<Symbol> node, int maxHeight, int height) {
 		if(height < maxHeight) {
 			Symbol functionOrTerminal = (symbols.getBoth().get(random.nextInt(0, symbols.getBoth().size()))).clone();
+			if(height == 0) 
+				functionOrTerminal = (symbols.getFunctions().get(random.nextInt(0, symbols.getFunctions().size()))).clone();
+			
 			functionOrTerminal.repos();
 			node.setSymbol(functionOrTerminal);
 			

@@ -1,9 +1,9 @@
-package model.listRep.fitnessFunctions;
+package model.fitnessFunctions;
 
 import java.util.ArrayList;
 
+import model.evaluationFunctions.EvaluationFunction;
 import model.listRep.chromosomes.Chromosome;
-import model.listRep.evaluationFunctions.EvaluationFunction;
 
 public class FitnessFunction {
 	private Boolean minimization;

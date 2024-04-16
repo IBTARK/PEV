@@ -41,8 +41,8 @@ public class FunctionalMutation implements Mutation{
 			Symbol selected = sn.getSymbol();
 			//If sn is not the only function with his arity
 			if(functions.size() > 1) {
-				while(selected == sn.getSymbol()) {
-					selected = functions.get(random.nextInt(functions.size()));
+				while(selected.getSymbol() == sn.getSymbol().getSymbol()) {
+					selected = functions.get(random.nextInt(functions.size())).clone();
 				}
 				
 				sn.setSymbol(selected);

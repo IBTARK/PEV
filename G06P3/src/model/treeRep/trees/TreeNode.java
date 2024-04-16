@@ -83,6 +83,16 @@ public class TreeNode<T extends Symbol>{
 	}
 	
 	/**
+	 * Add a child to this node in an specific position
+	 * 
+	 * @param child node to be added as a child
+	 */
+	public void addChild(TreeNode<T> child, int pos) {
+		if(!children.contains(child))
+			children.add(pos, child);
+	}
+	
+	/**
 	 * Add a child to this node
 	 * 
 	 * @param child node to be added as a child
@@ -97,6 +107,13 @@ public class TreeNode<T extends Symbol>{
 	 */
 	public void addDescendants(ArrayList<TreeNode<T>> descendants) {
 		this.descendants.addAll(descendants);
+	}
+	
+	/**
+	 * Add a descendant to the list of descendants
+	 */
+	public void addDescendant(TreeNode<T> descendant) {
+		this.descendants.add(descendant);
 	}
 	
 	/**
@@ -115,6 +132,14 @@ public class TreeNode<T extends Symbol>{
 	public void removeDescendants(ArrayList<TreeNode<T>> descendants) {
 		this.descendants.removeAll(descendants);
 		this.children.removeAll(descendants);
+	}
+	
+	/**
+	 * Remove a descendant from the list of descendants and if possible from the list of children
+	 */
+	public void removeDescendant(TreeNode<T> descendant) {
+		this.descendants.remove(descendant);
+		this.children.remove(descendant);
 	}
 	
 //**********************************************************************************

@@ -1,4 +1,4 @@
-package model.listRep.evaluationFunctions;
+package model.evaluationFunctions;
 
 public enum EvaluationFunctionType {
 	AIRPORT;

@@ -64,6 +64,8 @@ public class TreeCrossover implements Crossover{
 		if(n2 == null)
 			n2 = t2.getRoot().getDescendants().get(0);
 		
+		int pos1 = n1.getFather().getChildren().indexOf(n1), pos2 = n2.getFather().getChildren().indexOf(n2);
+		
 		//The fathers of the nodes are saved
 		TreeNode<Symbol> father1 = n1.getFather(), father2 = n2.getFather();
 		
@@ -73,8 +75,8 @@ public class TreeCrossover implements Crossover{
 		
 		
 		//The subtrees are interchanged
-		t1.addNode(n2, father1);
-		t2.addNode(n1, father2);
+		t1.addNode(n2, father1, pos1);
+		t2.addNode(n1, father2, pos2);
 	}
 	
 	public void setFunProb(double funProb) {

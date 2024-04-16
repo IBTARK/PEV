@@ -6,8 +6,8 @@ import java.util.Random;
 
 import model.Mutation;
 import model.Representation;
+import model.fitnessFunctions.FitnessFunction;
 import model.listRep.chromosomes.Chromosome;
-import model.listRep.fitnessFunctions.FitnessFunction;
 
 public class HeuristicMutation implements Mutation{
 

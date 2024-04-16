@@ -18,6 +18,10 @@ public abstract class Symbols implements Cloneable{
 	 * @param functions list of functions symbols
 	 */
 	public Symbols(ArrayList<String> terminals, ArrayList<String> functions, int numCols, int numRows){
+		this.terminals = new ArrayList<Symbol>();
+		this.functions = new ArrayList<Symbol>();
+		this.both = new ArrayList<Symbol>();
+		functionsAritiesMap = new HashMap<Integer, ArrayList<Symbol>>();
 		
 		//Terminals (arity 0)
 		for(String terminal : terminals) {
@@ -54,6 +58,10 @@ public abstract class Symbols implements Cloneable{
 	 * @param functions list of functions symbols
 	 */
 	public Symbols(ArrayList<String> terminals, ArrayList<String> functions, int arity, int numCols, int numRows){
+		this.terminals = new ArrayList<Symbol>();
+		this.functions = new ArrayList<Symbol>();
+		this.both = new ArrayList<Symbol>();
+		functionsAritiesMap = new HashMap<Integer, ArrayList<Symbol>>();
 		
 		//Terminals (arity 0)
 		for(String terminal : terminals) {
@@ -90,6 +98,10 @@ public abstract class Symbols implements Cloneable{
 	 * @param functionsArities list of the arities of the functions
 	 */
 	public Symbols(ArrayList<String> terminals, ArrayList<String> functions, ArrayList<Integer> functionsArities, int numCols, int numRows){
+		this.terminals = new ArrayList<Symbol>();
+		this.functions = new ArrayList<Symbol>();
+		this.both = new ArrayList<Symbol>();
+		functionsAritiesMap = new HashMap<Integer, ArrayList<Symbol>>();
 		
 		//Terminals (arity 0)
 		for(String terminal : terminals) {

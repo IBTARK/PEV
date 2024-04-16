@@ -2,10 +2,9 @@ package model.listRep.chromosomes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import model.Representation;
-import model.listRep.evaluationFunctions.EvaluationFunction;
+import model.evaluationFunctions.EvaluationFunction;
 import model.listRep.fenotypes.FenotypeFunction;
 import model.listRep.genes.Gene;
 

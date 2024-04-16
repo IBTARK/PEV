@@ -32,6 +32,9 @@ public class SubTreeMutation implements Mutation{
 		//Save the father of the subtree
 		TreeNode<Symbol> father = selected.getFather();
 		
+		//Save the position of the selected node
+		int pos = father.getChildren().indexOf(selected);
+		
 		//Create a new tree
 		TreeChromosome newTree = new TreeChromosome(t.getFenotypeFunction(), t.getSymbols(), t.getMinHeight(), t.getMaxHeight());
 		newTree.growInitialization(newTree.getMaxHeight());
@@ -40,7 +43,7 @@ public class SubTreeMutation implements Mutation{
 		t.deleteNode(selected);
 		
 		//Add the new tree to the original tree
-		t.addNode(newTree.getRoot(), father);
+		t.addNode(newTree.getRoot(), father, pos);
 	}
 
 }

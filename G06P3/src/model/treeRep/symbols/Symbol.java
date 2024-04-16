@@ -48,6 +48,9 @@ public class Symbol implements Cloneable{
 		Symbol newSymbol = new Symbol(symbol, arity);
 		newSymbol.setCol(col);
 		newSymbol.setRow(row);
+		newSymbol.setNumCols(numCols);
+		newSymbol.setNumRows(numRows);
+		
 		
 		return newSymbol;
 	}
@@ -70,6 +73,14 @@ public class Symbol implements Cloneable{
 	
 	public int getRow() {
 		return row;
+	}
+	
+	public int getNumCols() {
+		return numCols;
+	}
+	
+	public int getNumRows() {
+		return numRows;
 	}
 
 //**********************************************************************************
@@ -99,5 +110,13 @@ public class Symbol implements Cloneable{
 	
 	public void setRow(int row) {
 		this.row = row;
+	}
+	
+	public void setNumCols(int numCols) {
+		this.numCols = numCols;
+	}
+	
+	public void setNumRows(int numRows) {
+		this.numRows = numRows;
 	}
 }
