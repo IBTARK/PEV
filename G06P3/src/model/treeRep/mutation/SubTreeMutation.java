@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import model.Mutation;
-import model.Representation;
+import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.trees.TreeChromosome;
 import model.treeRep.trees.TreeNode;
@@ -36,7 +36,7 @@ public class SubTreeMutation implements Mutation{
 		int pos = father.getChildren().indexOf(selected);
 		
 		//Create a new tree
-		TreeChromosome newTree = new TreeChromosome(t.getFenotypeFunction(), t.getSymbols(), t.getMinHeight(), t.getMaxHeight());
+		TreeChromosome newTree = t.clone();
 		newTree.growInitialization(newTree.getMaxHeight());
 		
 		//Remove the selected subtree from the original tree

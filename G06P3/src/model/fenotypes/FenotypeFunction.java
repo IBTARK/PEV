@@ -1,8 +1,12 @@
-package model.listRep.fenotypes;
+package model.fenotypes;
 
-import model.listRep.genes.Gene;
+import model.representation.Representation;
 
-public abstract class FenotypeFunction <T extends Gene> implements Cloneable{
+/**
+ * Fenotype of a representation (TreeChromosome, chromosome...)
+ * @param <T>
+ */
+public abstract class FenotypeFunction <T extends Representation> implements Cloneable{
 	
 	protected Double minValue; //Maximum value of the fenotype of the gene 
 	protected Double maxValue; //Minimum value of the fenotype of the gene 
@@ -33,7 +37,7 @@ public abstract class FenotypeFunction <T extends Gene> implements Cloneable{
 		return maxValue;
 	}
 	
-	public abstract Double apply(T g);
+	public abstract void apply(T c);
 	
 	public abstract FenotypeFunction <T> clone();
 }

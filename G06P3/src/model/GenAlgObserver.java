@@ -1,5 +1,7 @@
 package model;
 
+import model.representation.Representation;
+
 public interface GenAlgObserver {
 	void onRegister();
 	void onFirstGen();

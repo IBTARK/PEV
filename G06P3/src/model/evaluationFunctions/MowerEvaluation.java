@@ -2,12 +2,15 @@ package model.evaluationFunctions;
 
 import java.util.ArrayList;
 
-import model.Representation;
+import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
-import model.treeRep.trees.TreeChromosome;
+import model.treeRep.trees.MowerTree;
 import model.treeRep.trees.TreeNode;
 import resources.Pair;
 
+/**
+ * Evaluation function to evaluate only MowerTrees
+ */
 public class MowerEvaluation implements EvaluationFunction{
 	
 	private int numCols;
@@ -24,13 +27,23 @@ public class MowerEvaluation implements EvaluationFunction{
 	
 	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 	
+	private int numLeftRotations;
+	private int numMovements;
+	
 	public MowerEvaluation(int numCols, int numRows) {
 		this.numCols = numCols;
 		this.numRows = numRows;
-		
+	}
+	
+	/**
+	 * Reset all the attributes. This is done because the same evaluation function is used to evaluate all the trees
+	 */
+	private void reset() {
 		col = 4;
 		row = 4;
 		orientation = 0;
+		numLeftRotations = 0;
+		numMovements = 0;
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
 		
@@ -46,9 +59,18 @@ public class MowerEvaluation implements EvaluationFunction{
 
 	@Override
 	public Double apply(Representation c) {
-		TreeChromosome t = (TreeChromosome) c;
-
-		visitNode(t.getRoot());
+		//Reset all the attributes
+		reset();
+		
+		MowerTree t = (MowerTree) c;
+		
+		//The program is executed repeatedly
+		while(numLeftRotations < 100 && numMovements < 100 && numLawnCut < numCols * numRows) {
+			visitNode(t.getRoot());
+		}
+		
+		//Save the path
+		t.setPath(path);
 		
 		return Double.valueOf(numLawnCut);
 	}
@@ -70,6 +92,7 @@ public class MowerEvaluation implements EvaluationFunction{
 	
 	private Pair<Integer, Integer> izquierda(){
 		orientation = (orientation + 1) % 4; //turns left
+		numLeftRotations++;
 		return new Pair<Integer, Integer>(0, 0);
 	}
 	
@@ -94,6 +117,8 @@ public class MowerEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		
+		numMovements++;
 		
 		return new Pair<Integer, Integer>(0, 0);
 	}
@@ -127,6 +152,8 @@ public class MowerEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		
+		numMovements++;
 		
 		return new Pair<Integer, Integer>(offsets.getFirst(), offsets.getSecond());
 	}

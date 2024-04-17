@@ -2,28 +2,29 @@ package model.treeRep.trees;
 
 import java.util.ArrayList;
 
-import model.Representation;
-import model.listRep.fenotypes.FenotypeFunction;
+import model.evaluationFunctions.EvaluationFunction;
+import model.fenotypes.FenotypeFunction;
+import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.symbols.Symbols;
 
-public class TreeChromosome extends Representation{		
+public abstract class TreeChromosome extends Representation{		
 	
 	protected TreeNode<Symbol> root;
-	
-	
+		
 	protected int maxHeight;
 	protected int minHeight;
 	
 	protected Symbols symbols;
 	
-	protected FenotypeFunction nodesFenotypesFunctions;
+	protected String fenotype; //Is calculated in the evaluation function
 	
+	protected FenotypeFunction fenotypeFunction;
 
-	public TreeChromosome(FenotypeFunction nodesFenotypesFunctions, Symbols symbols, int minHeight, int maxHeight) {
-		
-		this.nodesFenotypesFunctions = nodesFenotypesFunctions;
+	public TreeChromosome(FenotypeFunction fenotypeFunction, Symbols symbols, int minHeight, int maxHeight) {
 		root = new TreeNode<Symbol>();
+		
+		this.fenotypeFunction = fenotypeFunction;
 		
 		this.symbols = symbols;
 		
@@ -83,11 +84,24 @@ public class TreeChromosome extends Representation{
 	public int getSize() {
 		return root.getDescendants().size() + 1;
 	}
+	
+	/**
+	 * Compute the evaluation function of the tree chormosome (the fitness is also set to the same value as the evaluation)
+	 * 
+	 * @param evaluationFunction function to compute the evaluation of the chormosome
+	 */
+	public Double computeEvaluation(EvaluationFunction evaluationFunction) {
+		evaluation = evaluationFunction.apply(this);
+		fitness = Double.valueOf(evaluation);
+		
+		return evaluation;
+	}
 
 //**********************************************************************************
 //Trees initializations
 	
 	public void fullInitialization(int maxHeight) {
+		root = new TreeNode<Symbol>();
 		fullInitializationAux(root, maxHeight, 0);
 	}
 	
@@ -124,6 +138,7 @@ public class TreeChromosome extends Representation{
 	}
 	
 	public void growInitialization(int maxHeight) {
+		root = new TreeNode<Symbol>();
 		growInitializationAux(root, maxHeight, 0);
 	}
 	
@@ -168,19 +183,7 @@ public class TreeChromosome extends Representation{
 // Cloneable
 	
 	@Override
-	public TreeChromosome clone() {
-		TreeChromosome newTree = new TreeChromosome(nodesFenotypesFunctions.clone(), symbols.clone(), maxHeight, minHeight);
-		
-		//New root
-		newTree.setRoot(root.clone());
-		
-		newTree.setFitness(fitness);
-		newTree.setEvaluation(evaluation);
-		newTree.setScore(score);
-		newTree.setScoreAccumulated(scoreAccumulated);
-		
-		return newTree;
-	}
+	public abstract TreeChromosome clone();
 	
 	
 //**********************************************************************************
@@ -203,7 +206,11 @@ public class TreeChromosome extends Representation{
 	}
 	
 	public FenotypeFunction getFenotypeFunction() {
-		return nodesFenotypesFunctions;
+		return fenotypeFunction;
+	}
+	
+	public String getFenotype() {
+		return fenotype;
 	}
 
 //**********************************************************************************
@@ -223,5 +230,13 @@ public class TreeChromosome extends Representation{
 	
 	public void setSymbols(Symbols symbols) {
 		this.symbols =  symbols;
+	}
+	
+	public void setFenotypeFunction(FenotypeFunction fenotypeFunction) {
+		this.fenotypeFunction = fenotypeFunction;
+	}
+	
+	public void setFenotype(String fenotype) {
+		this.fenotype = fenotype;
 	}
 }

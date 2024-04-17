@@ -3,10 +3,10 @@ package model.listRep.chromosomes;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.Representation;
 import model.evaluationFunctions.EvaluationFunction;
-import model.listRep.fenotypes.FenotypeFunction;
+import model.fenotypes.FenotypeFunction;
 import model.listRep.genes.Gene;
+import model.representation.Representation;
 
 /**
  * Class to represent a generic chromosome
@@ -98,17 +98,6 @@ public abstract class Chromosome extends Representation{
 		fitness = Double.valueOf(evaluation);
 		
 		return evaluation;
-	}
-	
-	/**
-	 * Compute the score and the accumulated score
-	 * 
-	 * @param totalFitness total fitness of the population
-	 * @param previousAccumulated accumulated score of the previous choromosome of the population
-	 */
-	public void computeScoreAndAccumulated(Double totalFitness, Double previousAccumulated) {
-		score = fitness / totalFitness;
-		scoreAccumulated = previousAccumulated + score; 
 	}
 	
 	/**

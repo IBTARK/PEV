@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Random;
 
 import model.Crossover;
-import model.Representation;
 import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 /**
  * Class to implement the order crossover with priority positions

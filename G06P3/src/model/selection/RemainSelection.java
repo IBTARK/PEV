@@ -2,9 +2,8 @@ package model.selection;
 
 import java.util.ArrayList;
 
-import model.Representation;
 import model.Selection;
-import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 /**
  * This class implements the Remain selection

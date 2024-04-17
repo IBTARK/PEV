@@ -1,11 +1,10 @@
 package model.treeRep.crossover;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 import model.Crossover;
-import model.Representation;
+import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.trees.TreeChromosome;
 import model.treeRep.trees.TreeNode;

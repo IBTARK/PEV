@@ -1,4 +1,4 @@
-package model.listRep.fenotypes;
+package model.fenotypes;
 
 public enum FenotypeType {
 	PRECISION, REAL, AIRPORT;

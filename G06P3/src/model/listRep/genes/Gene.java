@@ -3,7 +3,7 @@ package model.listRep.genes;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.listRep.fenotypes.FenotypeFunction;
+import model.fenotypes.FenotypeFunction;
 
 /**
  * Class to represent a generic Gene

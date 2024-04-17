@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Crossover;
-import model.Representation;
 import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 /**
  * Class to implement the ordinal codification crossover

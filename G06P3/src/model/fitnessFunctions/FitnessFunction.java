@@ -4,18 +4,19 @@ import java.util.ArrayList;
 
 import model.evaluationFunctions.EvaluationFunction;
 import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 public class FitnessFunction {
 	private Boolean minimization;
 	private EvaluationFunction evaluationFunction;
-	private Chromosome bestOfGen; //Chromosome with best fitness of the generation
+	private Representation bestOfGen; //Element with best fitness of the generation
 	
 	public FitnessFunction(Boolean minimization, EvaluationFunction evaluationFunction) {
 		this.minimization = minimization;
 		this.evaluationFunction = evaluationFunction;
 	}
 
-	public void applyEvaluationFunction(ArrayList<Chromosome> population) {
+	public void applyEvaluationFunction(ArrayList<Representation> population) {
 		double minEvaluation = Double.MAX_VALUE, maxEvaluation = Double.MIN_VALUE, evaluation, totalEvaluation = 0;
 		double totalFitness;
 		double lastScoreAccumulated = 0;
@@ -54,10 +55,10 @@ public class FitnessFunction {
 	 * @param maxEvaluation maximum evaluation of all the chromosomes
 	 * @return the total fitness
 	 */
-	private Double displaceToMinimize(ArrayList<Chromosome> population, Double maxEvaluation) {
+	private Double displaceToMinimize(ArrayList<Representation> population, Double maxEvaluation) {
 		Double totalFitness = 0.0, fitness, maxFitness = Double.MIN_VALUE;
 		
-		for(Chromosome c : population) {
+		for(Representation c : population) {
 			fitness = (1.05 * maxEvaluation) - c.getEvaluation();
 			//If necessary update the best chromosome
 			if(fitness > maxFitness) {
@@ -78,10 +79,10 @@ public class FitnessFunction {
 	 * @param minEvaluation minimum evaluation of all the chromosomes
 	 * @return the total fitness
 	 */
-	private Double displaceToMaximize(ArrayList<Chromosome> population, Double minEvaluation) {
+	private Double displaceToMaximize(ArrayList<Representation> population, Double minEvaluation) {
 		Double totalFitness = 0.0, fitness, maxFitness = Double.MIN_VALUE;
 		
-		for(Chromosome c : population) {
+		for(Representation c : population) {
 			fitness = (1.05 * Math.abs(minEvaluation)) + c.getEvaluation();
 			//If necessary update the best chromosome
 			if(fitness > maxFitness) {
@@ -99,7 +100,7 @@ public class FitnessFunction {
 	 * 
 	 * @return the best chromosome of the population
 	 */
-	public Chromosome getBestOfGen() {
+	public Representation getBestOfGen() {
 		return bestOfGen;
 	}
 }

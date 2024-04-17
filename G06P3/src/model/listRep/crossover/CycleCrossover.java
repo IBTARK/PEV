@@ -3,8 +3,8 @@ package model.listRep.crossover;
 import java.util.ArrayList;
 
 import model.Crossover;
-import model.Representation;
 import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 /**
  * Class to implement the cycle crossover

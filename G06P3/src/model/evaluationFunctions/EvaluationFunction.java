@@ -1,6 +1,6 @@
 package model.evaluationFunctions;
 
-import model.Representation;
+import model.representation.Representation;
 
 /**
  * Interface that every fitnessFunction has to implement

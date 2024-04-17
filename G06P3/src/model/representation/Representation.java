@@ -1,8 +1,8 @@
-package model;
+package model.representation;
 
 import java.util.Random;
 
-import model.listRep.chromosomes.Chromosome;
+import model.evaluationFunctions.EvaluationFunction;
 
 public abstract class Representation implements Comparable<Representation>, Cloneable{
 	protected Random random;
@@ -14,6 +14,19 @@ public abstract class Representation implements Comparable<Representation>, Clon
 	
 	public Representation() {
 		random = new Random();
+	}
+	
+	public abstract Double computeEvaluation(EvaluationFunction evaluationFunction);
+	
+	/**
+	 * Compute the score and the accumulated score
+	 * 
+	 * @param totalFitness total fitness of the population
+	 * @param previousAccumulated accumulated score of the previous choromosome of the population
+	 */
+	public void computeScoreAndAccumulated(Double totalFitness, Double previousAccumulated) {
+		score = fitness / totalFitness;
+		scoreAccumulated = previousAccumulated + score; 
 	}
 
 //*********************************************************************************
@@ -28,7 +41,6 @@ public abstract class Representation implements Comparable<Representation>, Clon
 //*********************************************************************************
 // Cloneable
 	public abstract Representation clone();
-	
 
 //*********************************************************************************
 // Getters

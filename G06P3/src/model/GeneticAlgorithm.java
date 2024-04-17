@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import model.evaluationFunctions.EvaluationFunction;
+import model.evaluationFunctions.EvaluationFunctionType;
+import model.fenotypes.FenotypeFunction;
+import model.fenotypes.FenotypeType;
+import model.fitnessFunctions.FitnessFunction;
 import model.listRep.chromosomes.Chromosome;
 import model.listRep.chromosomes.ChromosomeType;
 import model.listRep.crossover.CrossoverType;
-import model.listRep.evaluationFunctions.EvaluationFunction;
-import model.listRep.evaluationFunctions.EvaluationFunctionType;
-import model.listRep.fenotypes.FenotypeFunction;
-import model.listRep.fenotypes.FenotypeType;
-import model.listRep.fitnessFunctions.FitnessFunction;
 import model.listRep.mutation.MutationType;
-import model.listRep.selection.SelectionType;
+import model.representation.Representation;
+import model.selection.SelectionType;
 import model.treeRep.symbols.Symbols;
 import model.treeRep.trees.InitializationType;
 import model.treeRep.trees.TreeChromosome;
@@ -104,7 +106,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		absoluteBestFitness = Double.MIN_VALUE;
 	}
 	
-	public ArrayList<Chromosome> execute(){
+	public ArrayList<Representation> execute(){
 		ArrayList<Chromosome> elite = null;
 		absoluteBestFitness = Double.MIN_VALUE;
 		if(minimization) 

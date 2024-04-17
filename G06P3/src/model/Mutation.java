@@ -1,6 +1,6 @@
 package model;
 
-import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 public interface Mutation {
 	

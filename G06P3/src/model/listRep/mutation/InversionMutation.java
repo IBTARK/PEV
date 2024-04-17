@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Mutation;
-import model.Representation;
 import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 public class InversionMutation implements Mutation{
 

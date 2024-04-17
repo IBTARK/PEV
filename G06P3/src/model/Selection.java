@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 public interface Selection {
 

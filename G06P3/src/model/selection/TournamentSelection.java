@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import model.Representation;
 import model.Selection;
-import model.listRep.chromosomes.Chromosome;
+import model.representation.Representation;
 
 /**
  * This class implements the Tournament selection
