@@ -13,22 +13,22 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import control.Controller;
-import model.chromosomes.ChromosomeType;
-import model.crossover.CycleCrossover;
-import model.crossover.IJCrossover;
-import model.crossover.OrderCrossover;
-import model.crossover.OrderPrioritaryPositionsCrossover;
-import model.crossover.OrderPriorityOrderCrossover;
-import model.crossover.OrdinalCodificationCrossover;
-import model.crossover.PMXCrossover;
 import model.evaluationFunctions.AirportFunction;
 import model.fenotypes.AirportRepresentation;
 import model.fenotypes.FenotypeFunction;
-import model.mutation.ExchangeMutation;
-import model.mutation.HeuristicMutation;
-import model.mutation.IJMutation;
-import model.mutation.InsertionMutation;
-import model.mutation.InversionMutation;
+import model.listRep.chromosomes.ChromosomeType;
+import model.listRep.crossover.CycleCrossover;
+import model.listRep.crossover.IJCrossover;
+import model.listRep.crossover.OrderCrossover;
+import model.listRep.crossover.OrderPrioritaryPositionsCrossover;
+import model.listRep.crossover.OrderPriorityOrderCrossover;
+import model.listRep.crossover.OrdinalCodificationCrossover;
+import model.listRep.crossover.PMXCrossover;
+import model.listRep.mutation.ExchangeMutation;
+import model.listRep.mutation.HeuristicMutation;
+import model.listRep.mutation.IJMutation;
+import model.listRep.mutation.InsertionMutation;
+import model.listRep.mutation.InversionMutation;
 import model.selection.MontecarloSelection;
 import model.selection.RankingSelection;
 import model.selection.RemainSelection;
@@ -286,30 +286,6 @@ public class MainPanel extends JPanel{
 	}
 	
 	/**
-	 * Set the problem type
-	 */
-	private void setProblem() {
-		Double im = bottomPanel.getProblem();
-		switch (bottomPanel.getProblem().intValue())
-		{
-			case 12:
-			{
-				ctr.setNumFlights(12);
-				ctr.setNumTracks(3);
-				ctr.setMinimization(true);
-				break;
-			}
-			case 25:
-			{
-				ctr.setNumFlights(25);
-				ctr.setNumTracks(5);
-				ctr.setMinimization(true);
-				break;
-			}
-		}
-	}
-	
-	/**
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
@@ -320,8 +296,7 @@ public class MainPanel extends JPanel{
 	 * Set the representation
 	 */
 	private void setRepresentation() {
-		ctr.setChromosomeType(ChromosomeType.AIRPORTCHROMOSOME);
-		airportSettings();		
+		ctr.setChromosomeType(ChromosomeType.AIRPORTCHROMOSOME);	
 		numGenesSettings();
 	}
 	
@@ -330,19 +305,5 @@ public class MainPanel extends JPanel{
 	 */
 	private void numGenesSettings() {
 		ctr.setNumGenes(1); //TODO revisar
-	}
-	
-	/**
-	 * airport representation settings
-	 */
-	private void airportSettings() {
-		ArrayList<FenotypeFunction> fenotypes = new ArrayList<FenotypeFunction>();
-		ArrayList<Integer> genesLengths = new ArrayList<Integer>();
-		
-		
-		genesLengths.add(1);
-		fenotypes.add(new AirportRepresentation(1.0, bottomPanel.getProblem()));
-		ctr.setGenesFenotypesFunctions(fenotypes);
-		ctr.setGenesLengths(genesLengths);
 	}
 }

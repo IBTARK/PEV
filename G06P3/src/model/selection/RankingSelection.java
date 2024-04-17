@@ -3,7 +3,6 @@ package model.selection;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import model.Selection;
 import model.representation.Representation;
 
 public class RankingSelection implements Selection{

@@ -2,7 +2,6 @@ package model.selection;
 
 import java.util.ArrayList;
 
-import model.Selection;
 import model.representation.Representation;
 
 /**

@@ -3,7 +3,6 @@ package model.selection;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.Selection;
 import model.representation.Representation;
 
 /**

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import model.Mutation;
 import model.fitnessFunctions.FitnessFunction;
 import model.listRep.chromosomes.Chromosome;
+import model.mutation.Mutation;
 import model.representation.Representation;
 
 public class HeuristicMutation implements Mutation{

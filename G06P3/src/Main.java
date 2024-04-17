@@ -5,6 +5,7 @@ import model.treeRep.mutation.SubTreeMutation;
 import model.treeRep.mutation.TerminalMutation;
 import model.treeRep.symbols.MowerSymbols;
 import model.treeRep.symbols.Symbols;
+import model.treeRep.trees.MowerTree;
 import model.treeRep.trees.TreeChromosome;
 
 public class Main {
@@ -33,8 +34,8 @@ public class Main {
 		
 		Symbols s = new MowerSymbols(8, 8);
 		
-		TreeChromosome t1 = new TreeChromosome(null, s, 2, 5);
-		TreeChromosome t2 = new TreeChromosome(null, s, 2, 5);
+		TreeChromosome t1 = new MowerTree(null, s, 2, 5);
+		TreeChromosome t2 = new MowerTree(null, s, 2, 5);
 		
 		t1.fullInitialization(3);
 		t2.growInitialization(3);

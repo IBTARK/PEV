@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,16 +18,15 @@ import javax.swing.JPanel;
 
 import control.Controller;
 import model.GenAlgObserver;
-import model.airport.ProblemType;
-import model.chromosomes.Chromosome;
-import model.fenotypes.FenotypeType;
+import model.representation.Representation;
+import model.representation.RepresentationType;
 
 public class BottomPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
 	
 	private JPanel problemPanel; //Panel to select the problem
-	private JComboBox<String> problemSelectionCombo;
-	private DefaultComboBoxModel<String> problemSelectionComboModel; //Combo box to select the problem
+	private JComboBox<String> representationCombo;
+	private DefaultComboBoxModel<String> representationComboModel; //Combo box to select the representation
 	
 	private JButton runButton;
 	
@@ -52,23 +49,11 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		
 		//Section to select the problem
 		problemPanel = new JPanel();
-		problemSelectionComboModel = new DefaultComboBoxModel<String>();
-		problemSelectionCombo = new JComboBox<String>(problemSelectionComboModel);
+		representationComboModel = new DefaultComboBoxModel<String>();
+		representationCombo = new JComboBox<String>(representationComboModel);
 		//default
-		problemSelectionComboModel.setSelectedItem(ProblemType.VUELOS12.toString());
-		problemSelectionCombo.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(problemSelectionCombo.getSelectedItem() == "12") {
-					//TODO
-				}
-				else {
-					//TODO
-				}
-			}
-		});
-		
-		createComboBoxArea(problemPanel, "Selecciona el problema", problemSelectionCombo, 20);
+		representationComboModel.setSelectedItem(RepresentationType.MOWERTREE.toString());
+		createComboBoxArea(problemPanel, "Selecciona la representación", representationCombo, 20);
 		topPanel.add(problemPanel);
 		topPanel.add(Box.createRigidArea(new Dimension(30, 0)));
 		topPanel.setBackground(background);
@@ -140,7 +125,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onRegister() {
-		problemSelectionComboModel.addAll(ctr.getProblemTypes());
+		representationComboModel.addAll(ctr.getRepresentationTypes());
 	}
 
 	@Override
@@ -149,7 +134,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	}
 	
 	@Override
-	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
+	public void onAlgFinished(Representation c) {
 		
 	}
 	
@@ -166,7 +151,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 //*********************************************************************************************
 //Getters
 	
-	public Double getProblem() {
-		return Double.valueOf(problemSelectionCombo.getSelectedItem().toString());
+	public String getRepresentation() {
+		return (String) representationCombo.getSelectedItem();
 	}
 }

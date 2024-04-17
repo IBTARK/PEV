@@ -5,12 +5,12 @@ import java.util.List;
 
 import model.GenAlgObserver;
 import model.GeneticAlgorithm;
-import model.chromosomes.ChromosomeType;
 import model.crossover.Crossover;
 import model.evaluationFunctions.EvaluationFunction;
 import model.fenotypes.FenotypeFunction;
 import model.fitnessFunctions.FitnessFunction;
 import model.mutation.Mutation;
+import model.representation.RepresentationType;
 import model.selection.Selection;
 
 public class Controller {
@@ -48,6 +48,13 @@ public class Controller {
 //************************************************************************************
 //Getters
 	/**
+	 * @return an array list with the names of the types of representations
+	 */
+	public ArrayList<String> getRepresentationTypes(){
+		return genAlg.getRepresentationTypes();
+	}
+	
+	/**
 	 * @return an array list with the names of the types of selection
 	 */
 	public ArrayList<String> getSelectionTypes(){
@@ -66,20 +73,6 @@ public class Controller {
 	 */
 	public ArrayList<String> getMutationTypes(){
 		return genAlg.getMutationTypes();
-	}
-	
-	/**
-	 * @return an array list with the names of the problem types 
-	 */
-	public ArrayList<String> getProblemTypes(){
-		return genAlg.getProblemTypes();
-	}
-	
-	/**
-	 * @return the problem type
-	 */
-	public int getNumFlights(){
-		return genAlg.getNumFlights();
 	}
 	
 	/**
@@ -110,12 +103,12 @@ public class Controller {
 //************************************************************************************
 //Setters	
 	/**
-	 * Set the chromosome type
+	 * Set the representation type
 	 * 
-	 * @param chromosomeType
+	 * @param representationType
 	 */
-	public void setChromosomeType (ChromosomeType chromosomeType) {
-		genAlg.setChromosomeType(chromosomeType);
+	public void setRepresentationType (RepresentationType representationType) {
+		genAlg.setRepresentationType(representationType);
 	}
 	
 	/**
@@ -217,18 +210,6 @@ public class Controller {
 		genAlg.setMutation(mutation);
 	}
 	
-	/**
-	 * Set the problem
-	 * 
-	 * @param mutation
-	 */
-	public void setNumFlights(int numFlights) {
-		genAlg.setNumFlights(numFlights);
-	}
-	
-	public void setNumTracks(int numTracks) {
-		genAlg.setNumTracks(numTracks);
-	}
 	
 	/**
 	 * Set the evaluation function and update the fitness function

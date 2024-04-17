@@ -5,28 +5,31 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import model.crossover.Crossover;
+import model.crossover.CrossoverType;
 import model.evaluationFunctions.EvaluationFunction;
 import model.evaluationFunctions.EvaluationFunctionType;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.FenotypeType;
 import model.fitnessFunctions.FitnessFunction;
-import model.listRep.chromosomes.Chromosome;
-import model.listRep.chromosomes.ChromosomeType;
-import model.listRep.crossover.CrossoverType;
-import model.listRep.mutation.MutationType;
+import model.mutation.Mutation;
+import model.mutation.MutationType;
 import model.representation.Representation;
+import model.representation.RepresentationType;
+import model.selection.Selection;
 import model.selection.SelectionType;
 import model.treeRep.symbols.Symbols;
 import model.treeRep.trees.InitializationType;
-import model.treeRep.trees.TreeChromosome;
+import model.treeRep.trees.MowerTree;
 
 public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private Random random;
 	
+	private RepresentationType representationType;
+	
 	//*****************
 	//List representation
-	private ChromosomeType chromosomeType;
 	private int numGenes;
 	private List<Integer> genesLengths;
 	private List<FenotypeFunction> genesFenotypesFunctions;
@@ -74,12 +77,12 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		absoluteBestFitness = Double.MIN_VALUE;
 	}
 	
-	public GeneticAlgorithm(ChromosomeType chromosomeType, int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions,
+	public GeneticAlgorithm(RepresentationType representationType, int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions,
 							int populationSize, int generations, Selection selection, Crossover crossover, double crossoverPctg,
 							Mutation mutation, double mutationPctg, EvaluationFunction evaluationFunction, Boolean minimization) {
 		random = new Random();
 		
-		this.chromosomeType = chromosomeType;
+		this.representationType = representationType;
 		this.numGenes = numGenes;
 		this.genesLengths = genesLengths;
 		this.genesFenotypesFunctions = genesFenotypesFunctions;
@@ -107,7 +110,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	public ArrayList<Representation> execute(){
-		ArrayList<Chromosome> elite = null;
+		ArrayList<Representation> elite = null;
 		absoluteBestFitness = Double.MIN_VALUE;
 		if(minimization) 
 			absoluteBestEvaluation = Double.MAX_VALUE;
@@ -152,6 +155,15 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		return population;
 	}
 	
+	private void generatePopulation() {
+		if(representationType == RepresentationType.MOWERTREE) { //Tree representation
+			generatePopulationTree();
+		}
+		else { //List representation
+			generatePopulationList();
+		}
+	}
+	
 	/**
 	 * Generate a population for a representation with base type list
 	 * 
@@ -162,19 +174,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		population = new ArrayList<Representation>();
 		for(int i = 0; i < populationSize; i++) {
 			//TODO add a line for every type of chromosome
-			switch(chromosomeType) {
-				case AIRPORTCHROMOSOME:
-				{
-					//Generate a airport chromosome
-					AirportChromosome ac = new AirportChromosome(numTracks, flightsInfo.keySet(), genesFenotypesFunctions);
-					//Initialize the airport chromosome 
-					
-					ac.initializeChromosomeRandom();
-					//Add the chromosome to the population
-					population.add(ac);
-					
-					break;
-				}
+			switch(representationType) {
+				
 			}
 		}
 	}
@@ -192,8 +193,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			for(int i = 2; i <= maxHeight; i++) {
 				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
 					//Generate a tree
-					TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
-					tc.fullInitialization(symbols, i);
+					MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+					tc.fullInitialization(i);
 					
 					//Add the tree to the population
 					population.add(tc);
@@ -201,8 +202,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 				
 				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
 					//Generate a tree
-					TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
-					tc.growInitialization(symbols, i);
+					MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+					tc.growInitialization(i);
 					
 					//Add the tree to the population
 					population.add(tc);
@@ -211,8 +212,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			
 			for(int i = population.size(); i < populationSize; i++) {
 				//Generate a tree
-				TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
-				tc.growInitialization(symbols, maxHeight);
+				MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+				tc.growInitialization(maxHeight);
 				
 				//Add the tree to the population
 				population.add(tc);
@@ -225,8 +226,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 					case FULL:
 					{
 						//Generate a tree
-						TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
-						tc.fullInitialization(symbols, maxHeight);
+						MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+						tc.fullInitialization(maxHeight);
 						
 						//Add the tree to the population
 						population.add(tc);
@@ -236,8 +237,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 					case GROW:
 					{
 						//Generate a tree
-						TreeChromosome tc = new TreeChromosome(genesFenotypesFunctions.get(0), minHeight, maxHeight);
-						tc.growInitialization(symbols, maxHeight);
+						MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+						tc.growInitialization(maxHeight);
 						
 						//Add the tree to the population
 						population.add(tc);
@@ -260,9 +261,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 * Some chromosomes of the ones selected are crossed (depend on the crossoverPctg)
 	 */
 	private void reproduce() {
-		ArrayList<Chromosome> selected = new ArrayList<Chromosome>();
+		ArrayList<Representation> selected = new ArrayList<Representation>();
 		
-		for(Chromosome c : population) {
+		for(Representation c : population) {
 			if(random.nextDouble() <= crossoverPctg) {
 				selected.add(c);
 			}
@@ -274,7 +275,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	//If necessary mutate the chromosome
 	private void mutate() {
-		for(Chromosome c : population) {
+		for(Representation c : population) {
 			if(random.nextDouble() < mutationProb) {
 				mutation.mutate(c);
 			}
@@ -282,10 +283,10 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	//Save the elite
-	private ArrayList<Chromosome> saveElite(ArrayList<Chromosome> population){
+	private ArrayList<Representation> saveElite(ArrayList<Representation> population){
 		int sizeElite = (int) (population.size() * elitism);
-		ArrayList<Chromosome> elite = new ArrayList<Chromosome>();
-		ArrayList<Chromosome> populationCpy = new ArrayList<Chromosome>();
+		ArrayList<Representation> elite = new ArrayList<Representation>();
+		ArrayList<Representation> populationCpy = new ArrayList<Representation>();
 		
 		//Copy of the population
 		for(int i = 0; i < population.size(); i++) {
@@ -303,7 +304,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	//Introduce elitism if necessary
-	private void introduceElite(List<Chromosome> elite, List<Chromosome> newPopulation) {
+	private void introduceElite(List<Representation> elite, List<Representation> newPopulation) {
 		//Order the new population in descending order
 		Collections.sort(newPopulation, Collections.reverseOrder());
 		
@@ -312,7 +313,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			newPopulation.remove(newPopulation.size() - 1);
 		}
 		
-		for(Chromosome c : elite) {
+		for(Representation c : elite) {
 			newPopulation.add(c);
 		}
 		
@@ -359,7 +360,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 * @param generation actual generation
 	 * @param population population of the generation
 	 */
-	private void onGenCompleted(int generation, ArrayList<Chromosome> population) {
+	private void onGenCompleted(int generation, ArrayList<Representation> population) {
 		
 		if(minimization) {
 			if(fitnessFunction.getBestOfGen().getEvaluation() < absoluteBestEvaluation) {
@@ -377,7 +378,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		
 		
 		double meanGeneration = 0;
-		for(Chromosome c : population) {
+		for(Representation c : population) {
 			meanGeneration += c.getEvaluation();
 		}
 		meanGeneration /= population.size();
@@ -387,7 +388,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 	}
 	
-	private void onAlgFinished(Chromosome c) {
+	private void onAlgFinished(Representation c) {
 		for(GenAlgObserver o : observerList) {
 			o.onAlgFinished(c);
 		}
@@ -462,6 +463,20 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
+	 * 
+	 * @return an array list with the names of the types of the representations
+	 */
+	public ArrayList<String> getRepresentationTypes(){
+		ArrayList<String> representationTypes = new ArrayList<String>();
+		
+		for(RepresentationType rt : RepresentationType.values()) {
+			representationTypes.add(rt.toString());
+		}
+		
+		return representationTypes;
+	}
+	
+	/**
 	 * @return minimization
 	 */
 	public boolean getMinimization() {
@@ -483,12 +498,12 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 //Setters
 	
 	/**
-	 * Set the chromosome type
+	 * Set the representation type
 	 * 
-	 * @param chromosomeType
+	 * @param representationType
 	 */
-	public void setChromosomeType (ChromosomeType chromosomeType) {
-		this.chromosomeType = chromosomeType;
+	public void setRepresentationType (RepresentationType representationType) {
+		this.representationType = representationType;
 	}
 	
 	/**

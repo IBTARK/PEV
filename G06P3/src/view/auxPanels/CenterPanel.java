@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -18,7 +17,7 @@ import javax.swing.JTable;
 
 import control.Controller;
 import model.GenAlgObserver;
-import model.chromosomes.Chromosome;
+import model.representation.Representation;
 import view.graphs.EvolutionGraph;
 import view.tables.RunwayTable;
 
@@ -29,7 +28,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	
 	private JPanel graphPanel;
 	private JPanel solPanel;
-	private JPanel tablesPanel;
+	//private JPanel tablesPanel;
 	
 	private JLabel solLabel;
 	
@@ -69,9 +68,6 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		solPanel.setPreferredSize(new Dimension(width, TAMSOLPANEL));
 		solPanel.add(solLabel);
 		solPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
-		tablesPanel = new JPanel();
-		solPanel.add(new JScrollPane(tablesPanel));
 		
 		
 		solPanel.setVisible(false);
@@ -128,7 +124,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	}
 
 	@Override
-	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
+	public void onAlgFinished(Representation c) {
 		String text = "";
 		
 		if(ctr.getMinimization())

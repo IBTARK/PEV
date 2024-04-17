@@ -1,4 +1,4 @@
-package model;
+package model.mutation;
 
 import model.representation.Representation;
 

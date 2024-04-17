@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import model.Mutation;
+import model.mutation.Mutation;
 import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.trees.TreeChromosome;

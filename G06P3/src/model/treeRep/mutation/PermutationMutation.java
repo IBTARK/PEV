@@ -2,7 +2,7 @@ package model.treeRep.mutation;
 
 import java.util.Collections;
 
-import model.Mutation;
+import model.mutation.Mutation;
 import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.trees.TreeChromosome;

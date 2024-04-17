@@ -1,4 +1,4 @@
-package model;
+package model.crossover;
 
 import model.representation.Representation;
 

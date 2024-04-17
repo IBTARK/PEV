@@ -2,7 +2,7 @@ package model.listRep.crossover;
 
 import java.util.ArrayList;
 
-import model.Crossover;
+import model.crossover.Crossover;
 import model.listRep.chromosomes.Chromosome;
 import model.representation.Representation;
 

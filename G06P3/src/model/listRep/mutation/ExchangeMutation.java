@@ -2,8 +2,8 @@ package model.listRep.mutation;
 
 import java.util.Random;
 
-import model.Mutation;
 import model.listRep.chromosomes.Chromosome;
+import model.mutation.Mutation;
 import model.representation.Representation;
 
 public class ExchangeMutation implements Mutation{

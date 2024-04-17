@@ -8,8 +8,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -26,10 +24,9 @@ import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
-import model.airport.ProblemType;
-import model.chromosomes.Chromosome;
 import model.crossover.CrossoverType;
 import model.mutation.MutationType;
+import model.representation.Representation;
 import model.selection.SelectionType;
 
 public class LeftPanel extends JPanel implements GenAlgObserver{
@@ -68,18 +65,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	private JPanel crossoverPanel; //Panel where the combo box to select the crossover method will be displayed
 	private DefaultComboBoxModel<String> crossoverModel;
 	private JComboBox<String> crossoverComboBox; //Combo box to select the crossover method
-	
-	private JPanel selectNumPositionsCrossoverPanel;
-	private JSpinner selectNumPositionsCrossoverSpinner;
-	
-	private JPanel selectAlphaPanel;
-	private JSpinner selectAlphaSpinner;
-	
-	private JPanel selectNumPositionsPanel;
-	private JSpinner selectNumPositionsSpinner;
-	
-	private JPanel selectNumInsertionsPanel;
-	private JSpinner selectNumInsertionsSpinner;
 	
 	private JPanel mutationPanel; //Panel where the combo box to select the mutation method will be displayed
 	private DefaultComboBoxModel<String> mutationModel;
@@ -239,108 +224,19 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverModel = new DefaultComboBoxModel<String>();
 		crossoverComboBox = new JComboBox<String>(crossoverModel);
 		//default
-		crossoverModel.setSelectedItem(CrossoverType.PMX.toString());
-		crossoverComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDER.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.PMX.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDERPRIORITARYPOSITIONS.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(true);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDERPRIORITARYORDER.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(true);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.ORDINALCODIFICATION.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-					//TODO
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.CYCLE.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverType.IJ.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-			}
-		});
-		
+		crossoverModel.setSelectedItem(CrossoverType.TREECROSSOVER.toString());
 		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 33);
 		add(crossoverPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the number of positions to cross
-		selectNumPositionsCrossoverPanel = new JPanel();
-		selectNumPositionsCrossoverSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 24, 1));
-		//Configure the editor to display doubles
-		createSpinnerSection(selectNumPositionsCrossoverPanel, "Numero de posiciones: ", selectNumPositionsCrossoverSpinner, 55);
-		add(selectNumPositionsCrossoverPanel);
-		selectNumPositionsCrossoverPanel.setVisible(false);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the value of alpha
-		selectAlphaPanel = new JPanel();
-		selectAlphaSpinner = new JSpinner(new SpinnerNumberModel(60.0, 0.0, 100.0, 1.0));
-		//Configure the editor to display doubles
-		selectAlphaSpinner.setEditor(new JSpinner.NumberEditor(selectAlphaSpinner, "0.0"));
-		createSpinnerSection(selectAlphaPanel, "Alpha: ", selectAlphaSpinner, 152);
-		add(selectAlphaPanel);
-		selectAlphaPanel.setVisible(false);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-
 		//Section to select the mutation method
 		mutationPanel = new JPanel();
 		mutationModel = new DefaultComboBoxModel<String>();
 		mutationComboBox = new JComboBox<String>(mutationModel);
 		//default
-		mutationModel.setSelectedItem(MutationType.INVERSIONMUTATION.toString());
-		mutationComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(mutationComboBox.getSelectedItem() == MutationType.INSERTIONMUTATION.toString()) {
-					selectNumInsertionsPanel.setVisible(true);
-				}
-				else {
-					selectNumInsertionsPanel.setVisible(false);
-				}
-				if(mutationComboBox.getSelectedItem() == MutationType.HEURISTICMUTATION.toString()) {
-					selectNumPositionsPanel.setVisible(true);
-				}
-				else {
-					selectNumPositionsPanel.setVisible(false);
-				}
-			}
-		});
+		mutationModel.setSelectedItem(MutationType.FUNCTIONALMUTATION.toString());
 		
 		createComboBoxArea(mutationPanel, "Metodo de Mutacion: ", mutationComboBox, 12);
 		add(mutationPanel);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the number of positions to cross
-		selectNumPositionsPanel = new JPanel();
-		selectNumPositionsSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 24, 1));
-		//Configure the editor to display doubles
-		createSpinnerSection(selectNumPositionsPanel, "Numero de posiciones: ", selectNumPositionsSpinner, 55);
-		add(selectNumPositionsPanel);
-		selectNumPositionsPanel.setVisible(false);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the number of positions to insert for mutation
-		selectNumInsertionsPanel = new JPanel();
-		selectNumInsertionsSpinner = new JSpinner(new SpinnerNumberModel(2, 0, 24, 1)); //TODO change depending on the problem
-		createSpinnerSection(selectNumInsertionsPanel, "Numero de insercciones: ", selectNumInsertionsSpinner, 43);
-		add(selectNumInsertionsPanel);
-		selectNumInsertionsPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the percentage of elitism
@@ -535,22 +431,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	
 	/**
 	 * 
-	 * @return number of positions to cross [0,12] or [0,25]
-	 */
-	public int getNumPositions() {
-		return (int) selectNumPositionsSpinner.getValue();
-	}
-	
-	/**
-	 * 
-	 * @return number of positions to cross [0,12] or [0,25]
-	 */
-	public int getNumPositionsCrossover() {
-		return (int) selectNumPositionsCrossoverSpinner.getValue();
-	}
-	
-	/**
-	 * 
 	 * @return selected selection type
 	 */
 	public String getSelectionType() {
@@ -563,14 +443,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	 */
 	public int getK() {
 		return (int) selectKSpinner.getValue();
-	}
-	
-	/**
-	 * 
-	 * @return the number of insertions to mutate
-	 */
-	public int getNumInsertions() {
-		return (int) selectNumInsertionsSpinner.getValue();
 	}
 	
 	/**
@@ -603,14 +475,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	 */
 	public String getCrossoverType() {
 		return (String) crossoverComboBox.getSelectedItem();
-	}
-	
-	/**
-	 * 
-	 * @return value of alpha [0,100]
-	 */
-	public double getAlpha() {
-		return (double) selectAlphaSpinner.getValue();
 	}
 	
 	/**
@@ -648,7 +512,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	}
 
 	@Override
-	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
+	public void onAlgFinished(Representation c) {
 		
 	}
 

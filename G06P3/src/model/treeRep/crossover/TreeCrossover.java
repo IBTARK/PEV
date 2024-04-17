@@ -3,7 +3,7 @@ package model.treeRep.crossover;
 import java.util.Collections;
 import java.util.Random;
 
-import model.Crossover;
+import model.crossover.Crossover;
 import model.representation.Representation;
 import model.treeRep.symbols.Symbol;
 import model.treeRep.trees.TreeChromosome;

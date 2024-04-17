@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import model.Selection;
 import model.representation.Representation;
 
 /**

@@ -3,7 +3,7 @@ package model.listRep.crossover;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.Crossover;
+import model.crossover.Crossover;
 import model.listRep.chromosomes.Chromosome;
 import model.representation.Representation;
 
