@@ -44,6 +44,7 @@ public class MowerEvaluation implements EvaluationFunction{
 		orientation = 0;
 		numLeftRotations = 0;
 		numMovements = 0;
+		numLawnCut = 0;
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
 		
@@ -98,16 +99,16 @@ public class MowerEvaluation implements EvaluationFunction{
 	
 	private Pair<Integer, Integer> avanza(){
 		if(orientation == 0){ //north
-			col = (col + 1) % numCols;
-			row = (row - 1) % numRows;
+			col = Math.floorMod(col + 1, numCols);
+			row = Math.floorMod(row + 1, numRows);
 		}
 		else if(orientation == 1){ //west
-			col = (col - 1) % numCols;
-			row = (row + 1) % numRows;
+			col = Math.floorMod(col - 1, numCols);
+			row = Math.floorMod(row + 1, numRows);
 		}
 		else if(orientation == 2 || orientation == 3) { //south or east
-			col = (col + 1) % numCols;
-			row = (row + 1) % numRows;
+			col = Math.floorMod(col + 1, numCols);
+			row = Math.floorMod(row + 1, numRows);
 		}
 		
 		//The lawn is cut
@@ -133,16 +134,16 @@ public class MowerEvaluation implements EvaluationFunction{
 	
 	private Pair<Integer, Integer> salta(Pair<Integer, Integer> offsets) {
 		if(orientation == 0){ //north
-			col = (col + offsets.getFirst()) % numCols;
-			row = (row - offsets.getSecond()) % numRows;
+			col = Math.floorMod(col + offsets.getFirst(), numCols); 
+			row = Math.floorMod(row - offsets.getSecond(), numRows);
 		}
 		else if(orientation == 1){ //west
-			col = (col - offsets.getFirst()) % numCols;
-			row = (row + offsets.getSecond()) % numRows;
+			col = Math.floorMod(col - offsets.getFirst(), numCols); 
+			row = Math.floorMod(row + offsets.getSecond(), numRows);
 		}
 		else if(orientation == 2 || orientation == 3) {//south or east
-			col = (col + offsets.getFirst()) % numCols;
-			row = (row + offsets.getSecond()) % numRows;
+			col = Math.floorMod(col + offsets.getFirst(), numCols); 
+			row = Math.floorMod(row + offsets.getSecond(), numRows);
 		}
 		
 		//The lawn is cut

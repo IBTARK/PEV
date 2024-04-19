@@ -12,6 +12,8 @@ import model.fitnessFunctions.FitnessFunction;
 import model.mutation.Mutation;
 import model.representation.RepresentationType;
 import model.selection.Selection;
+import model.treeRep.symbols.Symbols;
+import model.treeRep.trees.InitializationType;
 
 public class Controller {
 	private GeneticAlgorithm genAlg;
@@ -73,6 +75,13 @@ public class Controller {
 	 */
 	public ArrayList<String> getMutationTypes(){
 		return genAlg.getMutationTypes();
+	}
+	
+	/**
+	 * @return an array list with the names of the initialization types of the tree choromosomes
+	 */
+	public ArrayList<String> getInitializationTypes(){
+		return genAlg.getInitializationTypes();
 	}
 	
 	/**
@@ -208,6 +217,49 @@ public class Controller {
 	 */
 	public void setMutation(Mutation mutation) {
 		genAlg.setMutation(mutation);
+	}
+	
+	/**
+	 * Set the initialization type for a tree chromosome
+	 * 
+	 * @param iniType
+	 */
+	public void setIniType(InitializationType iniType) {
+		genAlg.setIniType(iniType);
+	}
+	
+	/**
+	 * Set the maximum height of a tree when its initialized
+	 * 
+	 * @param maxHeight
+	 */
+	public void setMaxHeight(int maxHeight) {
+		genAlg.setMaxHeight(maxHeight);
+	}
+	
+	/**
+	 * Set the minimum height of a tree when its initialized
+	 * 
+	 * @param minHeight
+	 */
+	public void setMinHeight(int minHeight) {
+		genAlg.setMinHeight(minHeight);
+	}
+	
+	/**
+	 * Set the symbols for the tree representation
+	 * 
+	 * @param symbols
+	 */
+	public void setSymbols(Symbols symbols) {
+		genAlg.setSymbols(symbols);
+	}
+	
+	/**
+	 * Set the fenotype function
+	 */
+	public void setFenotypeFunction(FenotypeFunction fenotypeFunction) {
+		genAlg.setFenotypeFunction(fenotypeFunction);
 	}
 	
 	

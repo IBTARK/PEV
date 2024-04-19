@@ -63,7 +63,7 @@ public class TreeNode<T extends Symbol>{
 			descendantsCpy.addAll(newChild.getDescendants());
 			
 			//The father of the child is set
-			child.setFather(newNode);
+			newChild.setFather(newNode);
 		}
 		
 		newNode.setChildren(childrenCpy);

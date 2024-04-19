@@ -121,6 +121,7 @@ public abstract class TreeChromosome extends Representation{
 			for(int i = 0; i < function.getArity(); i++) {
 				TreeNode<Symbol> child = new TreeNode<Symbol>(node);
 				node.addChild(child);
+				child.setFather(node);
 				
 				fullInitializationAux(child, maxHeight, height + 1);
 				
@@ -162,6 +163,7 @@ public abstract class TreeChromosome extends Representation{
 			for(int i = 0; i < functionOrTerminal.getArity(); i++) {
 				TreeNode<Symbol> child = new TreeNode<Symbol>(node);
 				node.addChild(child);
+				child.setFather(node);
 				
 				growInitializationAux(child, maxHeight, height + 1);
 				

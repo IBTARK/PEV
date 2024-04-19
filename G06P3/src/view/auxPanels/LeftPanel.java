@@ -28,6 +28,7 @@ import model.crossover.CrossoverType;
 import model.mutation.MutationType;
 import model.representation.Representation;
 import model.selection.SelectionType;
+import model.treeRep.trees.InitializationType;
 
 public class LeftPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -66,9 +67,16 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	private DefaultComboBoxModel<String> crossoverModel;
 	private JComboBox<String> crossoverComboBox; //Combo box to select the crossover method
 	
+	private JPanel terminalOrFunctionalProbPanel;
+	private JSpinner terminalOrFunctionalProbSpinner; 
+	
 	private JPanel mutationPanel; //Panel where the combo box to select the mutation method will be displayed
 	private DefaultComboBoxModel<String> mutationModel;
 	private JComboBox<String> mutationComboBox; //Combo box to select the mutation method
+	
+	private JPanel iniTypePanel; //Panel where the combo box to select the initialization method will be displayed
+	private DefaultComboBoxModel<String> iniTypeModel;
+	private JComboBox<String> iniTypeComboBox; //Combo box to select the initialization method
 	
 	private JPanel elitismPanel; //Panel where the check box to indicate if the elitism is applied will be displayed
 	private JCheckBox elitismCheckBox; //CheckBox to indicate if elitism is applied
@@ -228,15 +236,32 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 33);
 		add(crossoverPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Spinner to select the probability to select a functional node
+		terminalOrFunctionalProbPanel = new JPanel();
+		terminalOrFunctionalProbSpinner = new JSpinner(new SpinnerNumberModel(0.9, 0.0, 1.0, 0.1));
+		createSpinnerSection(terminalOrFunctionalProbPanel, "Prob de selec funcional: ", terminalOrFunctionalProbSpinner, 43);
+		this.add(terminalOrFunctionalProbPanel);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
 		//Section to select the mutation method
 		mutationPanel = new JPanel();
 		mutationModel = new DefaultComboBoxModel<String>();
 		mutationComboBox = new JComboBox<String>(mutationModel);
 		//default
 		mutationModel.setSelectedItem(MutationType.FUNCTIONALMUTATION.toString());
-		
 		createComboBoxArea(mutationPanel, "Metodo de Mutacion: ", mutationComboBox, 12);
 		add(mutationPanel);
+		add(Box.createRigidArea(new Dimension(0, 30)));
+		
+		//Section to select the initialization method
+		iniTypePanel = new JPanel();
+		iniTypeModel = new DefaultComboBoxModel<String>();
+		iniTypeComboBox = new JComboBox<String>(iniTypeModel);
+		//default
+		iniTypeModel.setSelectedItem(InitializationType.GROW.toString());
+		createComboBoxArea(iniTypePanel, "Metodo de inicialización: ", iniTypeComboBox, 12);
+		add(iniTypePanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the percentage of elitism
@@ -479,10 +504,26 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	
 	/**
 	 * 
+	 * @return the probability with which a functional node is selected
+	 */
+	public double getFunctionalOrTerminalProb() {
+		return (double) terminalOrFunctionalProbSpinner.getValue();
+	}
+	
+	/**
+	 * 
 	 * @return selected mutation type
 	 */
 	public String getMutationType() {
 		return (String) mutationComboBox.getSelectedItem();
+	}
+	
+	/**
+	 * 
+	 * @return selected initialization type
+	 */
+	public String getIniType() {
+		return (String) iniTypeComboBox.getSelectedItem();
 	}
 	
 	/**
@@ -504,6 +545,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		selectionModel.addAll(ctr.getSelectionTypes());
 		crossoverModel.addAll(ctr.getCrossoverTypes());
 		mutationModel.addAll(ctr.getMutationTypes());
+		iniTypeModel.addAll(ctr.getInitializationTypes());
 	}
 
 	@Override

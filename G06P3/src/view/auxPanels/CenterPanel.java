@@ -1,29 +1,24 @@
 package view.auxPanels;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import control.Controller;
 import model.GenAlgObserver;
 import model.representation.Representation;
+import model.treeRep.trees.MowerTree;
 import view.graphs.EvolutionGraph;
-import view.tables.RunwayTable;
+import view.mower.Garden;
 
 public class CenterPanel extends JPanel implements GenAlgObserver{
 	
 	private EvolutionGraph evolutionGraph;
+	//private Garden garden;
 	private Controller ctr;
 	
 	private JPanel graphPanel;
@@ -32,9 +27,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	
 	private JLabel solLabel;
 	
-	private ArrayList<JTable> tables;
-	
-	private static final int TAMSOLPANEL = 130;
+	private static final int TAMSOLPANEL = 30;
 	
 	private int initialWidth;
 	private int initialHeight;
@@ -43,8 +36,6 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		this.ctr = ctr;
 		initialWidth = width;
 		initialHeight = height;
-		
-		tables = new ArrayList<JTable>();
 		
 		initGUI(ctr, width, height, generations);
 		ctr.addObserver(this);
@@ -56,8 +47,10 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		//Graph panel
 		graphPanel = new JPanel();
 		evolutionGraph = new EvolutionGraph(ctr, width, height, generations);
+		//garden = new Garden(ctr, width, height);
 		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight));
 		graphPanel.add(evolutionGraph);
+		//graphPanel.add(garden);
 		add(graphPanel);
 		
 		//Solution panel
@@ -125,44 +118,12 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onAlgFinished(Representation c) {
-		String text = "";
-		
-		if(ctr.getMinimization())
-			text += "Minimo: " + new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
-		else
-			text += "Maximo: " +  new DecimalFormat("#.##").format(c.getEvaluation()) + " en";
-		
-		text += "[";
-		for(int i = 0; i < c.getNumGenes(); i++) {
-			text += " " + new DecimalFormat("#.##").format(c.getGeneFenotype(i)) + ",";
-		}
-		text += "]";
+		String text = "La mejor solución es: " + ((MowerTree) c).getFenotype();
 		
 		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight - TAMSOLPANEL));
 		setPreferredSizeGraph(initialWidth, initialHeight - TAMSOLPANEL);
 		
 		solLabel.setText(text);
-		
-		tablesPanel.removeAll();
-		
-		tables = new ArrayList<JTable>();
-		
-		for(int track = 1; track <= numTracks; track++) {
-			RunwayTable tableModel = new RunwayTable(track, flightsInfo);
-			JTable table = new JTable(tableModel);
-			tables.add(table);
-			
-			JPanel tablePanel = new JPanel(new BorderLayout());
-			tablePanel.add(new JScrollPane(table));
-			
-			tablePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(20, 100, 70), 4), "Pista " + track));
-			tablePanel.setPreferredSize(new Dimension(200, 100));
-			
-			tablesPanel.add(tablePanel);
-			
-			tableModel.setElems(c);
-			
-		}
 		
 		solPanel.setVisible(true);
 	}

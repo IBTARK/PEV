@@ -11,6 +11,7 @@ import model.evaluationFunctions.EvaluationFunction;
 import model.evaluationFunctions.EvaluationFunctionType;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.FenotypeType;
+import model.fenotypes.TreeFenotypeFunction;
 import model.fitnessFunctions.FitnessFunction;
 import model.mutation.Mutation;
 import model.mutation.MutationType;
@@ -41,7 +42,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private InitializationType iniType;
 	private Symbols symbols;
 	
-	
 	//*************
 	private int populationSize;
 	private int generations;
@@ -56,6 +56,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	private FitnessFunction fitnessFunction;
 	private EvaluationFunction evaluationFunction;
+	private FenotypeFunction fenotypeFunction;
 	private boolean minimization;
 	
 	private ArrayList<Representation> population;
@@ -193,7 +194,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			for(int i = 2; i <= maxHeight; i++) {
 				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
 					//Generate a tree
-					MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+					MowerTree tc = new MowerTree(fenotypeFunction, symbols, minHeight, maxHeight);
 					tc.fullInitialization(i);
 					
 					//Add the tree to the population
@@ -202,7 +203,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 				
 				for(int j = 0; j < (populationSize / (maxHeight - 1)) / 2; j++) {
 					//Generate a tree
-					MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+					MowerTree tc = new MowerTree(fenotypeFunction, symbols, minHeight, maxHeight);
 					tc.growInitialization(i);
 					
 					//Add the tree to the population
@@ -212,7 +213,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			
 			for(int i = population.size(); i < populationSize; i++) {
 				//Generate a tree
-				MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+				MowerTree tc = new MowerTree(fenotypeFunction, symbols, minHeight, maxHeight);
 				tc.growInitialization(maxHeight);
 				
 				//Add the tree to the population
@@ -226,7 +227,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 					case FULL:
 					{
 						//Generate a tree
-						MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+						MowerTree tc = new MowerTree(fenotypeFunction, symbols, minHeight, maxHeight);
 						tc.fullInitialization(maxHeight);
 						
 						//Add the tree to the population
@@ -237,7 +238,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 					case GROW:
 					{
 						//Generate a tree
-						MowerTree tc = new MowerTree(genesFenotypesFunctions.get(0), symbols, minHeight, maxHeight);
+						MowerTree tc = new MowerTree(fenotypeFunction, symbols, minHeight, maxHeight);
 						tc.growInitialization(maxHeight);
 						
 						//Add the tree to the population
@@ -254,6 +255,10 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 * Compute the fitness, score and accumulatedScore of every chromosome of the population
 	 */
 	private void evaluate() {
+		for(Representation r : population) {
+			fenotypeFunction.apply(r);
+		}
+			
 		fitnessFunction.applyEvaluationFunction(population);
 	}
 	
@@ -434,6 +439,19 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		}
 		
 		return mutationTypes;
+	}
+	
+	/**
+	 * @return an array list with the names of the initialization types for the tree chromosomes
+	 */
+	public ArrayList<String> getInitializationTypes(){
+		ArrayList<String> iniTypes = new ArrayList<String>();
+		
+		for(InitializationType it : InitializationType.values()) {
+			iniTypes.add(it.toString());
+		}
+		
+		return iniTypes;
 	}
 	
 	/**
@@ -631,6 +649,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setMutation(Mutation mutation) {
 		this.mutation = mutation;
+	}
+	
+	/**
+	 * Set the fenotype function
+	 */
+	public void setFenotypeFunction(FenotypeFunction fenotypeFunction) {
+		this.fenotypeFunction  = fenotypeFunction;
 	}
 	
 	/**

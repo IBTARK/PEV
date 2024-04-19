@@ -6,35 +6,28 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import control.Controller;
-import model.evaluationFunctions.AirportFunction;
-import model.fenotypes.AirportRepresentation;
-import model.fenotypes.FenotypeFunction;
-import model.listRep.chromosomes.ChromosomeType;
-import model.listRep.crossover.CycleCrossover;
-import model.listRep.crossover.IJCrossover;
-import model.listRep.crossover.OrderCrossover;
-import model.listRep.crossover.OrderPrioritaryPositionsCrossover;
-import model.listRep.crossover.OrderPriorityOrderCrossover;
-import model.listRep.crossover.OrdinalCodificationCrossover;
-import model.listRep.crossover.PMXCrossover;
-import model.listRep.mutation.ExchangeMutation;
-import model.listRep.mutation.HeuristicMutation;
-import model.listRep.mutation.IJMutation;
-import model.listRep.mutation.InsertionMutation;
-import model.listRep.mutation.InversionMutation;
+import model.evaluationFunctions.MowerEvaluation;
+import model.fenotypes.TreeFenotypeFunction;
+import model.representation.RepresentationType;
 import model.selection.MontecarloSelection;
 import model.selection.RankingSelection;
 import model.selection.RemainSelection;
 import model.selection.StochasticSelection;
 import model.selection.TournamentSelection;
 import model.selection.TruncationSelection;
+import model.treeRep.crossover.TreeCrossover;
+import model.treeRep.mutation.FunctionalMutation;
+import model.treeRep.mutation.PermutationMutation;
+import model.treeRep.mutation.SubTreeMutation;
+import model.treeRep.mutation.TerminalMutation;
+import model.treeRep.symbols.MowerSymbols;
+import model.treeRep.trees.InitializationType;
 import view.auxPanels.BottomPanel;
 import view.auxPanels.CenterPanel;
 import view.auxPanels.LeftPanel;
@@ -133,8 +126,7 @@ public class MainPanel extends JPanel{
 				setSelection();
 				setCrossover();
 				setMutation();
-				setProblem();
-				ctr.setMinimization(true); //TODO revisar
+				ctr.setMinimization(false); //TODO revisar
 				setRepresentation();
 				
 				//Execute the genetic algorithm
@@ -207,39 +199,9 @@ public class MainPanel extends JPanel{
 		
 		switch (leftPanel.getCrossoverType())
 		{
-			case "Order":
+			case "Arbol":
 			{
-				ctr.setCrossover(new OrderCrossover());
-				break;
-			}
-			case "PMX":
-			{
-				ctr.setCrossover(new PMXCrossover());
-				break;
-			}
-			case "Order prioritary positions":
-			{
-				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositionsCrossover()));
-				break;
-			}
-			case "Order priority":
-			{
-				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositionsCrossover()));
-				break;
-			}
-			case "Ordinal codification":
-			{
-				ctr.setCrossover(new OrdinalCodificationCrossover(bottomPanel.getProblem().intValue()));
-				break;
-			}
-			case "Cycle":
-			{
-				ctr.setCrossover(new CycleCrossover());
-				break;
-			}
-			case "IJ":
-			{
-				ctr.setCrossover(new IJCrossover());
+				ctr.setCrossover(new TreeCrossover(leftPanel.getFunctionalOrTerminalProb()));
 				break;
 			}
 		}
@@ -252,33 +214,27 @@ public class MainPanel extends JPanel{
 		
 		switch (leftPanel.getMutationType())
 		{
-			case "Inversion":
+			case "Funcional":
 			{
-				ctr.setMutation(new InversionMutation());
+				ctr.setMutation(new FunctionalMutation());
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
-			case "Insertion":
+			case "Terminal":
 			{
-				ctr.setMutation(new InsertionMutation(leftPanel.getNumInsertions()));
+				ctr.setMutation(new TerminalMutation());
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
-			case "Heuristic":
+			case "Permutacion":
 			{
-				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), ctr.getFitnessFunction()));
+				ctr.setMutation(new PermutationMutation());
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
-			case "Exchange":
+			case "Subarbol":
 			{
-				ctr.setMutation(new ExchangeMutation());
-				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
-				break;
-			}
-			case "IJ":
-			{
-				ctr.setMutation(new IJMutation());
+				ctr.setMutation(new SubTreeMutation());
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
@@ -286,17 +242,46 @@ public class MainPanel extends JPanel{
 	}
 	
 	/**
+	 * Set the fenotype function
+	 */
+	private void setFenotypeFunction() {
+		ctr.setFenotypeFunction(new TreeFenotypeFunction());
+	}
+	
+	/**
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
-		ctr.setEvaluationFunction(new AirportFunction());
+		ctr.setEvaluationFunction(new MowerEvaluation(8, 8));
 	}
 	
 	/**
 	 * Set the representation
 	 */
 	private void setRepresentation() {
-		ctr.setChromosomeType(ChromosomeType.AIRPORTCHROMOSOME);	
+		ctr.setRepresentationType(RepresentationType.MOWERTREE);
+		switch (leftPanel.getIniType())
+		{
+			case "Completa":
+			{
+				ctr.setIniType(InitializationType.FULL);
+				break;
+			}
+			case "Creciente":
+			{
+				ctr.setIniType(InitializationType.GROW);
+				break;
+			}
+			case "Ramped and half":
+			{
+				ctr.setIniType(InitializationType.RAMPEDANDHALF);
+				break;
+			}
+		}
+		ctr.setSymbols(new MowerSymbols(8,8));
+		ctr.setFenotypeFunction(new TreeFenotypeFunction());
+		ctr.setMaxHeight(5);
+		ctr.setMinHeight(1);
 		numGenesSettings();
 	}
 	

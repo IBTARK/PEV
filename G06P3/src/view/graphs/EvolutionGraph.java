@@ -2,7 +2,6 @@ package view.graphs;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JPanel;
 
@@ -10,7 +9,7 @@ import org.math.plot.Plot2DPanel;
 
 import control.Controller;
 import model.GenAlgObserver;
-import model.chromosomes.Chromosome;
+import model.representation.Representation;
 
 public class EvolutionGraph extends JPanel implements GenAlgObserver{
 	private Controller ctr;
@@ -40,8 +39,8 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 		plot.addLegend("SOUTH");
 		
 		plot.addLinePlot("Mejor absoluto", generations, absoluteBests);
-		plot.addLinePlot("Mejor generación", generations, generationBests);
-		plot.addLinePlot("Mejor media generación", generations, generationMean);
+		plot.addLinePlot("Mejor generaciÃ³n", generations, generationBests);
+		plot.addLinePlot("Mejor media generaciÃ³n", generations, generationMean);
 		
 		plot.setPreferredSize(new Dimension(width, height));
 		this.add(plot);
@@ -124,7 +123,7 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 	}
 
 	@Override
-	public void onAlgFinished(Chromosome c, int numTracks, HashMap<Integer, ArrayList<String>> flightsInfo) {
+	public void onAlgFinished(Representation c) {
 		
 	}
 
