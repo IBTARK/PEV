@@ -3,8 +3,6 @@ package model.listRep.genes;
 import java.util.ArrayList;
 import java.util.Random;
 
-import model.fenotypes.FenotypeFunction;
-
 /**
  * Class to represent a generic Gene
  */
@@ -12,13 +10,11 @@ public abstract class Gene implements Cloneable{
 	
 	protected ArrayList<Object> alleles; //List of alleles (components that form the gene)
 	protected int geneLength; //Number of alleles in the gene
-	protected FenotypeFunction fenotypeFunction; //Function to compute the fenotype of the gene
 	protected Double fenotype;
 	
-	public Gene(int geneLength, FenotypeFunction fenotypeFunction) {
+	public Gene(int geneLength) {
 		this.geneLength = geneLength;
 		alleles = new ArrayList<>();
-		this.fenotypeFunction = fenotypeFunction;
 	}
 	
 	/**
@@ -46,26 +42,10 @@ public abstract class Gene implements Cloneable{
 	}
 	
 	/**
-	 * @return the fenotype function
-	 */
-	public FenotypeFunction getFenotypeFunction(){
-		return fenotypeFunction;
-	}
-	
-	/**
 	 * @return the fenotype of the gene
 	 */
 	public Double getFenotype() {
 		return fenotype;
-	}
-	
-	/**
-	 * Computes the fenotype of the gene
-	 * 
-	 * @return the fenotype as a double.
-	 */
-	public Double computeFenotype() {
-		return fenotype = fenotypeFunction.apply(this);
 	}
 	
 	/**
@@ -82,7 +62,6 @@ public abstract class Gene implements Cloneable{
 		
 		//If the change is not valid is reverted
 		if(!valid()) alleles.set(index, old);
-		else computeFenotype(); //The new fenotype is computed
 			
 		return old;
 	}
@@ -93,7 +72,14 @@ public abstract class Gene implements Cloneable{
 	 */
 	public void setAlleles(ArrayList<Object> alleles) {
 		this.alleles = alleles;
-		fenotype = fenotypeFunction.apply(this); //The new fenotype is computed
+	}
+	
+	/**
+	 * set the fenotype of the gene
+	 * @param fenotype
+	 */
+	public void setFenotype(Double fenotype) {
+		this.fenotype = fenotype;
 	}
 	
 	/**

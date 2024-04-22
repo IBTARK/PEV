@@ -18,13 +18,10 @@ public abstract class TreeChromosome extends Representation{
 	protected Symbols symbols;
 	
 	protected String fenotype; //Is calculated in the evaluation function
-	
-	protected FenotypeFunction fenotypeFunction;
 
 	public TreeChromosome(FenotypeFunction fenotypeFunction, Symbols symbols, int minHeight, int maxHeight) {
+		super(fenotypeFunction);
 		root = new TreeNode<Symbol>();
-		
-		this.fenotypeFunction = fenotypeFunction;
 		
 		this.symbols = symbols;
 		
@@ -83,18 +80,6 @@ public abstract class TreeChromosome extends Representation{
 	 */
 	public int getSize() {
 		return root.getDescendants().size() + 1;
-	}
-	
-	/**
-	 * Compute the evaluation function of the tree chormosome (the fitness is also set to the same value as the evaluation)
-	 * 
-	 * @param evaluationFunction function to compute the evaluation of the chormosome
-	 */
-	public Double computeEvaluation(EvaluationFunction evaluationFunction) {
-		evaluation = evaluationFunction.apply(this);
-		fitness = Double.valueOf(evaluation);
-		
-		return evaluation;
 	}
 
 //**********************************************************************************

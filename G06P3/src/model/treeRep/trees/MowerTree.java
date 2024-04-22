@@ -28,6 +28,7 @@ public class MowerTree extends TreeChromosome{
 		//New root
 		newTree.setRoot(root.clone());
 		
+		newTree.setFenotype(new String(fenotype));
 		newTree.setFitness(fitness);
 		newTree.setEvaluation(evaluation);
 		newTree.setScore(score);

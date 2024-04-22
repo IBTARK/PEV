@@ -11,8 +11,8 @@ import model.evaluationFunctions.EvaluationFunction;
 import model.evaluationFunctions.EvaluationFunctionType;
 import model.fenotypes.FenotypeFunction;
 import model.fenotypes.FenotypeType;
-import model.fenotypes.TreeFenotypeFunction;
 import model.fitnessFunctions.FitnessFunction;
+import model.listRep.chromosomes.MowerChromosome;
 import model.mutation.Mutation;
 import model.mutation.MutationType;
 import model.representation.Representation;
@@ -33,7 +33,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	//List representation
 	private int numGenes;
 	private List<Integer> genesLengths;
-	private List<FenotypeFunction> genesFenotypesFunctions;
 	
 	//*****************
 	//Tree representation
@@ -78,7 +77,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		absoluteBestFitness = Double.MIN_VALUE;
 	}
 	
-	public GeneticAlgorithm(RepresentationType representationType, int numGenes, List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions,
+	public GeneticAlgorithm(RepresentationType representationType, int numGenes, List<Integer> genesLengths,
 							int populationSize, int generations, Selection selection, Crossover crossover, double crossoverPctg,
 							Mutation mutation, double mutationPctg, EvaluationFunction evaluationFunction, Boolean minimization) {
 		random = new Random();
@@ -86,7 +85,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		this.representationType = representationType;
 		this.numGenes = numGenes;
 		this.genesLengths = genesLengths;
-		this.genesFenotypesFunctions = genesFenotypesFunctions;
 		
 		this.populationSize = populationSize;
 		this.generations = generations;
@@ -176,7 +174,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		for(int i = 0; i < populationSize; i++) {
 			//TODO add a line for every type of chromosome
 			switch(representationType) {
-				
+				case GRAMMAR:
+				{
+					MowerChromosome mc = new MowerChromosome(numGenes, fenotypeFunction);
+					mc.initializeChromosomeRandom();
+					population.add(mc);
+					break;
+				}
 			}
 		}
 	}
@@ -540,15 +544,6 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setGenesLengths (ArrayList<Integer> genesLengths) {
 		this.genesLengths = genesLengths;
-	}
-	
-	/**
-	 * Set the genes fenotypes functions
-	 * 
-	 * @param genesFenotypesFunctions
-	 */
-	public void setGenesFenotypesFunctions (List<FenotypeFunction> genesFenotypesFunctions) {
-		this.genesFenotypesFunctions = genesFenotypesFunctions;
 	}
 	
 	

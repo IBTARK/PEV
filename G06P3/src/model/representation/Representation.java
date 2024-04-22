@@ -3,20 +3,34 @@ package model.representation;
 import java.util.Random;
 
 import model.evaluationFunctions.EvaluationFunction;
+import model.fenotypes.FenotypeFunction;
 
 public abstract class Representation implements Comparable<Representation>, Cloneable{
 	protected Random random;
+	
+	protected FenotypeFunction fenotypeFunction;
 	
 	protected double evaluation; //evaluation of the chromosome
 	protected double fitness; //fitness of the chromosome
 	protected double score; //relative score (fitness_i/fitness_Total)
 	protected double scoreAccumulated; //accumulated relative score
 	
-	public Representation() {
+	public Representation(FenotypeFunction fenotypeFunction) {
 		random = new Random();
+		this.fenotypeFunction = fenotypeFunction;
 	}
 	
-	public abstract Double computeEvaluation(EvaluationFunction evaluationFunction);
+	/**
+	 * Compute the evaluation function of the tree chormosome (the fitness is also set to the same value as the evaluation)
+	 * 
+	 * @param evaluationFunction function to compute the evaluation of the chormosome
+	 */
+	public Double computeEvaluation(EvaluationFunction evaluationFunction) {
+		evaluation = evaluationFunction.apply(this);
+		fitness = Double.valueOf(evaluation);
+		
+		return evaluation;
+	}
 	
 	/**
 	 * Compute the score and the accumulated score

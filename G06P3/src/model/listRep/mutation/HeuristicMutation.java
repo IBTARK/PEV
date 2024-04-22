@@ -56,7 +56,7 @@ public class HeuristicMutation implements Mutation{
 		}
 		
 		//create the permutations
-		ArrayList<Chromosome> population = new ArrayList<Chromosome>();
+		ArrayList<Representation> population = new ArrayList<Representation>();
 		//calculate permutation
 		ArrayList<ArrayList<Object>> permutations = new ArrayList<>();
         generatePermutations(allelesInsert, numPos, permutations);
@@ -80,7 +80,7 @@ public class HeuristicMutation implements Mutation{
 			}
 		}
 
-		c = population.get(bestInd);
+		c = (Chromosome) population.get(bestInd);
 	}
 
     private void generatePermutations(ArrayList<Object> elements, int n, ArrayList<ArrayList<Object>> result) {

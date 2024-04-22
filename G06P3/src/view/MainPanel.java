@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 
 import control.Controller;
 import model.evaluationFunctions.MowerEvaluation;
+import model.fenotypes.MowerFenotypeFunction;
 import model.fenotypes.TreeFenotypeFunction;
 import model.representation.RepresentationType;
 import model.selection.MontecarloSelection;
@@ -261,7 +263,31 @@ public class MainPanel extends JPanel{
 	 * Set the representation
 	 */
 	private void setRepresentation() {
-		ctr.setRepresentationType(RepresentationType.MOWERTREE);
+		switch (bottomPanel.getRepresentation()) {
+			case "Grammar":
+			{
+				ctr.setRepresentationType(RepresentationType.GRAMMAR);
+				grammarSettings();
+				break;
+			}
+			case "MowerTree":
+			{
+				ctr.setRepresentationType(RepresentationType.MOWERTREE);
+				treeSettings();
+				break;
+			}
+		}
+	}
+	
+	private void grammarSettings() {
+		ArrayList<Integer> genesLengths = new ArrayList<Integer>();
+		genesLengths.add(1);
+		ctr.setGenesLengths(genesLengths);
+		ctr.setFenotypeFunction(new MowerFenotypeFunction());
+		numGenesSettings();
+	}
+	
+	private void treeSettings() {
 		switch (leftPanel.getIniType())
 		{
 			case "Completa":

@@ -139,15 +139,6 @@ public class Controller {
 	}
 	
 	/**
-	 * Set the genes fenotypes functions
-	 * 
-	 * @param genesFenotypesFunctions
-	 */
-	public void setGenesFenotypesFunctions (List<FenotypeFunction> genesFenotypesFunctions) {
-		genAlg.setGenesFenotypesFunctions(genesFenotypesFunctions);
-	}
-	
-	/**
 	 * Set the population size
 	 * 
 	 * @param populationSize

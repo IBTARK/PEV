@@ -12,29 +12,29 @@ import model.representation.Representation;
  * Class to represent a generic chromosome
  */
 public abstract class Chromosome extends Representation{
-	protected List<Gene> genes; //List of genes that form the chormosome	
+	protected List<Gene> genes; //List of genes that form the chromosome	
 	
 	protected int numGenes; //number of genes
 	protected int chromosomeLength;
 	protected List<Integer> genesLengths;
 	
-	public Chromosome(int numGenes,  List<Integer> genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
+	public Chromosome(int numGenes,  List<Integer> genesLengths, FenotypeFunction fenotype) {
+		super(fenotype);
 		this.numGenes = numGenes;
 		this.genesLengths = genesLengths;
 		
 		genes = new ArrayList<Gene>();
 		
-		//Compute the size of the chormosome
+		//Compute the size of the chromosome
 		chromosomeLength = genesLengths.get(0);
 		
-		if(genesFenotypesFunctions.size() == 1 && genesLengths.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
+		if(genesLengths.size() == 1 && numGenes > 1) {
 			for(int i = 1; i < numGenes; i++){
 				chromosomeLength += genesLengths.get(0);
 				genesLengths.add(Integer.valueOf(genesLengths.get(0)));
-				genesFenotypesFunctions.add(genesFenotypesFunctions.get(0).clone());
 			}
 		}
-		else { // Not all the genes have the same fenotype function
+		else {
 			for(int i = 1; i < numGenes; i++){
 				chromosomeLength += genesLengths.get(i);
 			}
@@ -42,29 +42,21 @@ public abstract class Chromosome extends Representation{
 		
 	}
 	
-	public Chromosome(int numGenes,  int genesLengths, List<FenotypeFunction> genesFenotypesFunctions) {
+	public Chromosome(int numGenes,  int genesLengths, FenotypeFunction fenotype) {
+		super(fenotype);
 		this.numGenes = numGenes;
 		this.genesLengths = new ArrayList<Integer>();
 		this.genesLengths.add(genesLengths);
 		
 		genes = new ArrayList<Gene>();
 		
-		//Compute the size of the chormosome
+		//Compute the size of the chromosome
 		chromosomeLength = genesLengths;
 		
-		if(genesFenotypesFunctions.size() == 1 && numGenes > 1) { //All the genes have the same fenotype function
-			for(int i = 1; i < numGenes; i++){
-				chromosomeLength += genesLengths;
-				this.genesLengths.add(Integer.valueOf(genesLengths));
-				genesFenotypesFunctions.add(genesFenotypesFunctions.get(0).clone());
-			}
+		for(int i = 1; i < numGenes; i++){
+			chromosomeLength += genesLengths;
+			this.genesLengths.add(Integer.valueOf(genesLengths));
 		}
-		else { // Not all the genes have the same fenotype function
-			for(int i = 1; i < numGenes; i++){
-				chromosomeLength += genesLengths;
-			}
-		}
-		
 	}
 	
 	/**
@@ -77,23 +69,12 @@ public abstract class Chromosome extends Representation{
 	}
 	
 	/**
-	 * 
-	 * @return list with the fenotypes of each gene of the chromosome
-	 */
-	private void computeGenesFenotypes(){
-		for(Gene g : genes) {
-			g.computeFenotype();
-		}
-	}
-	
-	/**
 	 * Compute the evaluation function of the chormosome (the fitness is also set to the same value as the evaluation)
 	 * 
 	 * @param evaluationFunction function to compute the evaluation of the chormosome
 	 */
 	public Double computeEvaluation(EvaluationFunction evaluationFunction) {
 		//Compute the fenotypes of the genes
-		computeGenesFenotypes();
 		evaluation = evaluationFunction.apply(this);
 		fitness = Double.valueOf(evaluation);
 		
