@@ -2,7 +2,6 @@ package view.mower;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -47,13 +46,12 @@ public class Garden extends JPanel implements GenAlgObserver{
 		setPreferredSize(new Dimension(width, height));
 		gardenGrid = new JPanel();
 		gardenGrid.setBackground(Color.BLACK);
-		//gardenGrid.setPreferredSize(new Dimension(height, height));
 		gardenGrid.setLayout(new GridLayout(numCols, numRows, 1, 1));
 		for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
                 JPanel cell = new JPanel();
                 cell.setBackground(Color.GREEN.darker().darker());
-                cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-numCols, (height/Math.max(numCols, numRows))-numRows));
+                cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-5, (height/Math.max(numCols, numRows))-5));
                 gardenGrid.add(cell);
             }
         }
@@ -69,6 +67,7 @@ public class Garden extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onRegister() {
+		
 	}
 
 	@Override
@@ -78,7 +77,6 @@ public class Garden extends JPanel implements GenAlgObserver{
 		remove(gardenGrid);
 		gardenGrid = new JPanel();
 		gardenGrid.setBackground(Color.BLACK);
-		//gardenGrid.setPreferredSize(new Dimension(height, height));
 		gardenGrid.setLayout(new GridLayout(numCols, numRows, 1, 1));
 		for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
@@ -88,7 +86,7 @@ public class Garden extends JPanel implements GenAlgObserver{
 		        } else {
 		        	cell.setBackground(Color.GREEN.darker().darker());
 		        }
-                cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-numCols, (height/Math.max(numCols, numRows))-numRows));
+                cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-5, (height/Math.max(numCols, numRows))-5));
                 gardenGrid.add(cell);
             }
         }
