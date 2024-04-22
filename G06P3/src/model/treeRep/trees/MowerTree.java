@@ -9,11 +9,13 @@ import resources.Pair;
 public class MowerTree extends TreeChromosome{
 	
 	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
+	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 	
 	public MowerTree(FenotypeFunction fenotypeFunction, Symbols symbols, int minHeight, int maxHeight) {
 		super(fenotypeFunction, symbols, minHeight, maxHeight);
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
+		garden = new ArrayList<ArrayList<Boolean>>();
 	}
 
 //**********************************************************************************
@@ -48,10 +50,18 @@ public class MowerTree extends TreeChromosome{
 		return path;
 	}
 	
+	public ArrayList<ArrayList<Boolean>> getGarden(){
+		return garden;
+	}
+	
 //**********************************************************************************
 //Setters
 	
 	public void setPath(ArrayList<Pair<Integer, Integer>> path){
 		this.path = path;
+	}
+	
+	public void setGarden(ArrayList<ArrayList<Boolean>> garden) {
+		this.garden = garden;
 	}
 }

@@ -1,19 +1,28 @@
 package model.fitnessFunctions;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.evaluationFunctions.EvaluationFunction;
-import model.listRep.chromosomes.Chromosome;
 import model.representation.Representation;
+import model.treeRep.trees.TreeChromosome;
 
 public class FitnessFunction {
+	private Random random;
+	
 	private Boolean minimization;
 	private EvaluationFunction evaluationFunction;
 	private Representation bestOfGen; //Element with best fitness of the generation
 	
+	private double avgSize; //Only used when the representation is a tree. Average nodes of the population
+	
 	public FitnessFunction(Boolean minimization, EvaluationFunction evaluationFunction) {
+		random = new Random();
+		
 		this.minimization = minimization;
 		this.evaluationFunction = evaluationFunction;
+		
+		avgSize = 0;
 	}
 
 	public void applyEvaluationFunction(ArrayList<Representation> population) {
@@ -22,6 +31,11 @@ public class FitnessFunction {
 		double lastScoreAccumulated = 0;
 		
 		for(int i = 0; i < population.size(); i++) {
+			//If possible compute the average size of the trees
+			if(population.get(0) instanceof TreeChromosome) {
+				avgSize += (((TreeChromosome) population.get(0)).getRoot().getDescendants().size() + 1);
+			}
+			
 			//Compute the evaluation
 			evaluation = population.get(i).computeEvaluation(evaluationFunction);
 			//If necessary update the maximum and minimum evaluation
@@ -34,6 +48,13 @@ public class FitnessFunction {
 			//Add the evaluation of the chromosome to the total evaluation
 			totalEvaluation += evaluation;
 		}
+		
+		//If possible compute the average size of the trees
+		if(population.get(0) instanceof TreeChromosome) {
+			avgSize = avgSize / population.size();
+		}
+		
+		totalEvaluation = tarpeian(population, totalEvaluation);
 		
 		if(minimization)
 			totalFitness = displaceToMinimize(population, maxEvaluation);
@@ -94,6 +115,34 @@ public class FitnessFunction {
 		}
 		
 		return totalFitness;
+	}
+	
+	/**
+	 * Tarpeian method to control the bloating.
+	 * 
+	 * Only used when the representation is in the form of a tree
+	 * 
+	 * @param population
+	 */
+	private double tarpeian(ArrayList<Representation> population, double totalEvaluation) {
+		double newTotalEvaluation = totalEvaluation, bestEvaluation = Double.MIN_VALUE;
+		
+		if(population.get(0) instanceof TreeChromosome) {
+			for(Representation r : population) {
+				TreeChromosome t = (TreeChromosome) r;
+				if(t.getRoot().getDescendants().size() + 1 > avgSize && random.nextInt() % 2 == 0) {
+					newTotalEvaluation -= t.getEvaluation();
+					t.setEvaluation(0.0);
+					t.setFitness(0.0);
+				}
+				if(t.getEvaluation() > bestEvaluation) {
+					bestEvaluation = t.getEvaluation();
+					bestOfGen = t;
+				}
+			}
+		}
+		
+		return newTotalEvaluation;
 	}
 	
 	/**

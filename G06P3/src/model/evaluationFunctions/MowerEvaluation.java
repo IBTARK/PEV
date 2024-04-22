@@ -60,18 +60,34 @@ public class MowerEvaluation implements EvaluationFunction{
 
 	@Override
 	public Double apply(Representation c) {
+		int numNoMovement = 0; //Number of times that no movement has been done
+		int lastNumLeftRotations = 0, lastNumMovement = 0;
+		
 		//Reset all the attributes
 		reset();
 		
 		MowerTree t = (MowerTree) c;
 		
 		//The program is executed repeatedly
-		while(numLeftRotations < 100 && numMovements < 100 && numLawnCut < numCols * numRows) {
+		while(numLeftRotations < 100 && numMovements < 100 && numLawnCut < numCols * numRows && numNoMovement < 2) {
+			//Code to control those cases in which no movement can be done
+			lastNumLeftRotations = numLeftRotations;
+			lastNumMovement = numMovements;
+			
 			visitNode(t.getRoot());
+			
+			//Code to control those cases in which no movement can be done
+			if(lastNumLeftRotations == numLeftRotations && lastNumMovement == numMovements) {
+				numNoMovement++;
+			}
+			else {
+				numNoMovement = 0;
+			}
 		}
 		
-		//Save the path
+		//Save the path and the garden
 		t.setPath(path);
+		t.setGarden(garden);
 		
 		return Double.valueOf(numLawnCut);
 	}

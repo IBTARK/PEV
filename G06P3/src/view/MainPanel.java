@@ -38,6 +38,8 @@ public class MainPanel extends JPanel{
 	
 	private JButton menuButton;
 	private JButton runButton;
+	private JButton changeCenterPanelButton;
+	private Boolean graphInDisp;
 	
 	private int windowsWidth;
 	private int windowsHeight;
@@ -60,6 +62,7 @@ public class MainPanel extends JPanel{
 		this.windowsWidth = windowsWidth;
 		this.windowsHeight = windowsHeight;
 		menuVisible = true;
+		graphInDisp = true;
 		
 		initGUI();
 	}
@@ -110,6 +113,25 @@ public class MainPanel extends JPanel{
 		centerPanel.setPreferredSize(new Dimension(windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * (1 - TOPPANELPCTGHEIGHT - BOTTOMPANELPCTGHEIGHT))));
 		restPanel.add(centerPanel, BorderLayout.CENTER);
 		
+		//Button to change the center panel 
+		changeCenterPanelButton = new JButton(new ImageIcon(Toolkit.getDefaultToolkit().createImage("icons/change.png")));
+		
+		changeCenterPanelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				centerPanel.cangeCenterPanel(graphInDisp);
+				if(graphInDisp) {
+					graphInDisp = false;
+				}
+				else {
+					graphInDisp = true;
+				}
+				bottomPanel.hideGardenDimsPanel(graphInDisp);
+			}
+			
+		});
+		
 		//Run button
 		runButton = new JButton(new ImageIcon(Toolkit.getDefaultToolkit().createImage("icons/run.png")));
 		
@@ -121,7 +143,7 @@ public class MainPanel extends JPanel{
 				topPanel.setTitle("Airport");
 				//Adjust the genetic algorithms settings
 				setGeneralSettings();
-				centerPanel.newEvolutionGraph(leftPanel.getGenerations());
+				centerPanel.newExecution(leftPanel.getGenerations(), bottomPanel.getNumCols(), bottomPanel.getNumRows());
 				setEvaluationFunction();
 				setSelection();
 				setCrossover();
@@ -136,7 +158,7 @@ public class MainPanel extends JPanel{
 		});
 		
 		//Bottom panel
-		bottomPanel = new BottomPanel(ctr, runButton);
+		bottomPanel = new BottomPanel(ctr, runButton, changeCenterPanelButton);
 		bottomPanel.setPreferredSize(new Dimension(windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * BOTTOMPANELPCTGHEIGHT)));
 		restPanel.add(bottomPanel, BorderLayout.PAGE_END);
 		
@@ -252,7 +274,7 @@ public class MainPanel extends JPanel{
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
-		ctr.setEvaluationFunction(new MowerEvaluation(8, 8));
+		ctr.setEvaluationFunction(new MowerEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
 	}
 	
 	/**
@@ -278,7 +300,7 @@ public class MainPanel extends JPanel{
 				break;
 			}
 		}
-		ctr.setSymbols(new MowerSymbols(8,8));
+		ctr.setSymbols(new MowerSymbols(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
 		ctr.setFenotypeFunction(new TreeFenotypeFunction());
 		ctr.setMaxHeight(5);
 		ctr.setMinHeight(1);

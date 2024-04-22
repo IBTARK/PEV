@@ -39,8 +39,8 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 		plot.addLegend("SOUTH");
 		
 		plot.addLinePlot("Mejor absoluto", generations, absoluteBests);
-		plot.addLinePlot("Mejor generaciÃ³n", generations, generationBests);
-		plot.addLinePlot("Mejor media generaciÃ³n", generations, generationMean);
+		plot.addLinePlot("Mejor generacion", generations, generationBests);
+		plot.addLinePlot("Mejor media generacion", generations, generationMean);
 		
 		plot.setPreferredSize(new Dimension(width, height));
 		this.add(plot);
@@ -112,8 +112,8 @@ public class EvolutionGraph extends JPanel implements GenAlgObserver{
 		plot.removeAllPlots();
 		
 		plot.addLinePlot("Mejor absoluto", generations, absoluteBests);
-		plot.addLinePlot("Mejor generación", generations, generationBests);
-		plot.addLinePlot("Media generación", generations, generationMean);
+		plot.addLinePlot("Mejor generacion", generations, generationBests);
+		plot.addLinePlot("Media generacion", generations, generationMean);
 		
 		plot.repaint();
 	}

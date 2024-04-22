@@ -87,18 +87,22 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	private Color background = Color.GRAY;
 	
 	private int borderSize = 3;
+	
+	private int width;
+	private int height;
 
 	
 	public LeftPanel(Controller ctr, JButton menuButton, int width, int height) {
 		this.ctr = ctr;
 		this.menuButton = menuButton;
+		this.width = width;
+		this.height = height;
 		initGUI(width, height);
 		ctr.addObserver(this);
 	}
 	
 	private void initGUI(int width, int height) {
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-		//this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		//The menu button is added to the panel
 		menuButton.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().createImage("icons/menu.png")));
@@ -112,7 +116,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		menuButton.setBorderPainted(false);
 		menuButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(menuButton);
-		
+
 		//Spacing
 		add(Box.createRigidArea(new Dimension(width - menuButtonWidth, 0)));
 		
@@ -121,6 +125,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		popSizeSpinner = new JSpinner(new SpinnerNumberModel(100, 2, 100000, 1));
 		createSpinnerSection(popSizePanel, "Tamaño de la poblacion: ", popSizeSpinner, 43);
 		this.add(popSizePanel);
+		this.height = popSizePanel.getHeight();
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Section to select the number of generations
@@ -209,7 +214,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		selectTruncPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
-		//Section to select the value of trunc
+		//Section to select the value of beta
 		selectBetaPanel = new JPanel();
 		selectBetaSpinner = new JSpinner(new SpinnerNumberModel(2.0, 1.0, 2.0, 0.1));
 		//Configure the editor to display doubles
@@ -222,7 +227,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		//Section to indicate probabilistic
 		probabilisticPanel = new JPanel();
 		probabilisticCheckBox = new JCheckBox();
-		createCheckBoxSection(probabilisticPanel, "Probabilista: ", probabilisticCheckBox, 143);
+		createCheckBoxSection(probabilisticPanel, "Probabilista: ", probabilisticCheckBox, 133);
 		add(probabilisticPanel);
 		probabilisticPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
@@ -260,7 +265,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		iniTypeComboBox = new JComboBox<String>(iniTypeModel);
 		//default
 		iniTypeModel.setSelectedItem(InitializationType.GROW.toString());
-		createComboBoxArea(iniTypePanel, "Metodo de inicialización: ", iniTypeComboBox, 12);
+		createComboBoxArea(iniTypePanel, "Tipo de inicialización: ", iniTypeComboBox, 12);
 		add(iniTypePanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
@@ -323,6 +328,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		panel.setBackground(background);
+		panel.setMinimumSize(new Dimension(0, 0));
 	}
 	
 	/**
@@ -353,6 +359,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		panel.setBackground(background);
+		panel.setMinimumSize(new Dimension(0, 0));
 	}
 	
 	/**
@@ -381,6 +388,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		panel.setBackground(background);
+		panel.setMinimumSize(new Dimension(0, 0));
 	}
 	
 	/**
@@ -406,11 +414,31 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossPctgPanel.setVisible(visible);
 		mutPctgPanel.setVisible(visible);
 		selectionPanel.setVisible(visible);
+		selectKPanel.setVisible(visible);
+		selectTruncPanel.setVisible(visible);
+		selectBetaPanel.setVisible(visible);
+		probabilisticPanel.setVisible(visible);
 		crossoverPanel.setVisible(visible); 
+		terminalOrFunctionalProbPanel.setVisible(visible);
 		mutationPanel.setVisible(visible);
+		iniTypePanel.setVisible(visible);
 		elitismPanel.setVisible(visible);
+		elitismPctgPanel.setVisible(visible);
+	}
+	
+	public void setVisible(JPanel panel, Boolean visible) {
+		if(visible) {
+			panel.setPreferredSize(new Dimension(width, height));
+		}
+		else {
+			panel.setMaximumSize(new Dimension(0,0));
+			panel.setPreferredSize(new Dimension(0,0));
+		}
+		
+		panel.setVisible(visible);
 	}
 
+	
 //*********************************************************************************************
 //Getters
 	

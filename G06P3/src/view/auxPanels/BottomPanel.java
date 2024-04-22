@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -15,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import control.Controller;
 import model.GenAlgObserver;
@@ -28,14 +28,20 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	private JComboBox<String> representationCombo;
 	private DefaultComboBoxModel<String> representationComboModel; //Combo box to select the representation
 	
+	private JPanel gardenDimensionPanel; //Panel to select the number of columns and rows of the garden
+	private JSpinner numColsSpinner;
+	private JSpinner numRowsSpinner;
+	
+	private JButton changeCenterPanelButton;
 	private JButton runButton;
 	
 	private Color background = Color.GRAY;
 	
 	private int borderSize = 3;
 	
-	public BottomPanel(Controller ctr, JButton runButton) {
+	public BottomPanel(Controller ctr, JButton runButton, JButton changeCenterPanelButton) {
 		this.runButton = runButton;
+		this.changeCenterPanelButton = changeCenterPanelButton;
 		this.ctr = ctr;
 		initGUI();
 		ctr.addObserver(this);
@@ -47,7 +53,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		//Top pannel
 		JPanel topPanel = new JPanel();
 		
-		//Section to select the problem
+		//Section to select the representation
 		problemPanel = new JPanel();
 		representationComboModel = new DefaultComboBoxModel<String>();
 		representationCombo = new JComboBox<String>(representationComboModel);
@@ -60,6 +66,36 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		//problemPanel.setVisible(true);
 		add(topPanel);
 		
+		//Section to select the dimensions of the garden
+		gardenDimensionPanel = new JPanel();
+		gardenDimensionPanel.setLayout(new BoxLayout(gardenDimensionPanel, BoxLayout.X_AXIS));
+		gardenDimensionPanel.add(createLabel("Número de columnas: "));
+		//Space between label and spinner
+		gardenDimensionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		numColsSpinner = new JSpinner(new SpinnerNumberModel(8, 2, 100000, 1));
+		numColsSpinner.setPreferredSize(new Dimension(50, 20));
+		numColsSpinner.setMaximumSize(new Dimension(50, 20));
+		numColsSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
+		gardenDimensionPanel.add(numColsSpinner);
+		//Space between spinner and label
+		gardenDimensionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		gardenDimensionPanel.add(createLabel("Número de filas: "));
+		//Space between label and spinner
+		gardenDimensionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		numRowsSpinner = new JSpinner(new SpinnerNumberModel(8, 2, 100000, 1));
+		numRowsSpinner.setPreferredSize(new Dimension(50, 20));
+		numRowsSpinner.setMaximumSize(new Dimension(50, 20));
+		numRowsSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
+		gardenDimensionPanel.add(numRowsSpinner);
+		gardenDimensionPanel.setVisible(false);
+		
+		gardenDimensionPanel.setBackground(background);
+		add(gardenDimensionPanel);
+		
+		
+		add(Box.createRigidArea(new Dimension(0, 10)));
+		
+		
 		//Buttons panel
 		JPanel buttonsPanel = new JPanel();
 		
@@ -68,6 +104,10 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		runButton.setPreferredSize(new Dimension(35, 35));
 		buttonsPanel.add(runButton);
 		buttonsPanel.setBackground(background);
+		
+		//Button to change the center panel
+		changeCenterPanelButton.setPreferredSize(new Dimension(35, 35));
+		buttonsPanel.add(changeCenterPanelButton);
 		
 		add(buttonsPanel);
 		
@@ -119,6 +159,15 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		panel.setBackground(background);
 	}
+	
+	public void hideGardenDimsPanel(Boolean hide) {
+		if(hide) {
+			gardenDimensionPanel.setVisible(false);
+		}
+		else {
+			gardenDimensionPanel.setVisible(true);
+		}
+	}
 
 //*********************************************************************************************
 //Observer interface
@@ -153,5 +202,13 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	
 	public String getRepresentation() {
 		return (String) representationCombo.getSelectedItem();
+	}
+	
+	public int getNumCols() {
+		return (int) numColsSpinner.getValue();
+	}
+	
+	public int getNumRows() {
+		return (int) numRowsSpinner.getValue();
 	}
 }
