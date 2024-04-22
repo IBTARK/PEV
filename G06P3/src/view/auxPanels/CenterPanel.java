@@ -1,8 +1,5 @@
 package view.auxPanels;
 
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -11,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
+import javax.swing.JTabbedPane;
 
 import control.Controller;
 import model.GenAlgObserver;
@@ -23,20 +20,13 @@ import view.mower.Garden;
 public class CenterPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
 	
-	private JPanel mainCenterPanel;
-	
-	//Card layout
-	private CardLayout cardLayout;
-	public static final String graphPanelId = "Panel to display the resutl";
-	public static final String gardenPanelId = "Panel to display the garden";
-	
 	private JPanel graphPanel;
 	private EvolutionGraph evolutionGraph;
 	private JPanel solPanel;
 	private JLabel solLabel;
 	
-	private JPanel gardenExteriorPanel;
-	private Garden gardenPanel;
+	private JPanel gardenPanel;
+	private Garden garden;
 	
 	private static final int TAMSOLPANEL = 60;
 	
@@ -55,31 +45,11 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	private void initGUI(Controller ctr, int width, int height, int generations) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		cardLayout = new CardLayout();
-		mainCenterPanel = new JPanel(cardLayout);
-		
 		//Graph panel
 		graphPanel = new JPanel();
 		evolutionGraph = new EvolutionGraph(ctr, width, height, generations);
 		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight));
 		graphPanel.add(evolutionGraph);
-	
-		gardenExteriorPanel = new JPanel(new BorderLayout());
-		
-		//Garden panel
-		JLabel titleLabel = new JLabel("Garden");
-		titleLabel.setFont(new Font(Font.SERIF, Font.BOLD, 25));
-		titleLabel.setForeground(Color.BLACK);
-		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		gardenExteriorPanel.add(titleLabel, BorderLayout.NORTH);
-		
-		gardenPanel = new Garden(ctr, width / 2, height / 2);
-		gardenPanel.setPreferredSize(new Dimension(initialWidth / 2, initialHeight / 2));
-		gardenExteriorPanel.add(gardenPanel, BorderLayout.CENTER);
-		
-		mainCenterPanel.add(graphPanel, graphPanelId);
-		mainCenterPanel.add(gardenExteriorPanel, gardenPanelId);
-		add(mainCenterPanel);
 		
 		//Solution panel
 		solPanel = new JPanel();
@@ -89,11 +59,20 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		solPanel.setPreferredSize(new Dimension(width, TAMSOLPANEL));
 		solPanel.add(solLabel);
 		solPanel.setAlignmentX(CENTER_ALIGNMENT);
-		
-		
 		solPanel.add(new JScrollPane(solLabel));
 		solPanel.setVisible(false);
-		add(solPanel);
+		graphPanel.add(solPanel);
+	
+		//Garden panel
+		gardenPanel = new JPanel();
+		garden = new Garden(ctr, width, height);
+		gardenPanel.add(garden);
+		
+		
+		JTabbedPane tabbedPane = new JTabbedPane();
+		tabbedPane.addTab("Gráfica", graphPanel);
+		tabbedPane.addTab("Jardín", gardenPanel);
+		add(tabbedPane);
 		
 	}
 	
@@ -106,9 +85,9 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		graphPanel.add(evolutionGraph);
 		
 		//New garden
-		gardenExteriorPanel.remove(gardenPanel);
-		gardenPanel = new Garden(ctr, width/2, height/2, numCols, numRows);
-		gardenExteriorPanel.add(gardenPanel, BorderLayout.CENTER);
+		gardenPanel.remove(garden);
+		garden = new Garden(ctr, initialWidth, initialHeight, numCols, numRows);
+		gardenPanel.add(garden);
 	}
 	
 	public void setPreferredSizeGraph(int width, int height) {
@@ -127,15 +106,6 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		label.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		return label;
-	}
-	
-	public void cangeCenterPanel(Boolean inDisplayGraph) {
-		if(inDisplayGraph) {
-			cardLayout.show(mainCenterPanel, gardenPanelId);
-		}
-		else {
-			cardLayout.show(mainCenterPanel, graphPanelId);
-		}
 	}
 
 //*********************************************************************************

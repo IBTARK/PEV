@@ -31,17 +31,15 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	private JPanel gardenDimensionPanel; //Panel to select the number of columns and rows of the garden
 	private JSpinner numColsSpinner;
 	private JSpinner numRowsSpinner;
-	
-	private JButton changeCenterPanelButton;
+
 	private JButton runButton;
 	
 	private Color background = Color.GRAY;
 	
 	private int borderSize = 3;
 	
-	public BottomPanel(Controller ctr, JButton runButton, JButton changeCenterPanelButton) {
+	public BottomPanel(Controller ctr, JButton runButton) {
 		this.runButton = runButton;
-		this.changeCenterPanelButton = changeCenterPanelButton;
 		this.ctr = ctr;
 		initGUI();
 		ctr.addObserver(this);
@@ -104,10 +102,6 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		runButton.setPreferredSize(new Dimension(35, 35));
 		buttonsPanel.add(runButton);
 		buttonsPanel.setBackground(background);
-		
-		//Button to change the center panel
-		changeCenterPanelButton.setPreferredSize(new Dimension(35, 35));
-		buttonsPanel.add(changeCenterPanelButton);
 		
 		add(buttonsPanel);
 		

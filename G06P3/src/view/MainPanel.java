@@ -38,7 +38,6 @@ public class MainPanel extends JPanel{
 	
 	private JButton menuButton;
 	private JButton runButton;
-	private JButton changeCenterPanelButton;
 	private Boolean graphInDisp;
 	
 	private int windowsWidth;
@@ -113,25 +112,6 @@ public class MainPanel extends JPanel{
 		centerPanel.setPreferredSize(new Dimension(windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * (1 - TOPPANELPCTGHEIGHT - BOTTOMPANELPCTGHEIGHT))));
 		restPanel.add(centerPanel, BorderLayout.CENTER);
 		
-		//Button to change the center panel 
-		changeCenterPanelButton = new JButton(new ImageIcon(Toolkit.getDefaultToolkit().createImage("icons/change.png")));
-		
-		changeCenterPanelButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				centerPanel.cangeCenterPanel(graphInDisp);
-				if(graphInDisp) {
-					graphInDisp = false;
-				}
-				else {
-					graphInDisp = true;
-				}
-				bottomPanel.hideGardenDimsPanel(graphInDisp);
-			}
-			
-		});
-		
 		//Run button
 		runButton = new JButton(new ImageIcon(Toolkit.getDefaultToolkit().createImage("icons/run.png")));
 		
@@ -140,7 +120,7 @@ public class MainPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//Change the label
-				topPanel.setTitle("Airport");
+				topPanel.setTitle("Garden");
 				//Adjust the genetic algorithms settings
 				setGeneralSettings();
 				centerPanel.newExecution(leftPanel.getGenerations(), bottomPanel.getNumCols(), bottomPanel.getNumRows());
@@ -158,7 +138,7 @@ public class MainPanel extends JPanel{
 		});
 		
 		//Bottom panel
-		bottomPanel = new BottomPanel(ctr, runButton, changeCenterPanelButton);
+		bottomPanel = new BottomPanel(ctr, runButton);
 		bottomPanel.setPreferredSize(new Dimension(windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * BOTTOMPANELPCTGHEIGHT)));
 		restPanel.add(bottomPanel, BorderLayout.PAGE_END);
 		

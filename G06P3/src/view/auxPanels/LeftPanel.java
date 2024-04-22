@@ -238,7 +238,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverComboBox = new JComboBox<String>(crossoverModel);
 		//default
 		crossoverModel.setSelectedItem(CrossoverType.TREECROSSOVER.toString());
-		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 33);
+		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 20);
 		add(crossoverPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
