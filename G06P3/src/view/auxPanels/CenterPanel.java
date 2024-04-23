@@ -66,8 +66,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		//Garden panel
 		gardenPanel = new JPanel();
 		garden = new Garden(ctr, width, height);
-		gardenPanel.add(garden);
-		
+		gardenPanel.add(garden);		
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Gráfica", graphPanel);
@@ -85,6 +84,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		graphPanel.add(evolutionGraph);
 		
 		//New garden
+		garden.remove(); //se elimina el observador del jardín anterior
 		gardenPanel.remove(garden);
 		garden = new Garden(ctr, initialWidth, initialHeight, numCols, numRows);
 		gardenPanel.add(garden);

@@ -22,14 +22,13 @@ public class Garden extends JPanel implements GenAlgObserver{
 	
 	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 	
-	public Garden(Controller ctr, int width, int height){
+	public Garden(Controller ctr, int width, int height){ //only used to paint the garden the first time
 		this.ctr = ctr;
 		this.height = height;
 		this.numCols = 8;
 		this.numRows = 8;
 		
 		initGUI(width, height);
-		ctr.addObserver(this);
 	}
 
 	public Garden(Controller ctr, int width, int height, int numCols,int  numRows){
@@ -63,6 +62,7 @@ public class Garden extends JPanel implements GenAlgObserver{
 	
 	@Override
 	public void onGenCompleted(int generation, double absoluteBest, double generationBest, double meanGeneration) {
+	
 	}
 
 	@Override
@@ -81,6 +81,7 @@ public class Garden extends JPanel implements GenAlgObserver{
 		for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
                 JPanel cell = new JPanel();
+                
                 if(garden.get(j).get(i)) { // Has been cut
                 	cell.setBackground(Color.GRAY.darker().darker());
 		        } else {
