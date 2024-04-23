@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -54,7 +56,8 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		//Section to select the representation
 		problemPanel = new JPanel();
 		representationComboModel = new DefaultComboBoxModel<String>();
-		representationCombo = new JComboBox<String>(representationComboModel);
+		representationCombo = new JComboBox<String>(representationComboModel);		
+		
 		//default
 		representationComboModel.setSelectedItem(RepresentationType.MOWERTREE.toString());
 		createComboBoxArea(problemPanel, "Selecciona la representación", representationCombo, 20);
@@ -63,6 +66,20 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		topPanel.setBackground(background);
 		//problemPanel.setVisible(true);
 		add(topPanel);
+		
+		representationCombo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if((String) representationCombo.getSelectedItem() == "Grammar") {
+					hideGardenDimsPanel(true);
+				}
+				else if((String) representationCombo.getSelectedItem() == "MowerTree"){
+					hideGardenDimsPanel(false);
+				}
+			}
+			
+		});
 		
 		//Section to select the dimensions of the garden
 		gardenDimensionPanel = new JPanel();
@@ -85,7 +102,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		numRowsSpinner.setMaximumSize(new Dimension(50, 20));
 		numRowsSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		gardenDimensionPanel.add(numRowsSpinner);
-		gardenDimensionPanel.setVisible(false);
+		gardenDimensionPanel.setVisible(true);
 		
 		gardenDimensionPanel.setBackground(background);
 		add(gardenDimensionPanel);
