@@ -317,6 +317,6 @@ public class MainPanel extends JPanel{
 	 * Set the number of genes
 	 */
 	private void numGenesSettings() {
-		ctr.setNumGenes(1); //TODO revisar
+		ctr.setNumGenes(10); //TODO revisar
 	}
 }
