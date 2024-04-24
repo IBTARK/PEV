@@ -12,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +34,11 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	private JPanel gardenDimensionPanel; //Panel to select the number of columns and rows of the garden
 	private JSpinner numColsSpinner;
 	private JSpinner numRowsSpinner;
+	
+	private JSpinner maxHeightSpinner;
+	
+	private JPanel bloatingPanel;
+	private JCheckBox bloatingCheckBox; //CheckBox to indicate if bloating is applied
 
 	private JButton runButton;
 	
@@ -102,6 +108,21 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		numRowsSpinner.setMaximumSize(new Dimension(50, 20));
 		numRowsSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
 		gardenDimensionPanel.add(numRowsSpinner);
+		//Space between spinner and label
+		gardenDimensionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+		gardenDimensionPanel.add(createLabel("Altura máxima: "));
+		maxHeightSpinner = new JSpinner(new SpinnerNumberModel(5, 1, 5, 1));
+		maxHeightSpinner.setPreferredSize(new Dimension(50, 20));
+		maxHeightSpinner.setMaximumSize(new Dimension(50, 20));
+		maxHeightSpinner.setAlignmentX(Component.LEFT_ALIGNMENT);
+		gardenDimensionPanel.add(maxHeightSpinner);
+		//Space between spinner and label
+		bloatingPanel = new JPanel();
+		bloatingCheckBox = new JCheckBox();
+		createCheckBoxSection(bloatingPanel, "Bloating: ", bloatingCheckBox, 50);
+		bloatingPanel.add(bloatingCheckBox);
+		gardenDimensionPanel.add(bloatingPanel);
+		
 		gardenDimensionPanel.setVisible(true);
 		
 		gardenDimensionPanel.setBackground(background);
@@ -171,6 +192,35 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		panel.setBackground(background);
 	}
 	
+	/**
+	 * Create a panel with a label and a checkbox
+	 * 
+	 * @param panel panel where the label and the check box will be displayed
+	 * @param text string of the label
+	 * @param checkbox check box to be added
+	 * @param pixelsBtwnLabelCheck pixels between the label and the check box
+	 */
+	private void createCheckBoxSection(JPanel panel, String text, JCheckBox checkbox, int pixelsBtwnLabelCheck) {
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		
+		//label
+		JLabel label = createLabel(text);
+		panel.add(label);
+		
+		//Space between label and spinner
+		panel.add(Box.createRigidArea(new Dimension(pixelsBtwnLabelCheck, 0)));
+		
+		//Check box
+		checkbox.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.add(checkbox);
+		
+		//Panel properties
+		panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		panel.setBackground(background);
+		panel.setMinimumSize(new Dimension(0, 0));
+	}
+	
 	public void hideGardenDimsPanel(Boolean hide) {
 		if(hide) {
 			gardenDimensionPanel.setVisible(false);
@@ -221,5 +271,13 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	
 	public int getNumRows() {
 		return (int) numRowsSpinner.getValue();
+	}
+	
+	public int getMaxHeight() {
+		return (int) maxHeightSpinner.getValue();
+	}
+	
+	public boolean getBloatting() {
+		return bloatingCheckBox.isSelected();
 	}
 }

@@ -131,6 +131,7 @@ public class MainPanel extends JPanel{
 				setCrossover();
 				setMutation();
 				ctr.setMinimization(false); //TODO revisar
+				ctr.setBloating(bottomPanel.getBloatting());
 				setRepresentation();
 				
 				//Execute the genetic algorithm
@@ -308,7 +309,7 @@ public class MainPanel extends JPanel{
 		}
 		ctr.setSymbols(new MowerSymbols(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
 		ctr.setFenotypeFunction(new TreeFenotypeFunction());
-		ctr.setMaxHeight(5);
+		ctr.setMaxHeight(bottomPanel.getMaxHeight());
 		ctr.setMinHeight(1);
 		numGenesSettings();
 	}

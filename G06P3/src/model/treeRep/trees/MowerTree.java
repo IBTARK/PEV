@@ -9,12 +9,14 @@ import resources.Pair;
 public class MowerTree extends TreeChromosome{
 	
 	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
+	private ArrayList<Integer> orientationPath; //orientation path followed by the mower
 	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 	
 	public MowerTree(FenotypeFunction fenotypeFunction, Symbols symbols, int minHeight, int maxHeight) {
 		super(fenotypeFunction, symbols, minHeight, maxHeight);
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
+		orientationPath = new ArrayList<Integer>();
 		garden = new ArrayList<ArrayList<Boolean>>();
 	}
 
@@ -35,8 +37,12 @@ public class MowerTree extends TreeChromosome{
 		newTree.setScoreAccumulated(scoreAccumulated);
 		
 		ArrayList<Pair<Integer, Integer>> newPath = new ArrayList<Pair<Integer, Integer>>();
+		ArrayList<Integer> newOrientationPath = new ArrayList<Integer>();
 		for(Pair<Integer, Integer> pos : path) {
 			newPath.add(new Pair<Integer, Integer>(pos.getFirst(), pos.getSecond()));
+		}
+		for(int i = 0; i < orientationPath.size(); i++) {
+			newOrientationPath.add(orientationPath.get(i));
 		}
 		
 		newTree.setPath(newPath);
@@ -51,6 +57,10 @@ public class MowerTree extends TreeChromosome{
 		return path;
 	}
 	
+	public ArrayList<Integer> getOrientationPath(){
+		return orientationPath;
+	}
+	
 	public ArrayList<ArrayList<Boolean>> getGarden(){
 		return garden;
 	}
@@ -60,6 +70,10 @@ public class MowerTree extends TreeChromosome{
 	
 	public void setPath(ArrayList<Pair<Integer, Integer>> path){
 		this.path = path;
+	}
+	
+	public void setOrientationPath(ArrayList<Integer> orientationPath){
+		this.orientationPath = orientationPath;
 	}
 	
 	public void setGarden(ArrayList<ArrayList<Boolean>> garden) {

@@ -11,14 +11,15 @@ public class FitnessFunction {
 	private Random random;
 	
 	private Boolean minimization;
+	private Boolean bloating;
 	private EvaluationFunction evaluationFunction;
 	private Representation bestOfGen; //Element with best fitness of the generation
 	
 	private double avgSize; //Only used when the representation is a tree. Average nodes of the population
 	
-	public FitnessFunction(Boolean minimization, EvaluationFunction evaluationFunction) {
+	public FitnessFunction(Boolean bloating, Boolean minimization, EvaluationFunction evaluationFunction) {
 		random = new Random();
-		
+		this.bloating = bloating;
 		this.minimization = minimization;
 		this.evaluationFunction = evaluationFunction;
 		
@@ -54,7 +55,9 @@ public class FitnessFunction {
 			avgSize = avgSize / population.size();
 		}
 		
-		totalEvaluation = tarpeian(population, totalEvaluation);
+		if(bloating) {
+			totalEvaluation = tarpeian(population, totalEvaluation);
+		}
 		
 		if(minimization)
 			totalFitness = displaceToMinimize(population, maxEvaluation);
@@ -124,6 +127,7 @@ public class FitnessFunction {
 	 * 
 	 * @param population
 	 */
+	//TODO revisar. FALLA
 	private double tarpeian(ArrayList<Representation> population, double totalEvaluation) {
 		double newTotalEvaluation = totalEvaluation, bestEvaluation = Double.MIN_VALUE;
 		

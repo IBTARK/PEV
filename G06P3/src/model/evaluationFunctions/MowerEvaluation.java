@@ -22,6 +22,7 @@ public class MowerEvaluation implements EvaluationFunction{
 	private int orientation; //4 values (0: north, 1: west, 2: south, 3: east)
 	
 	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
+	private ArrayList<Integer> orientationPath; //orientation of the path followed by the mower
 	
 	private int numLawnCut; //number of cut boxes
 	
@@ -47,6 +48,7 @@ public class MowerEvaluation implements EvaluationFunction{
 		numLawnCut = 0;
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
+		orientationPath = new ArrayList<Integer>();
 		
 		garden = new ArrayList<ArrayList<Boolean>>();
 		for(int i = 0; i < numCols; i++) {
@@ -87,6 +89,7 @@ public class MowerEvaluation implements EvaluationFunction{
 		
 		//Save the path and the garden
 		t.setPath(path);
+		t.setOrientationPath(orientationPath);
 		t.setGarden(garden);
 		
 		return Double.valueOf(numLawnCut);
@@ -134,6 +137,7 @@ public class MowerEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		orientationPath.add(orientation);
 		
 		numMovements++;
 		
@@ -169,6 +173,7 @@ public class MowerEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		orientationPath.add(orientation);
 		
 		numMovements++;
 		
@@ -182,5 +187,9 @@ public class MowerEvaluation implements EvaluationFunction{
 	
 	public ArrayList<Pair<Integer, Integer>> getPath(){
 		return path;
+	}
+	
+	public ArrayList<Integer> getOrientationPath(){
+		return orientationPath;
 	}
 }

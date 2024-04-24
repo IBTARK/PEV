@@ -271,4 +271,13 @@ public class Controller {
 	public void setMinimization(boolean minimization) {
 		genAlg.setMinimization(minimization);
 	}
+	
+	/**
+	 * Set the minimization variable and update the fitness function
+	 * 
+	 * @param minimization
+	 */
+	public void setBloating(boolean bloating) {
+		genAlg.setBloating(bloating);
+	}
 }

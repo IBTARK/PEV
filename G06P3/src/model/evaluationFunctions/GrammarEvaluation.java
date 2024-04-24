@@ -97,8 +97,8 @@ public class GrammarEvaluation implements EvaluationFunction{
 		}
 		
 		//Save the path and the garden
-		mc.setPath(path);
-		mc.setGarden(garden);
+		//mc.setPath(path);
+		//mc.setGarden(garden);
 		
 		return Double.valueOf(numLawnCut);
 	}

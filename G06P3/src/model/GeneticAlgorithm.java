@@ -57,6 +57,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	private EvaluationFunction evaluationFunction;
 	private FenotypeFunction fenotypeFunction;
 	private boolean minimization;
+	private boolean bloating;
 	
 	private ArrayList<Representation> population;
 	
@@ -79,7 +80,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	
 	public GeneticAlgorithm(RepresentationType representationType, int numGenes, List<Integer> genesLengths,
 							int populationSize, int generations, Selection selection, Crossover crossover, double crossoverPctg,
-							Mutation mutation, double mutationPctg, EvaluationFunction evaluationFunction, Boolean minimization) {
+							Mutation mutation, double mutationPctg, EvaluationFunction evaluationFunction, Boolean minimization, Boolean bloating) {
 		random = new Random();
 		
 		this.representationType = representationType;
@@ -98,7 +99,8 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 		
 		this.evaluationFunction = evaluationFunction;
 		this.minimization = minimization;
-		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
+		this.bloating = bloating;
+		fitnessFunction = new FitnessFunction(bloating, minimization, evaluationFunction);
 		
 		population = new ArrayList<Representation>();
 		
@@ -504,6 +506,13 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	public boolean getMinimization() {
 		return minimization;
 	}
+	
+	/**
+	 * @return bloating
+	 */
+	public boolean getBloating() {
+		return bloating;
+	}
 
 	/**
 	 * @return fitness function
@@ -660,7 +669,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setEvaluationFunction(EvaluationFunction evaluationFunction) {
 		this.evaluationFunction = evaluationFunction;
-		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
+		fitnessFunction = new FitnessFunction(bloating, minimization, evaluationFunction);
 	}
 	
 	/**
@@ -670,7 +679,17 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	 */
 	public void setMinimization(boolean minimization) {
 		this.minimization = minimization;
-		fitnessFunction = new FitnessFunction(minimization, evaluationFunction);
+		fitnessFunction = new FitnessFunction(bloating, minimization, evaluationFunction);
+	}
+	
+	/**
+	 * Set the bloating variable and update the fitness function
+	 * 
+	 * @param minimization
+	 */
+	public void setBloating(boolean bloating) {
+		this.bloating = bloating;
+		fitnessFunction = new FitnessFunction(bloating, minimization, evaluationFunction);
 	}
 	
 	/**
