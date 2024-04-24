@@ -13,9 +13,17 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import control.Controller;
+import model.evaluationFunctions.GrammarEvaluation;
 import model.evaluationFunctions.MowerEvaluation;
 import model.fenotypes.MowerFenotypeFunction;
 import model.fenotypes.TreeFenotypeFunction;
+import model.listRep.crossover.CycleCrossover;
+import model.listRep.crossover.IJCrossover;
+import model.listRep.crossover.OrderCrossover;
+import model.listRep.crossover.OrderPrioritaryPositionsCrossover;
+import model.listRep.crossover.OrderPriorityOrderCrossover;
+import model.listRep.crossover.OrdinalCodificationCrossover;
+import model.listRep.crossover.PMXCrossover;
 import model.representation.RepresentationType;
 import model.selection.MontecarloSelection;
 import model.selection.RankingSelection;
@@ -208,6 +216,41 @@ public class MainPanel extends JPanel{
 				ctr.setCrossover(new TreeCrossover(leftPanel.getFunctionalOrTerminalProb()));
 				break;
 			}
+			case "Order":
+			{
+				ctr.setCrossover(new OrderCrossover());
+				break;
+			}
+			case "PMX":
+			{
+				ctr.setCrossover(new PMXCrossover());
+				break;
+			}
+			case "Order prioritary positions":
+			{
+				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositionsCrossover()));
+				break;
+			}
+			case "Order priority":
+			{
+				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositionsCrossover()));
+				break;
+			}
+			case "Ordinal codification":
+			{
+				ctr.setCrossover(new OrdinalCodificationCrossover(10)); //TODO REVISAR
+				break;
+			}
+			case "Cycle":
+			{
+				ctr.setCrossover(new CycleCrossover());
+				break;
+			}
+			case "IJ":
+			{
+				ctr.setCrossover(new IJCrossover());
+				break;
+			}
 		}
 	}
 	
@@ -249,14 +292,26 @@ public class MainPanel extends JPanel{
 	 * Set the fenotype function
 	 */
 	private void setFenotypeFunction() {
-		ctr.setFenotypeFunction(new TreeFenotypeFunction());
+		if(bottomPanel.getRepresentation().equals("MowerTree")) {
+			ctr.setFenotypeFunction(new TreeFenotypeFunction());
+		}
+		else if(bottomPanel.getRepresentation().equals("Grammar")) {
+			ctr.setFenotypeFunction(new MowerFenotypeFunction());
+		}
 	}
 	
 	/**
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
-		ctr.setEvaluationFunction(new MowerEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		if(bottomPanel.getRepresentation().equals("MowerTree")) {
+			ctr.setEvaluationFunction(new MowerEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		}
+		else if(bottomPanel.getRepresentation().equals("Grammar")) {
+			ctr.setEvaluationFunction(new GrammarEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		}
+		
+		
 	}
 	
 	/**

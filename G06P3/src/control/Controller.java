@@ -64,17 +64,31 @@ public class Controller {
 	}
 	
 	/**
-	 * @return an array list with the names of the types of crossover
+	 * @return an array list with the names of the types of crossover for grammars
 	 */
-	public ArrayList<String> getCrossoverTypes(){
-		return genAlg.getCrossoverTypes();
+	public ArrayList<String> getCrossoverTypesMower(){
+		return genAlg.getCrossoverTypesMower();
 	}
 	
 	/**
-	 * @return an array list with the names of the types of mutation
+	 * @return an array list with the names of the types of crossover for trees
 	 */
-	public ArrayList<String> getMutationTypes(){
-		return genAlg.getMutationTypes();
+	public ArrayList<String> getCrossoverTypesTree(){
+		return genAlg.getCrossoverTypesTree();
+	}
+	
+	/**
+	 * @return an array list with the names of the types of mutation for grammars
+	 */
+	public ArrayList<String> getMutationTypesMower(){
+		return genAlg.getMutationTypesMower();
+	}
+	
+	/**
+	 * @return an array list with the names of the types of mutation for trees
+	 */
+	public ArrayList<String> getMutationTypesTree(){
+		return genAlg.getMutationTypesTree();
 	}
 	
 	/**

@@ -16,7 +16,10 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 	
 	private ArrayList<ArrayList<String>> productions; //producciones de las reglas
 	
+	private int wraps;
+	
 	public MowerFenotypeFunction() {
+		wraps = 5;
 		mappingStack = new ArrayList<>();
 		
 		//set the grammar
@@ -55,7 +58,7 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 		mappingStack.add("op");
 
 		int j = 0;
-		while(mappingStack.size() != 0) {
+		while(mappingStack.size() != 0 && wraps > 0) {
 			String top = mappingStack.get(mappingStack.size()-1);
 			mappingStack.remove(mappingStack.size()-1);
 			
@@ -77,17 +80,21 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 					}
 				}
 				j++;
+				if(j == c.getNumGenes()) { //wrapping
+					j=0;
+					wraps--; //TODO ver qué hacer si se gastan los wraps
+				}
 			}
 			else { //es una funcion
 				resultMapping += top + "(";
 			}
 		}
+		c.setFenotype(resultMapping);
 	}
 
 	@Override
 	public FenotypeFunction<MowerChromosome> clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new MowerFenotypeFunction();
 	}
 
 }
