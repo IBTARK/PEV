@@ -13,8 +13,6 @@ import model.fenotypes.FenotypeFunction;
 import model.fenotypes.FenotypeType;
 import model.fitnessFunctions.FitnessFunction;
 import model.listRep.chromosomes.MowerChromosome;
-import model.listRep.crossover.CrossoverTypeMower;
-import model.listRep.mutation.MutationTypeMower;
 import model.mutation.Mutation;
 import model.mutation.MutationType;
 import model.representation.Representation;
@@ -133,9 +131,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			//Selection
 			population = selection.select(population);
 			//Crossover
-				//reproduce();
+			reproduce();
 			//Mutation
-				//mutate();
+			mutate();
 			
 			//If necessary introduce the elite
 			if(elitism > 0)
@@ -422,22 +420,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
-	 * @return an array list with the names of the types of crossover for grammars
+	 * @return an array list with the names of the types of crossover
 	 */
-	public ArrayList<String> getCrossoverTypesMower(){
-		ArrayList<String> crossoverTypes = new ArrayList<String>();
-		
-		for(CrossoverTypeMower ct : CrossoverTypeMower.values()) {
-			crossoverTypes.add(ct.toString());
-		}
-		
-		return crossoverTypes;
-	}
-	
-	/**
-	 * @return an array list with the names of the types of crossover for trees
-	 */
-	public ArrayList<String> getCrossoverTypesTree(){
+	public ArrayList<String> getCrossoverTypes(){
 		ArrayList<String> crossoverTypes = new ArrayList<String>();
 		
 		for(CrossoverType ct : CrossoverType.values()) {
@@ -448,22 +433,9 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 	}
 	
 	/**
-	 * @return an array list with the names of the types of mutation for grammars
+	 * @return an array list with the names of the types of mutation
 	 */
-	public ArrayList<String> getMutationTypesMower(){
-		ArrayList<String> mutationTypes = new ArrayList<String>();
-		
-		for(MutationTypeMower mt : MutationTypeMower.values()) {
-			mutationTypes.add(mt.toString());
-		}
-		
-		return mutationTypes;
-	}
-	
-	/**
-	 * @return an array list with the names of the types of mutation for trees
-	 */
-	public ArrayList<String> getMutationTypesTree(){
+	public ArrayList<String> getMutationTypes(){
 		ArrayList<String> mutationTypes = new ArrayList<String>();
 		
 		for(MutationType mt : MutationType.values()) {

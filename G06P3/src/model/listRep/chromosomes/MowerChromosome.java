@@ -6,14 +6,10 @@ import java.util.List;
 import model.fenotypes.FenotypeFunction;
 import model.listRep.genes.Gene;
 import model.listRep.genes.MowerGene;
-import resources.Pair;
 
 public class MowerChromosome extends Chromosome{
 	
 	private String fenotype; 
-	
-	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
-	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 
 	public MowerChromosome(int numGenes, FenotypeFunction fenotype) {
 		super(numGenes, 1, fenotype);
@@ -21,9 +17,6 @@ public class MowerChromosome extends Chromosome{
 		for(int i = 0; i < numGenes; i++) {
 			genes.add(new MowerGene());
 		}
-		
-		path = new ArrayList<Pair<Integer, Integer>>();
-		garden = new ArrayList<ArrayList<Boolean>>();
 	}
 
 	@Override
@@ -47,13 +40,6 @@ public class MowerChromosome extends Chromosome{
 		clone.setFitness(Double.valueOf(fitness));
 		clone.setScore(Double.valueOf(score));
 		clone.setScoreAccumulated(Double.valueOf(scoreAccumulated));
-		
-		ArrayList<Pair<Integer, Integer>> newPath = new ArrayList<Pair<Integer, Integer>>();
-		for(Pair<Integer, Integer> pos : path) {
-			newPath.add(new Pair<Integer, Integer>(pos.getFirst(), pos.getSecond()));
-		}
-		
-		clone.setPath(newPath);
 		
 		return clone;
 	}
@@ -158,14 +144,6 @@ public class MowerChromosome extends Chromosome{
 		return null;
 	}
 	
-	public ArrayList<Pair<Integer, Integer>> getPath(){
-		return path;
-	}
-	
-	public ArrayList<ArrayList<Boolean>> getGarden(){
-		return garden;
-	}
-	
 //----SETTERS----
 	public void setFenotype(String fenotype){
 		this.fenotype = fenotype;
@@ -190,14 +168,6 @@ public class MowerChromosome extends Chromosome{
 				}
 			}
 		}
-	}
-	
-	public void setPath(ArrayList<Pair<Integer, Integer>> path){
-		this.path = path;
-	}
-	
-	public void setGarden(ArrayList<ArrayList<Boolean>> garden) {
-		this.garden = garden;
 	}
 
 }

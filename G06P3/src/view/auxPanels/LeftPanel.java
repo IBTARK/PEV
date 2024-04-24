@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -67,9 +66,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	private JPanel crossoverPanel; //Panel where the combo box to select the crossover method will be displayed
 	private DefaultComboBoxModel<String> crossoverModel;
 	private JComboBox<String> crossoverComboBox; //Combo box to select the crossover method
-	
-	private JPanel selectNumPositionsCrossoverPanel;
-	private JSpinner selectNumPositionsCrossoverSpinner;
 	
 	private JPanel terminalOrFunctionalProbPanel;
 	private JSpinner terminalOrFunctionalProbSpinner; 
@@ -244,15 +240,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverModel.setSelectedItem(CrossoverType.TREECROSSOVER.toString());
 		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 20);
 		add(crossoverPanel);
-		add(Box.createRigidArea(new Dimension(0, 30)));
-		
-		//Section to select the number of positions to cross
-		selectNumPositionsCrossoverPanel = new JPanel();
-		selectNumPositionsCrossoverSpinner = new JSpinner(new SpinnerNumberModel(2, 1, 24, 1));
-		//Configure the editor to display doubles
-		createSpinnerSection(selectNumPositionsCrossoverPanel, "Numero de posiciones: ", selectNumPositionsCrossoverSpinner, 55);
-		add(selectNumPositionsCrossoverPanel);
-		selectNumPositionsCrossoverPanel.setVisible(false);
 		add(Box.createRigidArea(new Dimension(0, 30)));
 		
 		//Spinner to select the probability to select a functional node
@@ -450,6 +437,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		
 		panel.setVisible(visible);
 	}
+
 	
 //*********************************************************************************************
 //Getters
@@ -576,14 +564,6 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		}
 		else return 0.0;
 	}
-	
-	/**
-	 * 
-	 * @return number of positions to cross [0,10]
-	 */
-	public int getNumPositionsCrossover() {
-		return (int) selectNumPositionsCrossoverSpinner.getValue();
-	}
 
 //*********************************************************************************************
 //Observer interface
@@ -591,10 +571,8 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 	@Override
 	public void onRegister() {
 		selectionModel.addAll(ctr.getSelectionTypes());
-		crossoverModel.addAll(ctr.getCrossoverTypesMower()); //TODO revisar
-		crossoverModel.addAll(ctr.getCrossoverTypesTree()); //TODO revisar
-		mutationModel.addAll(ctr.getMutationTypesMower()); //TODO revisar
-		mutationModel.addAll(ctr.getMutationTypesTree()); //TODO revisar
+		crossoverModel.addAll(ctr.getCrossoverTypes());
+		mutationModel.addAll(ctr.getMutationTypes());
 		iniTypeModel.addAll(ctr.getInitializationTypes());
 	}
 

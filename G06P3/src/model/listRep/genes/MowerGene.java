@@ -30,7 +30,7 @@ public class MowerGene extends Gene{
 	@Override
 	public MowerGene clone() {
 		MowerGene clone = new MowerGene();
-		clone.setFenotype((int) alleles.get(0)*1.0);
+		clone.setFenotype(Double.valueOf((double) alleles.get(0)));
 		return clone;
 	}
 
