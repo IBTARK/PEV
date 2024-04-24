@@ -48,7 +48,9 @@ public class MowerEvaluation implements EvaluationFunction{
 		numLawnCut = 0;
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
+		path.add(new Pair<Integer, Integer>(4,4));
 		orientationPath = new ArrayList<Integer>();
+		orientationPath.add(0);
 		
 		garden = new ArrayList<ArrayList<Boolean>>();
 		for(int i = 0; i < numCols; i++) {

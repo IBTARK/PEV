@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ import model.GenAlgObserver;
 import model.representation.Representation;
 import model.treeRep.trees.MowerTree;
 import resources.Pair;
+import view.LabelContainer;
 
 public class Garden extends JPanel implements GenAlgObserver{
 	
@@ -27,6 +29,7 @@ public class Garden extends JPanel implements GenAlgObserver{
 	private ArrayList<ArrayList<Boolean>> garden; //false: not cut; true: cut
 	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
 	private ArrayList<Integer> orientationPath; //orientation path followed by the mower
+	private ArrayList<ArrayList<JPanel>> celdas;
 	
 	public Garden(Controller ctr, int width, int height){ //only used to paint the garden the first time
 		this.ctr = ctr;
@@ -52,13 +55,19 @@ public class Garden extends JPanel implements GenAlgObserver{
 		gardenGrid = new JPanel();
 		gardenGrid.setBackground(Color.BLACK);
 		gardenGrid.setLayout(new GridLayout(numCols, numRows, 1, 1));
+		
+		celdas = new ArrayList<ArrayList<JPanel>>();
+		
 		for (int i = 0; i < numCols; i++) {
+			ArrayList<JPanel> row = new ArrayList<JPanel>();
             for (int j = 0; j < numRows; j++) {
-                JPanel cell = new JPanel();
+                LabelContainer cell = new LabelContainer();
                 cell.setBackground(Color.GREEN.darker().darker());
                 cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-5, (height/Math.max(numCols, numRows))-5));
                 gardenGrid.add(cell);
+                row.add(cell);
             }
+            celdas.add(row);
         }
 		add(gardenGrid);
 	}
@@ -82,22 +91,51 @@ public class Garden extends JPanel implements GenAlgObserver{
 		path = ((MowerTree) c).getPath();
 		orientationPath = ((MowerTree) c).getOrientationPath();
 
+		//changes
+		for (int i = 0; i < numCols; i++) {
+            for (int j = 0; j < numRows; j++) {
+                if(garden.get(j).get(i)) { // Has been cut
+                	celdas.get(j).get(i).setBackground(Color.GRAY.darker().darker());
+                	Pair<Integer, Integer> par = new Pair<Integer, Integer>(j, i);
+                	for(int k = 0; k < path.size(); k++) {
+                		if(path.get(k).getFirst()==j && path.get(k).getSecond()==i) {
+                			((LabelContainer) celdas.get(j).get(i)).addTextLabel((k), orientationPath.get(k));
+                		}
+                	}
+                }
+            }
+        }
+		
+		printGarden();
+	}
+	
+	/*private void printPath() {
+		
+		for(int k = 0; k < path.size(); k++) {
+			celdas.get(path.get(k).getFirst()).get(path.get(k).getSecond()).setBackground(Color.GRAY.darker().darker());;
+    		celdas.get(path.get(k).getFirst()).get(path.get(k).getSecond()).add(createLabel("O"));
+    		printGarden();
+    		try {
+    			Thread.sleep(1000);
+    		} catch (InterruptedException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    		celdas.get(path.get(k).getFirst()).get(path.get(k).getSecond()).add(createLabel(""));
+		}
+	    
+		
+	}*/
+	
+	private void printGarden() {
 		remove(gardenGrid);
 		gardenGrid = new JPanel();
 		gardenGrid.setBackground(Color.BLACK);
 		gardenGrid.setLayout(new GridLayout(numCols, numRows, 1, 1));
+		
 		for (int i = 0; i < numCols; i++) {
-            for (int j = 0; j < numRows; j++) {
-                JPanel cell = new JPanel();
-                
-                if(garden.get(j).get(i)) { // Has been cut
-                	cell.add(createLabel(orientationPath.get(i)));
-                	cell.setBackground(Color.GRAY.darker().darker());
-		        } else {
-		        	cell.setBackground(Color.GREEN.darker().darker());
-		        }
-                cell.setPreferredSize(new Dimension((height/Math.max(numCols, numRows))-5, (height/Math.max(numCols, numRows))-5));
-                gardenGrid.add(cell);
+			for (int j = 0; j < numRows; j++) {
+                gardenGrid.add(celdas.get(j).get(i));
             }
         }
 		add(gardenGrid);
@@ -111,32 +149,5 @@ public class Garden extends JPanel implements GenAlgObserver{
 	@Override
 	public void remove() {
 		ctr.removeObserver(this);
-	}
-	
-	/**
-	 * creates a label
-	 * @param text text that will be displayed in the label
-	 * @return the label
-	 */
-	private JLabel createLabel(int orientation) {
-		String text = "";
-		if(orientation == 0) {
-			text = "^";
-		}
-		else if(orientation == 1) {
-			text = "<";
-		}
-		else if(orientation == 2) {
-			text = "v";
-		}
-		else if(orientation == 3) {
-			text = "v";
-		}
-		JLabel label = new JLabel(text);
-		label.setFont(new Font(Font.SERIF, Font.BOLD, 14));
-		//label.setForeground(Color.WHITE);
-		label.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
-		return label;
 	}
 }
