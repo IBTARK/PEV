@@ -1,5 +1,6 @@
 package model.listRep.genes;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MowerGene extends Gene{
@@ -30,7 +31,14 @@ public class MowerGene extends Gene{
 	@Override
 	public MowerGene clone() {
 		MowerGene clone = new MowerGene();
-		clone.setFenotype(Double.valueOf((double) alleles.get(0)));
+		ArrayList<Object> newAlleles = new ArrayList<Object>();
+		for(int i = 0; i < clone.getGeneLength(); i++) {
+			newAlleles.add(alleles.get(i));
+		}
+		
+		clone.setAlleles(newAlleles);
+		
+		clone.setFenotype((int)alleles.get(0)*1.0);
 		return clone;
 	}
 

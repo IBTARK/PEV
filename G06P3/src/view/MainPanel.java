@@ -13,9 +13,22 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import control.Controller;
+import model.evaluationFunctions.GrammarEvaluation;
 import model.evaluationFunctions.MowerEvaluation;
 import model.fenotypes.MowerFenotypeFunction;
 import model.fenotypes.TreeFenotypeFunction;
+import model.listRep.crossover.CycleCrossover;
+import model.listRep.crossover.IJCrossover;
+import model.listRep.crossover.OrderCrossover;
+import model.listRep.crossover.OrderPrioritaryPositionsCrossover;
+import model.listRep.crossover.OrderPriorityOrderCrossover;
+import model.listRep.crossover.OrdinalCodificationCrossover;
+import model.listRep.crossover.PMXCrossover;
+import model.listRep.mutation.ExchangeMutation;
+import model.listRep.mutation.HeuristicMutation;
+import model.listRep.mutation.IJMutation;
+import model.listRep.mutation.InsertionMutation;
+import model.listRep.mutation.InversionMutation;
 import model.representation.RepresentationType;
 import model.selection.MontecarloSelection;
 import model.selection.RankingSelection;
@@ -209,6 +222,41 @@ public class MainPanel extends JPanel{
 				ctr.setCrossover(new TreeCrossover(leftPanel.getFunctionalOrTerminalProb()));
 				break;
 			}
+			case "Order":
+			{
+				ctr.setCrossover(new OrderCrossover());
+				break;
+			}
+			case "PMX":
+			{
+				ctr.setCrossover(new PMXCrossover());
+				break;
+			}
+			case "Order prioritary positions":
+			{
+				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositionsCrossover()));
+				break;
+			}
+			case "Order priority":
+			{
+				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositionsCrossover()));
+				break;
+			}
+			case "Ordinal codification":
+			{
+				ctr.setCrossover(new OrdinalCodificationCrossover(30));
+				break;
+			}
+			case "Cycle":
+			{
+				ctr.setCrossover(new CycleCrossover());
+				break;
+			}
+			case "IJ":
+			{
+				ctr.setCrossover(new IJCrossover());
+				break;
+			}
 		}
 	}
 	
@@ -243,6 +291,36 @@ public class MainPanel extends JPanel{
 				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
 				break;
 			}
+			case "Inversion":
+			{
+				ctr.setMutation(new InversionMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Insertion":
+			{
+				ctr.setMutation(new InsertionMutation(leftPanel.getNumInsertions()));
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Heuristic":
+			{
+				ctr.setMutation(new HeuristicMutation(leftPanel.getNumPositions(), ctr.getFitnessFunction()));
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "Exchange":
+			{
+				ctr.setMutation(new ExchangeMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
+			case "IJ":
+			{
+				ctr.setMutation(new IJMutation());
+				ctr.setMutationProb(leftPanel.getMutationPctg() / 100);
+				break;
+			}
 		}
 	}
 	
@@ -257,7 +335,12 @@ public class MainPanel extends JPanel{
 	 * Set the evaluation function
 	 */
 	private void setEvaluationFunction() {
-		ctr.setEvaluationFunction(new MowerEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		if(bottomPanel.getRepresentation().equals("Grammar")) {
+			ctr.setEvaluationFunction(new GrammarEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		}
+		else {
+			ctr.setEvaluationFunction(new MowerEvaluation(bottomPanel.getNumCols(), bottomPanel.getNumRows()));
+		}
 	}
 	
 	/**
@@ -285,7 +368,7 @@ public class MainPanel extends JPanel{
 		genesLengths.add(1);
 		ctr.setGenesLengths(genesLengths);
 		ctr.setFenotypeFunction(new MowerFenotypeFunction());
-		numGenesSettings();
+		numGenesSettings(30);
 	}
 	
 	private void treeSettings() {
@@ -311,13 +394,13 @@ public class MainPanel extends JPanel{
 		ctr.setFenotypeFunction(new TreeFenotypeFunction());
 		ctr.setMaxHeight(bottomPanel.getMaxHeight());
 		ctr.setMinHeight(1);
-		numGenesSettings();
+		numGenesSettings(10);
 	}
 	
 	/**
 	 * Set the number of genes
 	 */
-	private void numGenesSettings() {
-		ctr.setNumGenes(10); //TODO revisar
+	private void numGenesSettings(int t) {
+		ctr.setNumGenes(t); //TODO revisar
 	}
 }

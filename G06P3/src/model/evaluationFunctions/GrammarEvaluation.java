@@ -6,8 +6,6 @@ import java.util.Random;
 
 import model.listRep.chromosomes.MowerChromosome;
 import model.representation.Representation;
-import model.treeRep.symbols.Symbol;
-import model.treeRep.trees.TreeNode;
 import resources.Pair;
 
 public class GrammarEvaluation implements EvaluationFunction{
@@ -21,6 +19,7 @@ public class GrammarEvaluation implements EvaluationFunction{
 	private int orientation; //4 values (0: north, 1: west, 2: south, 3: east)
 	
 	private ArrayList<Pair<Integer, Integer>> path; //path followed by the mower
+	private ArrayList<Integer> orientationPath; //orientation of the path followed by the mower
 	
 	private int numLawnCut; //number of cut boxes
 	
@@ -49,6 +48,9 @@ public class GrammarEvaluation implements EvaluationFunction{
 		numLawnCut = 0;
 		
 		path = new ArrayList<Pair<Integer, Integer>>();
+		path.add(new Pair<Integer, Integer>(4,4));
+		orientationPath = new ArrayList<Integer>();
+		orientationPath.add(0);
 		
 		garden = new ArrayList<ArrayList<Boolean>>();
 		for(int i = 0; i < numCols; i++) {
@@ -77,15 +79,10 @@ public class GrammarEvaluation implements EvaluationFunction{
 			lastNumLeftRotations = numLeftRotations;
 			lastNumMovement = numMovements;
 			
-			/*ArrayList<String> s = new ArrayList<String>();
-			s.add("suma");
-			s.add("progn");
-			s.add("izquierda");
-			s.add("salta");
-			s.add("1,2");
-			s.add("avanza");*/
+			//s = toArray("progn(progn(suma(progn(progn(izquierda(suma(izquierda(salta(progn(avanza(izquierda(salta(progn(suma(progn(izquierda(suma(progn(salta(progn(progn(suma(progn(progn(izquierda(suma(izquierda(salta(progn(avanza(izquierda(salta(progn(suma(progn(izquierda(suma(progn(salta(progn(progn(suma(progn(progn(izquierda(suma(izquierda(salta(progn(avanza(izquierda(salta(progn(suma(progn(izquierda(suma(progn");
 			s = toArray(mc.getFenotype());
-			procesa(s); //TODO revisar
+			//System.out.println(s);
+			procesa(s);
 			
 			//Code to control those cases in which no movement can be done
 			if(lastNumLeftRotations == numLeftRotations && lastNumMovement == numMovements) {
@@ -97,8 +94,9 @@ public class GrammarEvaluation implements EvaluationFunction{
 		}
 		
 		//Save the path and the garden
-		//mc.setPath(path);
-		//mc.setGarden(garden);
+		mc.setPath(path);
+		mc.setOrientationPath(orientationPath);
+		mc.setGarden(garden);
 		
 		return Double.valueOf(numLawnCut);
 	}
@@ -109,40 +107,58 @@ public class GrammarEvaluation implements EvaluationFunction{
 			s[i] = s[i].replaceAll("\\)", "");
 		}
 		ArrayList<String> a = new ArrayList<String>(Arrays.asList(s));
+		for (int i = 0; i < a.size(); i++) {
+			if(a.get(i).equals("")) {
+				a.remove(i);
+			}
+		}
 		return a;
 	}
 	
 	private Pair<Integer, Integer> procesa(ArrayList<String> s) {
-		
-		if(s.get(0).equals("izquierda")) {
-			return izquierda();
+		if(!s.isEmpty()) {
+			if(s.get(0).equals("izquierda")) {
+				return izquierda();
+			}
+			else if(s.get(0).equals("avanza")) {
+				return avanza();
+			}
+			else if(s.get(0).equals("suma")) {
+				s.remove(0);
+				Pair<Integer, Integer> primero = procesa(s);
+				if(!s.isEmpty()) {
+					s.remove(0);
+					Pair<Integer, Integer> segundo = procesa(s);
+					
+					return suma(primero, segundo);
+				}
+				else {
+					return new Pair<Integer, Integer>(0, 0);
+				}
+			}
+			else if(s.get(0).equals("progn")) {
+				s.remove(0);
+				Pair<Integer, Integer> primero = procesa(s);
+				if(!s.isEmpty()) {
+					s.remove(0);
+					Pair<Integer, Integer> segundo = procesa(s);
+					return progn(primero, segundo);
+				}
+				else {
+					return new Pair<Integer, Integer>(0, 0);
+				}				
+			}
+			else if(s.get(0).equals("salta")) {
+				s.remove(0);
+				
+				return salta(procesa(s));
+			}
+			else { //cte
+				return constanteAleatoria(s.get(0));
+			}
 		}
-		else if(s.get(0).equals("avanza")) {
-			return avanza();
-		}
-		else if(s.get(0).equals("suma")) {
-			s.remove(0);
-			Pair<Integer, Integer> primero = procesa(s);
-			s.remove(0);
-			Pair<Integer, Integer> segundo = procesa(s);
-			
-			return suma(primero, segundo); //TODO revisar
-		}
-		else if(s.get(0).equals("progn")) {
-			s.remove(0);
-			Pair<Integer, Integer> primero = procesa(s);
-			s.remove(0);
-			Pair<Integer, Integer> segundo = procesa(s);
-			
-			return progn(primero, segundo); //TODO revisar
-		}
-		else if(s.get(0).equals("salta")) {
-			s.remove(0);
-			
-			return salta(procesa(s)); //TODO revisar
-		}
-		else { //cte
-			return constanteAleatoria(s.get(0));
+		else {
+			return new Pair<Integer, Integer>(0, 0);
 		}
 	}
 	
@@ -178,6 +194,7 @@ public class GrammarEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		orientationPath.add(orientation);
 		
 		numMovements++;
 		
@@ -213,10 +230,19 @@ public class GrammarEvaluation implements EvaluationFunction{
 		}
 		
 		path.add(new Pair<Integer, Integer>(col, row));
+		orientationPath.add(orientation);
 		
 		numMovements++;
 		
 		return new Pair<Integer, Integer>(offsets.getFirst(), offsets.getSecond());
 	}
 
+	public ArrayList<Pair<Integer, Integer>> getPath(){
+		return path;
+	}
+	
+	public ArrayList<Integer> getOrientationPath(){
+		return orientationPath;
+	}
+	
 }

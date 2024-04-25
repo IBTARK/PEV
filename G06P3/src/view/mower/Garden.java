@@ -94,12 +94,12 @@ public class Garden extends JPanel implements GenAlgObserver{
 		//changes
 		for (int i = 0; i < numCols; i++) {
             for (int j = 0; j < numRows; j++) {
-                if(garden.get(j).get(i)) { // Has been cut
-                	celdas.get(j).get(i).setBackground(Color.GRAY.darker().darker());
-                	Pair<Integer, Integer> par = new Pair<Integer, Integer>(j, i);
+                if(garden.get(i).get(j)) { // Has been cut
+                	celdas.get(i).get(j).setBackground(Color.GRAY.darker().darker());
+                	Pair<Integer, Integer> par = new Pair<Integer, Integer>(i, j);
                 	for(int k = 0; k < path.size(); k++) {
-                		if(path.get(k).getFirst()==j && path.get(k).getSecond()==i) {
-                			((LabelContainer) celdas.get(j).get(i)).addTextLabel((k), orientationPath.get(k));
+                		if(path.get(k).getFirst()==i && path.get(k).getSecond()==j) {
+                			((LabelContainer) celdas.get(i).get(j)).addTextLabel((k), orientationPath.get(k));
                 		}
                 	}
                 }
@@ -131,11 +131,11 @@ public class Garden extends JPanel implements GenAlgObserver{
 		remove(gardenGrid);
 		gardenGrid = new JPanel();
 		gardenGrid.setBackground(Color.BLACK);
-		gardenGrid.setLayout(new GridLayout(numCols, numRows, 1, 1));
+		gardenGrid.setLayout(new GridLayout(numRows, numCols, 1, 1));
 		
 		for (int i = 0; i < numCols; i++) {
 			for (int j = 0; j < numRows; j++) {
-                gardenGrid.add(celdas.get(j).get(i));
+                gardenGrid.add(celdas.get(i).get(j));
             }
         }
 		add(gardenGrid);

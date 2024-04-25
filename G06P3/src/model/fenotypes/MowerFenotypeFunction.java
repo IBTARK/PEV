@@ -16,10 +16,14 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 	private String resultMapping;
 	private Random r;
 	
+	private int wraps;
+	
 	private ArrayList<ArrayList<String>> productions; //producciones de las reglas
 	
 	public MowerFenotypeFunction() {
 		r = new Random();
+		
+		wraps = 3;
 		
 		mappingStack = new ArrayList<>();
 		
@@ -59,7 +63,7 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 		mappingStack.add("op");
 
 		int j = 0;
-		while(mappingStack.size() != 0) {
+		while(mappingStack.size() != 0 && wraps > 0) {
 			String top = mappingStack.get(mappingStack.size()-1);
 			mappingStack.remove(mappingStack.size()-1);
 			
@@ -72,31 +76,41 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 					if(elem.get(0).equals("cte")) {
 						resultMapping += "(" + r.nextInt(0,8) + "," + r.nextInt(0,8) + ")";
 					}
-					
-					else {}
-					resultMapping += "(" + elem.get(0) + ")";
+					else {
+						resultMapping += "(" + elem.get(0) + ")";
+					}
 					if(top.equals("op)")) {
 						resultMapping += ")";
 					}
 				}
 				else {
 					mappingStack.add(elem.get(elem.size()-1)+")");
-					for(int i = elem.size()-2; i >= 0; i--) {
+					for(int i = elem.size()-2; i >= 1; i--) {
 						mappingStack.add(elem.get(i));
 					}
+					mappingStack.add("(" + elem.get(0));
 				}
 				j++;
+				if(j == c.getNumGenes()) { //wrapping
+					j=0;
+					wraps--;
+				}
 			}
 			else { //es una funcion
 				resultMapping += top + "(";
 			}
 		}
+		if(wraps == 0) {
+			c.setFenotype("(izquierda)");
+		}
+		else {
+			c.setFenotype(resultMapping);
+		}
 	}
 
 	@Override
 	public FenotypeFunction<MowerChromosome> clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new MowerFenotypeFunction();
 	}
 
 }

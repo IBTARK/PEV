@@ -6,10 +6,16 @@ import java.util.List;
 import model.fenotypes.FenotypeFunction;
 import model.listRep.genes.Gene;
 import model.listRep.genes.MowerGene;
+import resources.Pair;
 
 public class MowerChromosome extends Chromosome{
 	
 	private String fenotype; 
+	
+	private ArrayList<Pair<Integer, Integer>> path;
+	private ArrayList<Integer> orientationPath;
+	private ArrayList<ArrayList<Boolean>> garden;
+	
 
 	public MowerChromosome(int numGenes, FenotypeFunction fenotype) {
 		super(numGenes, 1, fenotype);
@@ -144,7 +150,31 @@ public class MowerChromosome extends Chromosome{
 		return null;
 	}
 	
+	public ArrayList<Pair<Integer, Integer>> getPath(){
+		return path;
+	}
+	
+	public ArrayList<Integer> getOrientationPath(){
+		return orientationPath;
+	}
+	
+	public ArrayList<ArrayList<Boolean>> getGarden(){
+		return garden;
+	}
+	
 //----SETTERS----
+	public void setPath(ArrayList<Pair<Integer, Integer>> path){
+		this.path = path;
+	}
+	
+	public void setOrientationPath(ArrayList<Integer> orientationPath){
+		this.orientationPath = orientationPath;
+	}
+	
+	public void setGarden(ArrayList<ArrayList<Boolean>> garden) {
+		this.garden = garden;
+	}
+	
 	public void setFenotype(String fenotype){
 		this.fenotype = fenotype;
 	}

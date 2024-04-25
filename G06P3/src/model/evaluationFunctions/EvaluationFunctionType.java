@@ -1,12 +1,14 @@
 package model.evaluationFunctions;
 
 public enum EvaluationFunctionType {
-	AIRPORT;
+	GRAMMAR, MOWER;
 	
 	public String toString() {
 		switch(this) {
-			case AIRPORT:
-				return "Airport";
+			case GRAMMAR:
+				return "Grammar";
+			case MOWER:
+				return "Mower";
 			default:
 				return null;
 		}
