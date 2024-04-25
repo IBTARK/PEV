@@ -31,10 +31,12 @@ public class FitnessFunction {
 		double totalFitness;
 		double lastScoreAccumulated = 0;
 		
+		avgSize = 0;
+		
 		for(int i = 0; i < population.size(); i++) {
 			//If possible compute the average size of the trees
 			if(population.get(0) instanceof TreeChromosome) {
-				avgSize += (((TreeChromosome) population.get(0)).getRoot().getDescendants().size() + 1);
+				avgSize += (((TreeChromosome) population.get(i)).getRoot().getDescendants().size() + 1);
 			}
 			
 			//Compute the evaluation
@@ -134,7 +136,7 @@ public class FitnessFunction {
 		if(population.get(0) instanceof TreeChromosome) {
 			for(Representation r : population) {
 				TreeChromosome t = (TreeChromosome) r;
-				if(t.getRoot().getDescendants().size() + 1 > avgSize && random.nextInt() % 2 == 0) {
+				if(t.getRoot().getDescendants().size() + 1 > avgSize && random.nextInt() % 6 == 0) {
 					newTotalEvaluation -= t.getEvaluation();
 					t.setEvaluation(0.0);
 					t.setFitness(0.0);
@@ -147,6 +149,10 @@ public class FitnessFunction {
 		}
 		
 		return newTotalEvaluation;
+	}
+	
+	private double penalization(ArrayList<Representation> population, double totalEvaluation) {
+		return 0.0;
 	}
 	
 	/**

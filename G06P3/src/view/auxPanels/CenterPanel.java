@@ -21,6 +21,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	private Controller ctr;
 	
 	private JPanel graphPanel;
+	private JPanel ppal;
 	private EvolutionGraph evolutionGraph;
 	private JPanel solPanel;
 	private JLabel solLabel;
@@ -45,11 +46,15 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 	private void initGUI(Controller ctr, int width, int height, int generations) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
+		ppal = new JPanel();
+		ppal.setPreferredSize(new Dimension(width, height));
+		
 		//Graph panel
 		graphPanel = new JPanel();
-		evolutionGraph = new EvolutionGraph(ctr, width, height, generations);
-		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight));
+		evolutionGraph = new EvolutionGraph(ctr, width, height-TAMSOLPANEL, generations);
+		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight-TAMSOLPANEL));
 		graphPanel.add(evolutionGraph);
+		ppal.add(graphPanel);
 		
 		//Solution panel
 		solPanel = new JPanel();
@@ -61,7 +66,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		solPanel.setAlignmentX(CENTER_ALIGNMENT);
 		solPanel.add(new JScrollPane(solLabel));
 		solPanel.setVisible(false);
-		graphPanel.add(solPanel);
+		ppal.add(solPanel);
 	
 		//Garden panel
 		gardenPanel = new JPanel();
@@ -69,7 +74,7 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 		gardenPanel.add(garden);		
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.addTab("Gráfica", graphPanel);
+		tabbedPane.addTab("Gráfica", ppal);
 		tabbedPane.addTab("Jardín", gardenPanel);
 		add(tabbedPane);
 		

@@ -1,6 +1,7 @@
 package model.evaluationFunctions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import model.listRep.chromosomes.MowerChromosome;
@@ -68,6 +69,7 @@ public class GrammarEvaluation implements EvaluationFunction{
 		reset();
 		
 		MowerChromosome mc = (MowerChromosome) c;
+		ArrayList<String> s;
 		
 		//The program is executed repeatedly
 		while(numLeftRotations < 100 && numMovements < 100 && numLawnCut < numCols * numRows && numNoMovement < 2) {
@@ -75,16 +77,14 @@ public class GrammarEvaluation implements EvaluationFunction{
 			lastNumLeftRotations = numLeftRotations;
 			lastNumMovement = numMovements;
 			
-			mc.getFenotype();
-			
-			//visitNode(t.getRoot());
-			ArrayList<String> s = new ArrayList<String>();
+			/*ArrayList<String> s = new ArrayList<String>();
 			s.add("suma");
 			s.add("progn");
 			s.add("izquierda");
 			s.add("salta");
-			s.add("cte");
-			s.add("avanza");
+			s.add("1,2");
+			s.add("avanza");*/
+			s = toArray(mc.getFenotype());
 			procesa(s); //TODO revisar
 			
 			//Code to control those cases in which no movement can be done
@@ -103,13 +103,19 @@ public class GrammarEvaluation implements EvaluationFunction{
 		return Double.valueOf(numLawnCut);
 	}
 	
+	private ArrayList<String> toArray(String fenotype){
+		String[]s = fenotype.split("\\(");
+		for(int i = 0; i < s.length; i++) {
+			s[i] = s[i].replaceAll("\\)", "");
+		}
+		ArrayList<String> a = new ArrayList<String>(Arrays.asList(s));
+		return a;
+	}
+	
 	private Pair<Integer, Integer> procesa(ArrayList<String> s) {
 		
 		if(s.get(0).equals("izquierda")) {
 			return izquierda();
-		}
-		else if(s.get(0).equals("cte")) {
-			return constanteAleatoria();
 		}
 		else if(s.get(0).equals("avanza")) {
 			return avanza();
@@ -135,8 +141,9 @@ public class GrammarEvaluation implements EvaluationFunction{
 			
 			return salta(procesa(s)); //TODO revisar
 		}
-		
-		return null;
+		else { //cte
+			return constanteAleatoria(s.get(0));
+		}
 	}
 	
 	private Pair<Integer, Integer> izquierda(){
@@ -145,8 +152,9 @@ public class GrammarEvaluation implements EvaluationFunction{
 		return new Pair<Integer, Integer>(0, 0);
 	}
 	
-	private Pair<Integer, Integer> constanteAleatoria(){
-		return new Pair<Integer, Integer>(r.nextInt(0, numCols), r.nextInt(0, numRows));
+	private Pair<Integer, Integer> constanteAleatoria(String s){
+		String[] sep = s.split(",");
+		return new Pair<Integer, Integer>(Integer.parseInt(sep[0]), Integer.parseInt(sep[1]));
 	}
 	
 	private Pair<Integer, Integer> avanza(){

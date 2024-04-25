@@ -1,6 +1,7 @@
 package model.fenotypes;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.listRep.chromosomes.MowerChromosome;
 
@@ -13,10 +14,13 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 	private ArrayList<String> mappingStack;
 	
 	private String resultMapping;
+	private Random r;
 	
 	private ArrayList<ArrayList<String>> productions; //producciones de las reglas
 	
 	public MowerFenotypeFunction() {
+		r = new Random();
+		
 		mappingStack = new ArrayList<>();
 		
 		//set the grammar
@@ -65,6 +69,11 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 				elem = productions.get(result);
 				
 				if(elem.size() == 1) { // es un terminal
+					if(elem.get(0).equals("cte")) {
+						resultMapping += "(" + r.nextInt(0,8) + "," + r.nextInt(0,8) + ")";
+					}
+					
+					else {}
 					resultMapping += "(" + elem.get(0) + ")";
 					if(top.equals("op)")) {
 						resultMapping += ")";
