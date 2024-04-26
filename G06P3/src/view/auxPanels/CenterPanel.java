@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.listRep.chromosomes.MowerChromosome;
 import model.representation.Representation;
 import model.treeRep.trees.MowerTree;
 import view.graphs.EvolutionGraph;
@@ -136,9 +137,15 @@ public class CenterPanel extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onAlgFinished(Representation c) {
-		String linea1 = "La mejor solución es: " + ((MowerTree) c).getFenotype();
+		String linea1 = "";
+		if(c instanceof MowerChromosome) {
+			linea1 = "La mejor solución es: " + ((MowerChromosome) c).getFenotype();
+		}
+		else {
+			linea1 = "La mejor solución es: " + ((MowerTree) c).getFenotype();
+		}
 		String linea2 = "Fitness: " + c.getFitness();
-		String text = "<html>" + linea1 + "<br>" + linea2 + "</html>";
+		String text = linea2 + "	" + linea1;
 		
 		graphPanel.setPreferredSize(new Dimension(initialWidth, initialHeight - TAMSOLPANEL));
 		gardenPanel.setPreferredSize(new Dimension(initialWidth, initialHeight - TAMSOLPANEL));

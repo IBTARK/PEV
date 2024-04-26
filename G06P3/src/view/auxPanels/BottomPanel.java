@@ -46,9 +46,12 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 	
 	private int borderSize = 3;
 	
-	public BottomPanel(Controller ctr, JButton runButton) {
+	public BottomPanel(Controller ctr, JButton runButton, JComboBox representationComboBox, DefaultComboBoxModel<String> representationComboModel) {
 		this.runButton = runButton;
 		this.ctr = ctr;
+		this.representationCombo = representationComboBox;
+		this.representationComboModel = representationComboModel;
+		
 		initGUI();
 		ctr.addObserver(this);
 	}
@@ -60,9 +63,7 @@ public class BottomPanel extends JPanel implements GenAlgObserver{
 		JPanel topPanel = new JPanel();
 		
 		//Section to select the representation
-		problemPanel = new JPanel();
-		representationComboModel = new DefaultComboBoxModel<String>();
-		representationCombo = new JComboBox<String>(representationComboModel);		
+		problemPanel = new JPanel();		
 		
 		//default
 		representationComboModel.setSelectedItem(RepresentationType.MOWERTREE.toString());

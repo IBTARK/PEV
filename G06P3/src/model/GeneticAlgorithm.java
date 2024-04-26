@@ -137,7 +137,7 @@ public class GeneticAlgorithm implements Observable<GenAlgObserver>{
 			//Crossover
 			reproduce();
 			//Mutation
-			//mutate();
+			mutate();
 			
 			//If necessary introduce the elite
 			if(elitism > 0)

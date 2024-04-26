@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import control.Controller;
 import model.GenAlgObserver;
+import model.listRep.chromosomes.MowerChromosome;
 import model.representation.Representation;
 import model.treeRep.trees.MowerTree;
 import resources.Pair;
@@ -87,9 +88,16 @@ public class Garden extends JPanel implements GenAlgObserver{
 
 	@Override
 	public void onAlgFinished(Representation c) {
-		garden = ((MowerTree) c).getGarden();
-		path = ((MowerTree) c).getPath();
-		orientationPath = ((MowerTree) c).getOrientationPath();
+		if(c instanceof MowerChromosome) {
+			garden = ((MowerChromosome) c).getGarden();
+			path = ((MowerChromosome) c).getPath();
+			orientationPath = ((MowerChromosome) c).getOrientationPath();
+		}
+		else {
+			garden = ((MowerTree) c).getGarden();
+			path = ((MowerTree) c).getPath();
+			orientationPath = ((MowerTree) c).getOrientationPath();
+		}
 
 		//changes
 		for (int i = 0; i < numCols; i++) {

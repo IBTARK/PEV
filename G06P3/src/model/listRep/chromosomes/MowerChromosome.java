@@ -47,6 +47,18 @@ public class MowerChromosome extends Chromosome{
 		clone.setScore(Double.valueOf(score));
 		clone.setScoreAccumulated(Double.valueOf(scoreAccumulated));
 		
+		ArrayList<Pair<Integer, Integer>> newPath = new ArrayList<Pair<Integer, Integer>>();
+		ArrayList<Integer> newOrientationPath = new ArrayList<Integer>();
+		for(Pair<Integer, Integer> pos : path) {
+			newPath.add(new Pair<Integer, Integer>(pos.getFirst(), pos.getSecond()));
+		}
+		for(int i = 0; i < orientationPath.size(); i++) {
+			newOrientationPath.add(orientationPath.get(i));
+		}
+		
+		clone.setPath(newPath);
+		clone.setOrientationPath(newOrientationPath);
+		
 		return clone;
 	}
 	

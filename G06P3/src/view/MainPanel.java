@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
 import control.Controller;
@@ -17,13 +19,8 @@ import model.evaluationFunctions.GrammarEvaluation;
 import model.evaluationFunctions.MowerEvaluation;
 import model.fenotypes.MowerFenotypeFunction;
 import model.fenotypes.TreeFenotypeFunction;
-import model.listRep.crossover.CycleCrossover;
-import model.listRep.crossover.IJCrossover;
-import model.listRep.crossover.OrderCrossover;
-import model.listRep.crossover.OrderPrioritaryPositionsCrossover;
-import model.listRep.crossover.OrderPriorityOrderCrossover;
-import model.listRep.crossover.OrdinalCodificationCrossover;
-import model.listRep.crossover.PMXCrossover;
+import model.listRep.crossover.SinglePointCrossover;
+import model.listRep.crossover.UniformCrossover;
 import model.listRep.mutation.ExchangeMutation;
 import model.listRep.mutation.HeuristicMutation;
 import model.listRep.mutation.IJMutation;
@@ -64,6 +61,8 @@ public class MainPanel extends JPanel{
 	private LeftPanel leftPanel;
 	private CenterPanel centerPanel;
 	private BottomPanel bottomPanel;
+	private JComboBox<String> representationCombo;
+	private DefaultComboBoxModel<String> representationComboModel; //Combo box to select the representation
 	
 	public static final int LEFTPANELWIDTH = 270; //To adjust the size of the left panel
 	public static final double TOPPANELPCTGHEIGHT = 0.1;
@@ -82,6 +81,9 @@ public class MainPanel extends JPanel{
 	}
 	
 	private void initGUI() {
+		
+		representationComboModel = new DefaultComboBoxModel<String>();
+		representationCombo = new JComboBox<String>(representationComboModel);
 		
 		//Left panel and the menu button
 		menuButton = new JButton();
@@ -154,7 +156,7 @@ public class MainPanel extends JPanel{
 		});
 		
 		//Bottom panel
-		bottomPanel = new BottomPanel(ctr, runButton);
+		bottomPanel = new BottomPanel(ctr, runButton, representationCombo, representationComboModel);
 		bottomPanel.setPreferredSize(new Dimension(windowsWidth - LEFTPANELWIDTH - 13, (int) Math.round(windowsHeight * BOTTOMPANELPCTGHEIGHT)));
 		restPanel.add(bottomPanel, BorderLayout.PAGE_END);
 		
@@ -222,39 +224,14 @@ public class MainPanel extends JPanel{
 				ctr.setCrossover(new TreeCrossover(leftPanel.getFunctionalOrTerminalProb()));
 				break;
 			}
-			case "Order":
+			case "Single point":
 			{
-				ctr.setCrossover(new OrderCrossover());
+				ctr.setCrossover(new SinglePointCrossover());
 				break;
 			}
-			case "PMX":
+			case "Uniform":
 			{
-				ctr.setCrossover(new PMXCrossover());
-				break;
-			}
-			case "Order prioritary positions":
-			{
-				ctr.setCrossover(new OrderPrioritaryPositionsCrossover(leftPanel.getNumPositionsCrossover()));
-				break;
-			}
-			case "Order priority":
-			{
-				ctr.setCrossover(new OrderPriorityOrderCrossover(leftPanel.getNumPositionsCrossover()));
-				break;
-			}
-			case "Ordinal codification":
-			{
-				ctr.setCrossover(new OrdinalCodificationCrossover(30));
-				break;
-			}
-			case "Cycle":
-			{
-				ctr.setCrossover(new CycleCrossover());
-				break;
-			}
-			case "IJ":
-			{
-				ctr.setCrossover(new IJCrossover());
+				ctr.setCrossover(new UniformCrossover(0.5));
 				break;
 			}
 		}

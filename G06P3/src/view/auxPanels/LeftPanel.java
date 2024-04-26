@@ -252,40 +252,7 @@ public class LeftPanel extends JPanel implements GenAlgObserver{
 		crossoverComboBox = new JComboBox<String>(crossoverModel);
 		//default
 		crossoverModel.setSelectedItem(CrossoverType.TREECROSSOVER.toString());
-		crossoverComboBox.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.ORDER.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.PMX.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.ORDERPRIORITARYPOSITIONS.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(true);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.ORDERPRIORITARYORDER.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(true);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.ORDINALCODIFICATION.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-					//TODO
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.CYCLE.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-				else if (crossoverComboBox.getSelectedItem() == CrossoverTypeMower.IJ.toString()) {
-					selectAlphaPanel.setVisible(false);
-					selectNumPositionsCrossoverPanel.setVisible(false);
-				}
-			}
-		});
+		
 		createComboBoxArea(crossoverPanel, "Metodo de Cruce: ", crossoverComboBox, 20);
 		add(crossoverPanel);
 		add(Box.createRigidArea(new Dimension(0, 30)));

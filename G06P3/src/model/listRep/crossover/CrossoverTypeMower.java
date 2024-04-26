@@ -1,24 +1,14 @@
 package model.listRep.crossover;
 
 public enum CrossoverTypeMower {
-	ORDER, PMX, ORDERPRIORITARYPOSITIONS, ORDERPRIORITARYORDER, ORDINALCODIFICATION, CYCLE, IJ;
+	SINGLEPOINT, UNIFORM;
 	
 	public String toString() {
 		switch(this) {
-			case ORDER:
-				return "Order";
-			case PMX:
-				return "PMX";
-			case ORDERPRIORITARYPOSITIONS:
-				return "Order prioritary positions";
-			case ORDERPRIORITARYORDER:
-				return "Order priority";
-			case ORDINALCODIFICATION:
-				return "Ordinal codification";
-			case CYCLE:
-				return "Cycle";
-			case IJ:
-				return "IJ";
+			case SINGLEPOINT:
+				return "Single point";
+			case UNIFORM:
+				return "Uniform";
 			default:
 				return null;
 		}

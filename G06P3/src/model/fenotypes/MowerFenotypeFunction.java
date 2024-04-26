@@ -23,7 +23,7 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 	public MowerFenotypeFunction() {
 		r = new Random();
 		
-		wraps = 3;
+		wraps = 2;
 		
 		mappingStack = new ArrayList<>();
 		
@@ -61,7 +61,7 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 		ArrayList<String> elem;
 		resultMapping = "";
 		mappingStack.add("op");
-
+		wraps = 2;
 		int j = 0;
 		while(mappingStack.size() != 0 && wraps > 0) {
 			String top = mappingStack.get(mappingStack.size()-1);
@@ -101,7 +101,7 @@ public class MowerFenotypeFunction extends FenotypeFunction<MowerChromosome>{
 			}
 		}
 		if(wraps == 0) {
-			c.setFenotype("(izquierda)");
+			c.setFenotype("(progn((izquierda)(avanza))");
 		}
 		else {
 			c.setFenotype(resultMapping);

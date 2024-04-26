@@ -39,10 +39,10 @@ public class MowerTree extends TreeChromosome{
 		ArrayList<Pair<Integer, Integer>> newPath = new ArrayList<Pair<Integer, Integer>>();
 		ArrayList<Integer> newOrientationPath = new ArrayList<Integer>();
 		for(Pair<Integer, Integer> pos : path) {
-			//newPath.add(new Pair<Integer, Integer>(pos.getFirst(), pos.getSecond()));
+			newPath.add(new Pair<Integer, Integer>(pos.getFirst(), pos.getSecond()));
 		}
 		for(int i = 0; i < orientationPath.size(); i++) {
-			//newOrientationPath.add(orientationPath.get(i));
+			newOrientationPath.add(orientationPath.get(i));
 		}
 		
 		newTree.setPath(newPath);
